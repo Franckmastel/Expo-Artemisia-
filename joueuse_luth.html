@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoportrait en joueuse de luth · Artemisia Gentileschi · v. 1615–1618</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #e2c57a;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-image {
+    overflow: hidden;
+    background: #080706;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .hero-text {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { font-style: italic; color: var(--gold-light); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val { font-size: 0.95rem; color: var(--text-muted); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+  }
+
+  .section-label { padding-top: 0.2rem; }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #e2c57a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    display: block;
+  }
+
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #d8d2c8;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 680px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content p:last-child { margin-bottom: 0; }
+
+  .cartel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .cartel-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .cartel p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .cartel p:last-child { margin-bottom: 0; }
+
+  .detail-img {
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .detail-img img {
+    width: 100%;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .detail-caption {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .critiques {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .critique-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .critique-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .critique-item p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .face-a-face {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+  }
+
+  .face-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .face-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2.5rem;
+    margin-left: calc(200px + 4rem);
+  }
+
+  .face-item img {
+    width: 100%;
+    display: block;
+    opacity: 0.88;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.3s;
+  }
+
+  .face-item img:hover { opacity: 1; }
+
+  .face-item-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .face-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #d8d2c8;
+    margin-bottom: 0.25rem;
+  }
+
+  .face-item .face-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .face-item p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .face-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+  }
+
+  .face-divider-line {
+    width: 1px;
+    height: 80px;
+    background: var(--border);
+  }
+
+  .preambule {
+    background: #110f0d;
+    border: 1px solid var(--border);
+    border-left: 3px solid #8b2020;
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .preambule-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #8b2020;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .preambule p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .preambule p:last-child { margin-bottom: 0; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="station-label">Florence · v. 1615–1618</span>
+  <span class="station-number">Station 04</span>
+</header>
+
+<section class="hero">
+  <div class="hero-image">
+    <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Joueuse_luth.jpeg" alt="Autoportrait en joueuse de luth, Artemisia Gentileschi, Wadsworth Atheneum, Hartford">
+  </div>
+  <div class="hero-text">
+    <span class="eyebrow">Artemisia Gentileschi</span>
+    <h1><em>Autoportrait<br>en joueuse de luth</em></h1>
+    <p class="subtitle">v. 1615–1618 · Huile sur toile · 76,5 × 64 cm</p>
+    <div class="meta-grid">
+      <span class="meta-key">Conservation</span>
+      <span class="meta-val">Wadsworth Atheneum, Hartford (Connecticut)</span>
+      <span class="meta-key">Période</span>
+      <span class="meta-val">Florence — Cour des Médicis</span>
+      <span class="meta-key">Technique</span>
+      <span class="meta-val">Huile sur toile</span>
+      <span class="meta-key">Provenance</span>
+      <span class="meta-val">Villa d'Artimino, inventaire Médicis 1638</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- PRÉAMBULE -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number" style="font-size:2rem; color:#5a2020;">○</span>
+      <span class="section-title">Préambule</span>
+    </div>
+    <div class="section-content">
+      <h2>Elle se peint elle-même. Elle choisit le luth.</h2>
+      <div class="preambule">
+        <span class="preambule-label">Florence · 1615–1618</span>
+        <p>Ce tableau n'est pas un portrait de musicienne. C'est une déclaration. Artemisia Gentileschi, admise à l'Accademia del Disegno en juillet 1616 — première femme à y entrer — se peint elle-même avec un luth, dans la langue visuelle de la cour des Médicis, avec les pigments que cette même cour lui a fournis. Elle choisit chaque élément : l'instrument aristocratique, le turban des sibylles, la robe de soie bleue qui capte la lumière comme aucune de ses œuvres romaines ne l'avait encore fait.</p>
+        <p>Trois siècles plus tard, le tableau réapparaît chez Sotheby's en 1998, puis entre dans les collections du Wadsworth Atheneum à Hartford en 2014. Les analyses scientifiques confirment alors ce que l'œil sentait : sous la surface, une autre tête féminine abandonnée, tournée à cent quatre-vingts degrés. Elle a peint par-dessus elle-même, comme si la toile elle aussi devait changer de peau.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION I — HISTOIRE -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">I</span>
+      <span class="section-title">Histoire</span>
+    </div>
+    <div class="section-content">
+      <h2>Une once de bleu outremer, et Florence comme terrain de jeu</h2>
+      <p>En octobre 1614, la garde-robe des Médicis remet à Artemisia une once de bleu outremer — du lapis-lazuli, importé d'Afghanistan, alors plus cher que l'or — pour trois tableaux non spécifiés. Elle est enceinte de sa fille Agnola, qui mourra en décembre quelques jours après sa naissance. Le deuil est là, discret, hors cadre. Sur la toile, il n'y a que la soie bleue et le regard.</p>
+      <p>Le tableau entre dans l'inventaire de la villa d'Artimino en 1638 sous la formule précise : « portrait d'Artemisia jouant du luth de sa propre main ». La villa appartient à Cosme II de Médicis. L'œuvre a probablement toujours été destinée à cette résidence de chasse, acquise par le Grand-duc en 1614. Le commanditaire est Cosme II lui-même, ou son entourage immédiat — aucun contrat ne subsiste, mais la provenance est sans équivoque.</p>
+      <p>Ce qui l'est moins, c'est la question de savoir si Artemisia jouait vraiment du luth ou si elle endossait simplement un rôle de cour. Les archives florentines apportent une réponse inattendue : en mai 1615, un journal de cour mentionne une certaine « Sig.ra Artemisia » parmi les interprètes du Ballo delle Zingare, mis en scène au Palazzo Pitti sur une musique de Francesca Caccini. Elle y joue le luth et incarne une Bohémienne. La précision avec laquelle l'instrument est représenté sur le tableau — le manche, la rosace, la position exacte des doigts de la main gauche formant un accord réel — plaide pour une connaissance directe de l'instrument, pas pour une simple pose empruntée.</p>
+    </div>
+  </div>
+
+  <!-- SECTION II — COMPOSITION -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">II</span>
+      <span class="section-title">Composition</span>
+    </div>
+    <div class="section-content">
+      <h2>Le corps tourné, le regard qui ne cède pas</h2>
+      <p>Le cadrage est à mi-corps, de trois-quarts. Le buste d'Artemisia est orienté vers la droite du spectateur, mais son visage pivote nettement pour faire face — un mouvement de torsion légère qui donne à la figure une tension contenue, différente de la pose frontale figée. Le luth suit la même diagonale que le corps, son manche projeté en avant dans un raccourci perspectif délibéré : la profondeur est affirmée, pas suggérée.</p>
+      <p>La lumière tombe du coin supérieur gauche, hors cadre, à un angle d'environ quarante-cinq degrés. Elle frappe de plein fouet le côté droit du visage, le front, la pommette, l'épaule, et glisse le long du manche du luth pour illuminer la table d'harmonie. Le côté gauche du corps se fond dans le fond noir — un noir absolu, sans nuance, qui isole la figure comme un projecteur de théâtre. C'est l'héritage direct du Caravage, mais retourné : ici, pas de taverne ni de scène de violence. Le même dispositif sert à monumentaliser une musicienne.</p>
+      <p>Le regard est direct, frontal, sans déviation. Elle regarde le spectateur — ou son propre miroir. Mary Garrard a été la première à souligner ce détail en apparence anodin : la main droite d'Artemisia est posée à plat sur le bord inférieur de la caisse de résonance, loin des cordes, dans une position musicalement inactive. La main gauche, elle, forme un accord précis sur le manche. L'explication tient à la contrainte de l'autoportrait : la main droite tient le pinceau dans la réalité. Pour se regarder dans le miroir, Artemisia a posé sa main sur la caisse — et c'est cette pose de pause, cette main ancrée et immobile, qu'elle a peinte. La preuve matérielle, selon Garrard, qu'il s'agit d'un autoportrait direct et non d'une scène reconstituée de mémoire.</p>
+    </div>
+  </div>
+
+  <!-- SECTION III — COULEURS ET TECHNIQUE -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">III</span>
+      <span class="section-title">Couleurs et technique</span>
+    </div>
+    <div class="section-content">
+      <h2>Du bleu lourd au bleu qui respire</h2>
+      <p>La robe bleue est le choc visuel du tableau. Pas un bleu opaque, uniforme, posé en aplat — un bleu qui change selon l'angle, qui capte et redistribue la lumière comme le ferait une soie véritable. Cette qualité a un nom technique : le cangiantismo, l'art du tissu changeant, que Cristofano Allori pratiquait à Florence avec une virtuosité que sa Judith de 1613 — vêtue d'une robe de soie jaune et bleue aux reflets d'une précision absolue — avait rendue célèbre dans tout le milieu de cour. Artemisia a absorbé cette leçon florentine et l'a croisée avec son naturalisme romain.</p>
+      <p>Mais la technique seule n'explique pas tout. Il y a aussi la matière. Les analyses menées lors de l'acquisition du tableau par le Wadsworth Atheneum en 2014, confirmées par Letizia Treves dans le catalogue de la National Gallery en 2020, ont révélé l'usage massif de lapis-lazuli de qualité supérieure pour les glacis de la robe — le même pigment qu'Artemisia avait reçu de la garde-robe des Médicis en octobre 1614. La technique des glacis translucides, appliqués sur une sous-couche sombre, est précisément ce qui donne à la soie cet effet de profondeur lumineuse, ce chatoiement métallique que la robe bleue de sa Judith de Naples — peinte à Rome quelques années plus tôt avec de l'azurite, pigment moins coûteux et moins lumineux — n'avait pas encore.</p>
+      <p>Le turban rayé d'or retenant les cheveux n'est pas une fantaisie bohémienne. Gianni Papi a montré que ce code vestimentaire renvoie directement aux représentations de sibylles alors très répandues dans les collections romaines et florentines. Se coiffer ainsi, pour une femme peintre cherchant à s'imposer à la cour des Médicis, c'était s'inscrire dans la lignée des figures d'inspiration divine et de sagesse antique — une stratégie visuelle autant qu'une pose théâtrale.</p>
+      <p>Les radiographies ont aussi révélé une préparation de fond double, typique de la manière d'Artemisia : une couche inférieure de terres et de noir de carbone, surmontée d'une couche brun-rougeâtre. C'est cette architecture invisible qui fait vibrer le bleu en surface.</p>
+    </div>
+  </div>
+
+  <!-- SECTION IV — LECTURES CRITIQUES -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">IV</span>
+      <span class="section-title">Lectures critiques</span>
+    </div>
+    <div class="section-content">
+      <h2>Ce que disent les historiens</h2>
+      <div class="critiques">
+        <div class="critique-item">
+          <span class="critique-name">Mary Garrard — Princeton, 1989</span>
+          <p>Dans son ouvrage fondateur, Garrard analyse la position immobile de la main droite comme une preuve physique du processus de l'autoportrait au miroir. La main qui peint ne peut pas simultanément simuler le geste du jeu. Ce détail anatomique devient pour elle la signature involontaire d'une artiste qui travaille seule, face à son reflet, et se regarde sans concession. Elle affine cette thèse après la réapparition de l'œuvre en 1998 : l'autoportrait n'est pas ici une vanité ou une allégorie abstraite, c'est un acte d'affirmation professionnelle calculé.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Letizia Treves &amp; Patrizia Cavazzini — National Gallery, 2020</span>
+          <p>Dans le catalogue de la grande exposition londonienne, les deux historiennes défendent la thèse de l'autoportrait à vocation promotionnelle. Artemisia utilise son propre visage comme marque de fabrique pour s'imposer à Florence. Elles soulignent que le contraste avec les autoportraits en musiciennes de Sofonisba Anguissola et de Lavinia Fontana est voulu : là où ses contemporaines insistaient sur leur respectabilité, Artemisia construit une image de séduction intellectuelle assumée, dans la langue visuelle de la cour des Médicis.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Roberto Contini — Casa Buonarroti, 1991</span>
+          <p>Contini situe ce tableau au cœur de la transition florentine d'Artemisia. Il pointe l'influence directe de Cristofano Allori sur le rendu des tissus, tout en insistant sur ce qu'Artemisia n'abandonne pas : une vigueur romaine dans la construction du visage et des mains, une physicalité qui résiste à la douceur maniériste ambiante. C'est précisément cette synthèse — soie florentine, chair romaine — qui fait de ce tableau un objet stylistiquement unique dans son œuvre.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Francesco Solinas — Jacquemart-André, 2012</span>
+          <p>Solinas met en regard ce tableau et l'Allégorie de l'Inclination, peints à Florence à quelques mois d'intervalle pour deux commanditaires différents. Il y lit deux Artemisia distinctes : l'une qui se plie aux exigences académiques de Buonarroti, l'autre qui revient à son identité propre dès qu'elle en a la liberté. La Joueuse de luth est, selon lui, le premier tableau où Artemisia choisit pleinement son langage — dense, compact, physique, ancré dans le clair-obscur qu'elle a vu naître à Rome.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION V — FACE À FACE -->
+  <div class="face-a-face">
+    <div class="face-header">
+      <div class="section-label">
+        <span class="section-number">V</span>
+        <span class="section-title">Face à face</span>
+      </div>
+      <div class="section-content">
+        <h2>Deux Florence, deux corps, une robe qui change de peau</h2>
+        <p style="max-width:680px; font-size:1rem; line-height:1.85; color:var(--text); margin-top:0.5rem;">En l'espace de quelques mois, Artemisia se peint deux fois à Florence pour deux commanditaires opposés. L'Inclination naît sous la contrainte d'une commande académique, lumière diffuse et corps idéalisé. La Joueuse de luth est le retour à elle-même — et entre les deux, la robe bleue de la Judith de Naples rappelle d'où elle vient.</p>
+      </div>
+    </div>
+    <div class="face-grid">
+
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Joueuse_luth.jpeg" alt="Autoportrait en joueuse de luth — Artemisia Gentileschi">
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Autoportrait en joueuse de luth</h3>
+        <span class="face-date">v. 1615–1618 · Wadsworth Atheneum, Hartford</span>
+        <p>Le fond est noir absolu. La lumière frappe de biais, projette une ombre dure sous le menton. La robe de soie bleue — lapis-lazuli de haute qualité, financé par les Médicis — capte et redistribue la lumière par glacis translucides sur sous-couche sombre. Le regard est frontal, direct, sans concession. Elle ne joue pas pour distraire. Elle se présente.</p>
+      </div>
+
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/allegorie_eclairee.jpeg" alt="Allégorie de l'Inclination — Artemisia Gentileschi, Casa Buonarroti, Florence">
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Allégorie de l'Inclination</h3>
+        <span class="face-date">v. 1615–1616 · Casa Buonarroti, Florence</span>
+        <p>La lumière est céleste, diffuse, sans ombre dure. Le corps forme un S maniériste élégant sur fond de nuages clairs. Le regard monte vers l'étoile, détaché du monde terrestre. Les mains tiennent une boussole — symbole abstrait d'inspiration divine. C'est Artemisia habillée du langage de Buonarroti, pliant sa vigueur romaine aux exigences décoratives d'un plafond florentin.</p>
+      </div>
+
+      <div class="face-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/cinquième/Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_Museo_di_Capodimonte.jpg/800px-Judith.jpg" alt="Judith décapitant Holopherne — détail robe — Artemisia Gentileschi, Naples" onerror="this.style.opacity='0.3'; this.alt='[Image à remplacer — détail robe Judith de Naples]'">
+        <span class="face-item-label">Détail · Artemisia Gentileschi</span>
+        <h3>Judith décapitant Holopherne — la robe</h3>
+        <span class="face-date">v. 1612–1613 · Museo di Capodimonte, Naples</span>
+        <p>La robe bleue de la Judith romaine est peinte à l'azurite — pigment moins coûteux, couleur plus lourde, traitement plus opaque. Aucun chatoiement, aucun glacis : le tissu est solide, presque mat. C'est la même artiste, quelques années plus tôt, avant Florence, avant les Médicis, avant le lapis-lazuli. La distance entre les deux robes bleues mesure exactement la trajectoire.</p>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">← Parcours</a>
+    <div style="display:flex; gap:2rem;">
+      <a href="allegorie_inclination.html">03 · Allégorie de l'Inclination</a>
+      <a href="#" style="opacity:0.4;">05 · Suite →</a>
+    </div>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>
