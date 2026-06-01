@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucrèce · Artemisia Gentileschi · vers 1627</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #e2c57a;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-image {
+    overflow: hidden;
+    background: #080706;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .hero-text {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { font-style: italic; color: var(--gold-light); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val { font-size: 0.95rem; color: var(--text-muted); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+  }
+
+  .section-label { padding-top: 0.2rem; }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #e2c57a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    display: block;
+  }
+
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #d8d2c8;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 680px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content p:last-child { margin-bottom: 0; }
+
+  .cartel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .cartel-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .cartel p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .cartel p:last-child { margin-bottom: 0; }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .detail-img {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .detail-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .detail-caption {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .critiques {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .critique-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .critique-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .critique-item p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  .face-a-face {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+  }
+
+  .face-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .face-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-left: calc(200px + 4rem);
+  }
+
+  .face-item img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+    opacity: 0.88;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.3s;
+  }
+
+  .face-item img:hover { opacity: 1; }
+
+  .face-item-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .face-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #d8d2c8;
+    margin-bottom: 0.25rem;
+  }
+
+  .face-item .face-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .face-item p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-nav a:hover { color: #e2c57a; }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="station-label">Venise · vers 1627</span>
+  <span class="station-number">Station 05</span>
+</header>
+
+<section class="hero">
+  <div class="hero-image">
+    <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/lucrece.jpeg" alt="Artemisia Gentileschi, Lucrèce">
+  </div>
+  <div class="hero-text">
+    <span class="eyebrow">Artemisia Gentileschi</span>
+    <h1><em>Lucrèce</em></h1>
+    <p class="subtitle">v. 1627 · Huile sur toile · 92,9 × 72,7 cm</p>
+    <div class="meta-grid">
+      <span class="meta-key">Conservation</span>
+      <span class="meta-val">Getty Museum, Los Angeles</span>
+      <span class="meta-key">Période</span>
+      <span class="meta-val">Venise — Transition stylistique</span>
+      <span class="meta-key">Technique</span>
+      <span class="meta-val">Huile sur toile</span>
+      <span class="meta-key">Provenance</span>
+      <span class="meta-val">Retrouvé à Lyon (Vente ArtCurial 2019) · Acquis par le Getty en 2021</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">I</span>
+      <span class="section-title">Histoire</span>
+    </div>
+    <div class="section-content">
+      <h2>La redécouverte et l'exil vénitien</h2>
+      <p>Lyon, 2019. Une vente aux enchères, une huile inconnue, 5,3 millions d'euros. Le tableau avait disparu. Il réapparaît signé, daté, sans lacune dans la facture — et rejoint le Getty deux ans plus tard.</p>
+      <p>Artemisia peint cette Lucrèce vers 1627. Elle n'est plus à Rome depuis un an, peut-être deux. Son mari a disparu des archives après 1623. Les commandes romaines se sont taries. Elle part seule avec Prudenzia, neuf ans.</p>
+      <p>Venise lui donne ce qu'elle cherchait. Trois ans au centre de la vie culturelle de la cité. Les peintres s'y croisent — Régnier, Liss, Strozzi, tous expatriés en même temps, tous en train de négocier entre caravagisme et lumière vénitienne. Philippe IV d'Espagne commande. Elle livre.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">II</span>
+      <span class="section-title">Composition</span>
+    </div>
+    <div class="section-content">
+      <h2>L'instant d'avant le geste</h2>
+      <p>Le poignard est serré dans le poing droit. La tête est renversée en arrière, les yeux levés — vers quoi, on ne sait pas. Les seins nus, les perles dans les cheveux. Le tissu bouge encore. La chair, elle, ne bouge plus.</p>
+      <p>Lucrèce n'attend pas le geste. Elle s'est déjà décidée. Ce qu'Artemisia peint, c'est la résolution — pas la victime, pas la mourante. Une femme qui tient le poignard comme quelqu'un qui a déjà compté jusqu'à trois.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">III</span>
+      <span class="section-title">Technique</span>
+    </div>
+    <div class="section-content">
+      <h2>La transition chromatique</h2>
+      <p>La touche a changé. Les noirs profonds qui structuraient la période romaine sont abandonnés. Le fond est brun chaud, presque ambré. L'impasto est crémeux, la brosse visible — on sent le geste sous la peinture.</p>
+      <p>Titien est là. Pas comme modèle conscient — comme air ambiant. Les chairs ne sont plus sculptées par le contraste, elles sont traversées par la lumière. Chaudes, presque translucides par endroits. La peau de cette Lucrèce respire d'une façon que la période caravagesque ne permettait pas.</p>
+      <p>Le tissu joue son propre jeu. Là où la chair est immobile — résolue, tendue — l'étoffe bouge encore, froissée, vivante. Artemisia organise cette opposition avec précision : le corps a tranché, le monde matériel n'a pas encore suivi.</p>
+
+      <div class="detail-grid">
+        <div class="detail-img">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/tissus.jpeg" alt="Détail — le tissu">
+          <p class="detail-caption">Le tissu en mouvement — touche libre, impasto vénitien</p>
+        </div>
+        <div class="detail-img">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/peau_et_bijoux.jpeg" alt="Détail — peau et bijoux">
+          <p class="detail-caption">Carnation et parure — la chair lumineuse, les perles</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">IV</span>
+      <span class="section-title">Lectures</span>
+    </div>
+    <div class="section-content">
+      <h2>Ce que disent les historiens</h2>
+      <p>Le visage est éthéré. Proche des madones vénitiennes et florentines, loin de la brutalité du sujet. Gasparotto l'a formulé : c'est un tableau de transition. Artemisia arrive à Venise avec le caravagisme dans la main et repart avec autre chose. Cette Lucrèce est exactement ce moment — ni l'une ni l'autre, les deux à la fois.</p>
+      <p>En 1627, Loredan lui consacre des poèmes. Ce n'est pas rien à Venise. Artemisia n'est plus seulement reconnue par ses commanditaires — elle entre dans la littérature de son temps.</p>
+      
+      <div class="critiques">
+        <div class="critique-item">
+          <span class="critique-name">Gasparotto · Getty</span>
+          <p>La charnière stylistique. Le tableau documente le moment précis où Artemisia abandonne les noirs caravagesques pour la lumière vénitienne. Une transition qui n'est pas une rupture — les deux régimes coexistent dans la même toile.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Mary Garrard</span>
+          <p>La main qui tient le poignard. Garrard s'y arrête : une femme en contrôle de son destin, pas offerte au regard du spectateur. Lucrèce agit — elle n'est pas donnée à voir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="face-a-face">
+    <div class="face-header">
+      <div class="section-label">
+        <span class="section-number">V</span>
+        <span class="section-title">Face à face</span>
+      </div>
+      <div class="section-content">
+        <h2>Démontrer vs Agir</h2>
+      </div>
+    </div>
+    <div class="face-grid">
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/lucrece.jpeg" alt="Artemisia Gentileschi, Lucrèce">
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Lucrèce</h3>
+        <span class="face-date">v. 1627 · Getty Museum</span>
+        <p>Chez Artemisia, le poignard est serré. Ce n'est pas la même chose. Le geste n'est pas rhétorique, la femme est sur le point d'agir en totale autonomie face à son destin.</p>
+      </div>
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/veronese_Lucrece.jpg" alt="Paolo Véronèse, Lucrèce">
+        <span class="face-item-label">Paolo Véronèse</span>
+        <h3>Lucrèce</h3>
+        <span class="face-date">v. 1580–83 · Vienne</span>
+        <p>Même sujet, même cadrage, un siècle d'écart. Chez Véronèse, la femme présente le poignard. Le geste est rhétorique — il se donne avant tout à voir au spectateur.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">← Parcours</a>
+    <div style="display:flex; gap:2rem;">
+      <a href="marie_madeleine.html">06 · Marie Madeleine</a>
+      <a href="">Suite→</a>
+    </div>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>
