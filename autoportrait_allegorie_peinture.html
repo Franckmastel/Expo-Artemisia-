@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoportrait Allégorie · Artemisia Gentileschi · v. 1638-1639</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:wght@300;400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    /*border-bottom: 1px solid var(--border);*/
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #e2c57a;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    /*border-bottom: 1px solid var(--border);*/
+  }
+
+  .hero-image {
+    overflow: hidden;
+    background: #080706;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .hero-text {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { font-style: italic; color: var(--gold-light); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val { font-size: 0.95rem; color: var(--text-muted); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section {
+    /*border-top: 1px solid var(--border);*/
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+  }
+
+  .section-label { padding-top: 0.2rem; }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #e2c57a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    display: block;
+  }
+
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #d8d2c8;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 680px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content p:last-child { margin-bottom: 0; }
+
+  .cartel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .cartel-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .cartel p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .cartel p:last-child { margin-bottom: 0; }
+
+.detail-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 680px;
+  margin-top: 2.5rem;
+}
+
+.detail-duo .detail-img {
+  margin-top: 0;
+  max-width: none;
+}
+
+  .detail-caption {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .critiques {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .critique-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .critique-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .critique-item p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .face-a-face {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+  }
+
+  .face-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .face-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-left: calc(200px + 4rem);
+  }
+
+  .face-item img {
+    width: 100%;
+    display: block;
+    opacity: 0.88;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.3s;
+  }
+
+  .face-item img:hover { opacity: 1; }
+
+  .face-item-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .face-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #d8d2c8;
+    margin-bottom: 0.25rem;
+  }
+
+  .face-item .face-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .face-item p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .face-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+  }
+
+  .face-divider-line {
+    width: 1px;
+    height: 80px;
+    background: var(--border);
+  }
+
+  .preambule-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    margin-top: 2.5rem;
+    gap: 0 4rem;
+    padding: 5rem 0;
+    /*border-top: 1px solid var(--border);*/
+  }
+
+  .preambule-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding-top: 0.25rem;
+  }
+
+  .preambule-aside h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #e2c57a;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .preambule-aside p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 22ch;
+  }
+
+  .preambule-body .accent-texte {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #e2c57a;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .preambule-body .histoire-toile {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+  }
+</style>
+</head>
+
+
+
+
+
+
+<body>
+
+<header>
+  <span class="station-label">Naples-Londres· v. 1638-1639</span>
+  <span class="station-number">Station 09</span>
+</header>
+
+<section class="hero">
+  <div class="hero-image">
+    <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg" alt="Esther et Assuérus, Artemisia Gentileschi, Metropolitan Museum of Art, New York">
+  </div>
+  <div class="hero-text">
+    <span class="eyebrow">Artemisia Gentileschi</span>
+    <h1><em>Autoportrait allégorie de la peinture<br></em></h1>
+    <p class="subtitle">v. 1615–1618 · Huile sur toile · 76,5 × 64 cm</p>
+    <div class="meta-grid">
+      <span class="meta-key">Conservation</span>
+      <span class="meta-val">Royal collection Trust, Londres</span>
+      <span class="meta-key">Période</span>
+      <span class="meta-val">Naples/Londres</span>
+      <span class="meta-key">Technique</span>
+      <span class="meta-val">Huile sur toile</span>
+      <span class="meta-key">Provenance</span>
+      <span class="meta-val">###</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+    <div class="section">
+    <div class="section-label" style="padding-top: 4rem">
+      <span class="section-title">Préambule</span>
+    </div>
+    <div class="section-content">
+      <h2>Hacque adfabilitate confisus cum eadem</h2>
+      <p class="accent-texte">Horum adventum praedocti speculationibus fidis rectores militum tessera data sollemni armatos omnes celeri eduxere procursu et agiliter praeterito Calycadni fluminis ponte, cuius undarum magnitudo murorum adluit turres, in speciem locavere pugnandi. neque tamen exiluit quisquam nec permissus est congredi. formidabatur enim flagrans vesania manus et superior numero et ruitura sine respectu salutis in ferrum.</p>
+      <p>Hacque adfabilitate confisus cum eadem postridie feceris, ut incognitus haerebis et repentinus, hortatore illo hesterno clientes numerando, qui sis vel unde venias diutius ambigente agnitus vero tandem et adscitus in amicitiam si te salutandi adsiduitati dederis triennio indiscre.</p>
+    </div>
+  </div>
+
+   
+
+  <!-- SECTION I — HISTOIRE -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">I</span>
+      <span class="section-title">Histoire</span>
+    </div>
+    <div class="section-content">
+      <h2>Une once de bleu outremer, et Florence comme terrain de jeu</h2>
+      <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+    </div>
+  </div>
+
+  <!-- SECTION II — COMPOSITION -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">II</span>
+      <span class="section-title">Composition</span>
+    </div>
+    <div class="section-content">
+      <h2>Et in circo sex vel septem aliquotiens</h2>
+      <p>LErat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      <p>LErat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+    </div>
+  </div>
+
+  <!-- SECTION III — COULEURS ET TECHNIQUE -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">III</span>
+      <span class="section-title">Couleurs et technique</span>
+    </div>
+    <div class="section-content">
+      <h2>Erat autem diritatis eius hoc</h2>
+      <p>...</p>
+      <p>...</p>
+      
+      
+
+      <div class="detail-duo">
+        <div class="detail-img">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_symbolique.jpg" alt="Détail — chaîne et masque">
+          <p class="detail-caption">symboles</p> 
+          <p>...</p>
+        </div>
+        <div class="detail-img">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_detail.jpg" alt="les symboles">
+          <p class="detail-caption">Virtuosité</p>
+          <p>...</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION IV — LECTURES CRITIQUES -->
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">IV</span>
+      <span class="section-title">Lectures critiques</span>
+    </div>
+    <div class="section-content">
+      <h2>Ce que disent les historiens</h2>
+      <div class="critiques">
+        <div class="critique-item">
+          <span class="critique-name">#####, 1989</span>
+          <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Letizia Treves &amp; Patrizia Cavazzini — National Gallery, 2020</span>
+          <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Roberto Contini — Casa Buonarroti, 1991</span>
+          <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Francesco Solinas — Jacquemart-André, 2012</span>
+          <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION V — FACE À FACE -->
+  <div class="face-a-face">
+    <div class="face-header">
+      <div class="section-label">
+        <span class="section-number">V</span>
+        <span class="section-title">Face à face</span>
+      </div>
+      <div class="section-content">
+        <h2>###</h2>
+        <p style="max-width:680px; font-size:1rem; line-height:1.85; color:var(--text); margin-top:0.5rem;">Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      </div>
+    </div>
+    <div class="face-grid">
+
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg" alt="Esther et Assuerus — Artemisia Gentileschi">
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Autoportrait allégorie de la peinture</h3>
+        <span class="face-date">v. 1615–1618 · Wadsworth Atheneum, Hartford</span>
+        <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      </div>
+
+      <div class="face-item">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_Rembrandt.jpg" alt="Autoportrait Rembrandt — ">
+        <span class="face-item-label">Rembrandt</span>
+        <h3></h3>
+        <span class="face-date">v.  · </span>
+        <p>Erat autem diritatis eius hoc quoque indicium nec obscurum nec latens, quod ludicris cruentis delectabatur et in circo sex vel septem aliquotiens vetitis certaminibus pugilum vicissim se concidentium perfusorumque sanguine specie ut lucratus ingentia laetabatur.</p>
+      </div>
+
+      <!--<div class="face-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/cinquième/Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_Museo_di_Capodimonte.jpg/800px-Judith.jpg" alt="Judith décapitant Holopherne — détail robe — Artemisia Gentileschi, Naples" onerror="this.style.opacity='0.3'; this.alt='[Image à remplacer — détail robe Judith de Naples]'">
+        <span class="face-item-label">Détail · Artemisia Gentileschi</span>
+        <h3>Judith décapitant Holopherne — la robe</h3>
+        <span class="face-date">v. 1612–1613 · Museo di Capodimonte, Naples</span>
+        <p>La robe bleue de la Judith romaine est peinte à l'azurite — pigment moins coûteux, couleur plus lourde, traitement plus opaque. Aucun chatoiement, aucun glacis : le tissu est solide, presque mat. C'est la même artiste, quelques années plus tôt, avant Florence, avant les Médicis, avant le lapis-lazuli. La distance entre les deux robes bleues mesure exactement la trajectoire.</p>
+      </div>
+    -->
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="https://franckmastel.github.io/Expo-Artemisia-/">← Parcours</a>
+    <div style="display:flex; gap:2rem;">
+      <a href="https://franckmastel.github.io/Expo-Artemisia-/naissance_baptiste.html">08 ·Naissance de Jean-Baptiste </a>
+      <a href="" style="opacity:0.4;">→</a>
+    </div>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>
