@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suzanne et les vieillards · Artemisia Gentileschi · 1610</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #e2c57a;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-image {
+    overflow: hidden;
+    background: #080706;
+  }
+
+  .hero-image a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .hero-text {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { font-style: italic; color: var(--gold-light); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val { font-size: 0.95rem; color: var(--text-muted); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+  }
+
+  .section-label { padding-top: 0.2rem; }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #e2c57a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    display: block;
+  }
+
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #d8d2c8;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 680px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content p:last-child { margin-bottom: 0; }
+
+  .detail-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .detail-duo .detail-img {
+    margin-top: 0;
+    max-width: none;
+  }
+
+  .detail-img {
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .detail-img a {
+    display: block;
+  }
+
+  .detail-img img {
+    width: 100%;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .detail-caption {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .critiques {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .critique-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .critique-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .critique-item p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .face-a-face {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+  }
+
+  .face-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .face-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-left: calc(200px + 4rem);
+  }
+
+  .face-item a {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .face-item img {
+    width: 100%;
+    display: block;
+    opacity: 0.88;
+    transition: opacity 0.3s;
+  }
+
+  .face-item img:hover { opacity: 1; }
+
+  .face-item-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .face-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #d8d2c8;
+    margin-bottom: 0.25rem;
+  }
+
+  .face-item .face-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .face-item p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="station-label">Rome · L'apprentissage</span>
+  <span class="station-number">01</span>
+</header>
+
+<section class="hero">
+  <div class="hero-image">
+    <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg" target="_blank">
+      <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg" alt="Suzanne et les vieillards, Artemisia Gentileschi, 1610">
+    </a>
+  </div>
+  <div class="hero-text">
+    <span class="eyebrow">Artemisia Gentileschi</span>
+    <h1><em>Suzanne et les vieillards</em></h1>
+    <p class="subtitle">1610 · Huile sur toile · 170 × 119 cm</p>
+    <div class="meta-grid">
+      <span class="meta-key">Conservation</span>
+      <span class="meta-val">Schloss Weißenstein, Pommersfelden</span>
+      <span class="meta-key">Période</span>
+      <span class="meta-val">Rome — L'apprentissage</span>
+      <span class="meta-key">Technique</span>
+      <span class="meta-val">Huile sur toile</span>
+      <span class="meta-key">Dimensions</span>
+      <span class="meta-val">170 × 119 cm</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">I</span>
+      <span class="section-title">Le tableau</span>
+    </div>
+    <div class="section-content">
+      <h2>L'histoire</h2>
+      <p>La scène est tirée du livre de Daniel. Suzanne, femme vertueuse, est surprise à son bain par deux vieillards qui la menacent de faux témoignage si elle refuse de céder à leurs désirs. Elle résiste, est accusée, puis sauvée par le jeune prophète Daniel qui démasque les menteurs.</p>
+      <p>Artemisia choisit le moment le plus tendu du récit — ni avant, ni après. L'instant exact où la menace se matérialise, où une main touche, où les mots sont chuchotés. Le spectateur est placé face à la scène sans distance, sans filtre, comme témoin direct.</p>
+      <p>C'est le premier tableau signé d'Artemisia Gentileschi — à dix-sept ans.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">II</span>
+      <span class="section-title">La composition</span>
+    </div>
+    <div class="section-content">
+      <h2>La fracture</h2>
+      <p>Le tableau est construit sur une fracture horizontale. La balustrade de pierre coupe l'espace en deux mondes distincts. En bas, Suzanne seule dans son espace clair. En haut, les deux hommes envahissent cet espace — mais cette frontière est déjà franchie.</p>
+      <p>Suzanne est tordue, repoussée vers la pierre froide. Son corps dit le refus. Quatre mains menacent. Elle se bat, même si elle ne peut pas gagner.</p>
+      <div class="detail-duo">
+        <div class="detail-img">
+          <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_dessous.jpeg" target="_blank">
+            <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_dessous.jpeg" alt="Suzanne — zone inférieure">
+          </a>
+          <p class="detail-caption">Le monde de Suzanne — zone inférieure</p>
+        </div>
+        <div class="detail-img">
+          <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_dessus.jpg" target="_blank">
+            <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_dessus.jpg" alt="Suzanne — zone supérieure">
+          </a>
+          <p class="detail-caption">Les vieillards — zone supérieure</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">III</span>
+      <span class="section-title">Couleurs et technique</span>
+    </div>
+    <div class="section-content">
+      <h2>Couleurs et technique picturale</h2>
+      <p>Quatre raisons pour lesquelles les historiens jugent ce tableau extraordinaire dès le premier regard : le dessin anatomique, la modulation de lumière et d'ombres, la gamme chromatique, et les mains remarquablement humaines.</p>
+      <p>La pierre sculptée contre la chair vivante — deux textures radicalement différentes maîtrisées dans le même tableau. Artemisia ne peint pas une allégorie. Elle peint un corps sous pression.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">IV</span>
+      <span class="section-title">Lectures critiques</span>
+    </div>
+    <div class="section-content">
+      <h2>Ce que disent les historiens</h2>
+      <div class="critiques">
+        <div class="critique-item">
+          <span class="critique-name">Mary Garrard — 1989</span>
+          <p>Artemisia donne à Suzanne une résistance que la tradition picturale lui refusait. Le corps n'est pas offert — il se dérobe, se protège, refuse.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Smarthistory</span>
+          <p>Le tableau renverse le point de vue habituel : ce n'est plus la contemplation d'un corps féminin, c'est l'expérience d'une agression. Le regard du spectateur est déplacé.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="face-a-face">
+    <div class="face-header">
+      <div class="section-label">
+        <span class="section-number">V</span>
+        <span class="section-title">Face à face</span>
+      </div>
+      <div class="section-content">
+        <h2>Même sujet, deux regards — cinquante-cinq ans d'écart</h2>
+      </div>
+    </div>
+    <div class="face-grid">
+
+      <div class="face-item">
+        <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg" target="_blank">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg" alt="Suzanne et les vieillards, Artemisia Gentileschi, 1610">
+        </a>
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Suzanne et les vieillards</h3>
+        <span class="face-date">1610 · Schloss Weißenstein, Pommersfelden</span>
+        <p>Format vertical. Suzanne écrasée, tordue, résistante. Les hommes sur elle. De la pierre froide. Quatre mains qui menacent. Elle se bat, même si elle ne peut pas gagner.</p>
+      </div>
+
+      <div class="face-item">
+        <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_tintoret.jpg" target="_blank">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_tintoret.jpg" alt="Suzanne et les vieillards, Tintoret">
+        </a>
+        <span class="face-item-label">Jacopo Tintoretto, dit le Tintoret</span>
+        <h3>Suzanne et les vieillards</h3>
+        <span class="face-date">v. 1555 · Kunsthistorisches Museum, Vienne</span>
+        <p>Format horizontal. Suzanne est au centre, lumineuse, offerte au regard. Les vieillards épient depuis les bords. La scène est un prétexte : ce qui est peint, c'est un corps féminin à contempler. Tintoret peint pour le regard masculin. Artemisia peint pour Suzanne.</p>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">← Parcours</a>
+    <div style="display:flex; gap:2rem;">
+      <a href="judith_naples.html">02 · Judith →</a>
+    </div>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>
