@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marie Madeleine · Artemisia Gentileschi · Trois tableaux</title>
+<!--
+  <meta name="description" content="Marie Madeleine — trois tableaux, trente ans. Florence, Séville, Rome.">
+  <meta property="og:title" content="Marie Madeleine · Artemisia Gentileschi · Trois tableaux">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_pitty.jpg">
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+  }
+
+  /* INTRO STATION */
+  .station-intro {
+    padding: 5rem 4rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .station-intro .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .station-intro h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    color: #e8e2d8;
+    margin-bottom: 1.5rem;
+  }
+
+  .station-intro h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .station-intro .intro-text {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    max-width: 680px;
+  }
+
+  /* TABLEAU PANNEAU */
+  .panneau {
+    border-top: 1px solid var(--border);
+  }
+
+  .panneau-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 85vh;
+  }
+
+  .panneau-image {
+    overflow: hidden;
+    background: #080706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .panneau-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .panneau-header {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .panneau-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 2.5rem;
+    display: block;
+  }
+
+  .panneau-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.4rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  .panneau-header h2 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .panneau-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  /* CARTELS */
+  .panneau-cartels {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem 5rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    padding-top: 4rem;
+  }
+
+  .cartel-side {
+    padding-top: 0.2rem;
+  }
+
+  .cartel-side-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .cartel-side-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .cartel-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+  }
+
+  .cartel-body p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: #b8b2a8;
+    margin-bottom: 1.1rem;
+  }
+
+  .cartel-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    text-decoration: none;
+  }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    font-style: italic;
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE MOBILE — ajouté juin 2026
+     Toutes les grilles fixes sont remplacées
+     par des layouts mobiles-first
+  ═══════════════════════════════════════════ */
+
+  /* HERO mobile: colonne unique */
+  .hero { display: flex !important; flex-direction: column; }
+  .hero-image img { max-height: 55vh; object-fit: cover; object-position: center top; }
+  .hero-text { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
+  .eyebrow { margin-bottom: 1rem !important; }
+  .subtitle { margin-bottom: 1.5rem !important; }
+
+  /* SECTIONS mobile: pas de grille */
+  header { padding: 1.5rem 1.5rem !important; }
+  main { padding: 0 1.5rem !important; }
+  .section { display: block !important; padding: 2.5rem 0 !important; }
+  .section-label { display: flex; flex-direction: row; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; padding-top: 0 !important; }
+  .section-number { font-size: 2.5rem !important; margin-bottom: 0 !important; }
+
+  /* CRITIQUES mobile: colonne */
+  .critiques { display: flex !important; flex-direction: column; gap: 1.5rem; }
+  .critique-item p { max-width: none !important; }
+
+  /* FACE À FACE mobile: colonne */
+  .face-header { display: block !important; margin-bottom: 1.5rem; }
+  .face-grid { display: flex !important; flex-direction: column; gap: 2.5rem; margin-left: 0 !important; }
+  .face-item a { margin-bottom: 1rem; }
+  .face-item img { margin-bottom: 1rem !important; }
+
+  /* DETAIL DUO: reste en 2 colonnes (images petites, OK sur mobile) */
+
+  /* FOOTER mobile */
+  footer { flex-direction: column !important; padding: 1.75rem 1.5rem !important; gap: 1rem; }
+  .footer-nav { flex-wrap: wrap; justify-content: space-between; }
+  .footer-credit { text-align: center !important; }
+
+  /* MARIE MADELEINE panneaux mobile */
+  .panneau-hero { display: flex !important; flex-direction: column; min-height: auto !important; }
+  .panneau-header { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
+  .panneau-image img { max-height: 50vh; object-fit: contain; }
+  .panneau-cartels { display: block !important; padding: 1.5rem !important; }
+  .station-intro { padding: 2.5rem 1.5rem !important; }
+
+  /* DESKTOP ≥ 768px : restauration de la mise en page originale */
+  @media (min-width: 768px) {
+    header { padding: 2rem 4rem !important; }
+    .hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 90vh; flex-direction: unset; }
+    .hero-image img { max-height: none; height: 100%; }
+    .hero-text { padding: 5rem 5rem 4rem !important; border-top: none; border-left: 1px solid var(--border) !important; }
+    .eyebrow { margin-bottom: 2.5rem !important; }
+    .subtitle { margin-bottom: 3.5rem !important; }
+    main { padding: 0 4rem !important; max-width: 1400px; }
+    .section { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 5rem 0 !important; }
+    .section-label { flex-direction: column !important; align-items: flex-start !important; gap: 0.5rem; margin-bottom: 0; padding-top: 0.2rem !important; }
+    .section-number { font-size: 3.5rem !important; margin-bottom: 0.5rem !important; }
+    .critiques { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 680px; flex-direction: unset; }
+    .face-header { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .face-grid { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; flex-direction: unset; margin-left: calc(200px + 4rem) !important; }
+    footer { flex-direction: row !important; padding: 3rem 4rem !important; gap: 0; justify-content: space-between; align-items: center; }
+    .footer-credit { text-align: right !important; }
+    .panneau-hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 85vh; flex-direction: unset; }
+    .panneau-header { border-top: none; border-left: 1px solid var(--border) !important; padding: 5rem 5rem 4rem !important; }
+    .panneau-image img { max-height: none; height: 100%; object-fit: contain; }
+    .panneau-cartels { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 0 4rem 5rem !important; padding-top: 4rem !important; }
+    .station-intro { padding: 5rem 4rem 4rem !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <span class="station-label">Florence · Séville · Rome · 1615–1625</span>
+  <span class="station-number">Station · Marie Madeleine</span>
+</header>
+
+<div class="station-intro">
+  <span class="eyebrow">Artemisia Gentileschi</span>
+  <h1><em>Marie Madeleine</em><br>Trois tableaux, trente ans</h1>
+  <p class="intro-text">Entre 1615 et 1625, Artemisia revient trois fois au même sujet. Trois commanditaires différents, trois registres différents. Du premier au dernier, quelque chose glisse — dans ce qu'on montre, dans ce qu'on cache, dans ce que le commanditaire achète sans avoir à le nommer.</p>
+</div>
+
+<div class="panneau">
+
+  <div class="panneau-hero">
+    <div class="panneau-image">
+      <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_pitty.jpg" alt="La Conversion de la Madeleine, Palazzo Pitti, Florence">
+    </div>
+    <div class="panneau-header">
+      <span class="panneau-num">Panneau I / III</span>
+      <h2><em>La Conversion<br>de la Madeleine</em></h2>
+      <p class="panneau-subtitle">Vers 1615–1616 · Huile sur toile · 146,5 × 108 cm</p>
+      <div class="meta-grid">
+        <span class="meta-key">Conservation</span>
+        <span class="meta-val">Palazzo Pitti, Florence</span>
+        <span class="meta-key">Période</span>
+        <span class="meta-val">Florence — Cour des Médicis</span>
+        <span class="meta-key">Technique</span>
+        <span class="meta-val">Huile sur toile</span>
+        <span class="meta-key">Signature</span>
+        <span class="meta-val">Artemisia Lomi</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panneau-cartels">
+    <div class="cartel-side">
+      <span class="cartel-side-num">I</span>
+      <span class="cartel-side-label">Le tableau</span>
+    </div>
+    <div class="cartel-body">
+      <p>Marie Madeleine, traditionnellement, pleure, s'effondre, se cache ; celle-ci lève les yeux et tient la pose.</p>
+      <p>Le tableau est commandé par Marie-Madeleine d'Autriche, Grande-Duchesse de Toscane. Une souveraine qui commande sa sainte patronne (même prénom) à une peintre que la cour vient d'admettre à l'Académie du Dessin. L'opulence de la robe, les bijoux, le satin : tout ce qu'elle repousse est là. Le renoncement n'a de sens que si on voit ce qu'on abandonne.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="panneau">
+
+  <div class="panneau-hero">
+    <div class="panneau-image">
+      <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_kimbell_museum.jpg" alt="Marie Madeleine pénitente, Kimbell Art Museum">
+    </div>
+    <div class="panneau-header">
+      <span class="panneau-num">Panneau II / III</span>
+      <h2><em>Marie Madeleine<br>pénitente</em></h2>
+      <p class="panneau-subtitle" style="color:var(--gold-light); font-size:0.8rem; letter-spacing:0.1em; margin-bottom:0.75rem;">Kimbell Art Museum, Fort Worth</p>
+      <p class="panneau-subtitle">Vers 1625–1626 · Huile sur toile · 108,8 × 93 cm</p>
+      <div class="meta-grid">
+        <span class="meta-key">Conservation</span>
+        <span class="meta-val">Kimbell Art Museum, Fort Worth</span>
+        <span class="meta-key">Période</span>
+        <span class="meta-val">Rome — Second séjour</span>
+        <span class="meta-key">Technique</span>
+        <span class="meta-val">Huile sur toile</span>
+        <span class="meta-key">Attribution</span>
+        <span class="meta-val">Débat ouvert (Locker / Cavazzini)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panneau-cartels">
+    <div class="cartel-side">
+      <span class="cartel-side-num">II</span>
+      <span class="cartel-side-label">Le tableau</span>
+    </div>
+    <div class="cartel-body">
+      <p>Le tableau s'inspire de la Madeleine de Caravage, que le duc d'Alcalá possédait dans sa collection romaine. Artemisia garde le sujet, déplace la pose. Ce n'est plus l'effondrement, c'est la Mélancolie, figure connue de tout peintre du XVIIe siècle : le corps qui cède, la tête qui tombe, l'esprit ailleurs. Plus ambigu que la pénitence. Plus troublant aussi.</p>
+      <p>Le tableau est acquis en 1625 par Fernando Afán de Ribera, duc d'Alcalá, ambassadeur d'Espagne à Rome. Il l'emporte à Séville et l'expose dans sa résidence privée. Le succès est immédiat, le tableau est copié plusieurs fois de son vivant. Ces copies sont encore visibles aujourd'hui, dans la cathédrale de Séville et au musée Soumaya à Mexico. L'original disparaît après la mort du duc. Il resurgit dans une salle des ventes à Paris en 2001, passe dans une collection privée américaine, et entre au Kimbell Art Museum de Fort Worth en 2024. Le débat sur l'attribution des deux versions reste ouvert.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="panneau">
+
+  <div class="panneau-hero">
+    <div class="panneau-image">
+      <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_extase.jpg" alt="Marie Madeleine en extase, National Gallery of Art, Washington">
+    </div>
+    <div class="panneau-header">
+      <span class="panneau-num">Panneau III / III</span>
+      <h2><em>Marie Madeleine<br>en extase</em></h2>
+      <p class="panneau-subtitle">Vers 1625 · Huile sur toile · 81 × 105 cm</p>
+      <div class="meta-grid">
+        <span class="meta-key">Conservation</span>
+        <span class="meta-val">National Gallery of Art, Washington</span>
+        <span class="meta-key">Période</span>
+        <span class="meta-val">Rome — Second séjour</span>
+        <span class="meta-key">Technique</span>
+        <span class="meta-val">Huile sur toile</span>
+        <span class="meta-key">Acquisition</span>
+        <span class="meta-val">2026 — après redécouverte en 2014</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panneau-cartels">
+    <div class="cartel-side">
+      <span class="cartel-side-num">III</span>
+      <span class="cartel-side-label">Le tableau</span>
+    </div>
+    <div class="cartel-body">
+      <p>La tête renversée, la gorge offerte, les yeux fermés. Aucun attribut ne nomme le sujet — ni crâne, ni croix, ni vase d'onguent. Rien que ce corps dans l'obscurité, battu par la lumière.</p>
+      <p>Artemisia s'inspire d'un tableau perdu de Caravage sur le même sujet, mais elle radicalise le dispositif : la Madeleine est rapprochée au plus près du spectateur, presque à portée de main. La National Gallery de Londres, qui a étudié la toile en détail, note qu'Artemisia avait d'abord peint le sein gauche de façon plus visible avant de le couvrir avec le manteau et les cheveux. Mais elle compense ailleurs, le pli de chair entre le bras et la poitrine, les touches de pinceau sur la dentelle qui évoquent le toucher. Elle sait exactement jusqu'où aller.</p>
+      <p>Le tableau disparaît après sa création. En 2014, il réapparaît dans une salle des ventes à Paris — jusqu'alors connu uniquement par une photographie en noir et blanc. En 2026, la National Gallery of Art de Washington l'acquiert, le reconnaissant comme l'une des œuvres majeures de sa carrière.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">← Parcours</a>
+    <a href="esther_assuerus.html">07 · Esther →</a>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>

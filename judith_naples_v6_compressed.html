@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judith décapitant Holopherne · Artemisia Gentileschi · 1611–1612</title>
+<!--
+  <meta name="description" content="Judith décapitant Holopherne, v.1611–1612 — le tableau de la période du procès.">
+  <meta property="og:title" content="Judith décapitant Holopherne · Artemisia Gentileschi · Naples">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg">
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #181614;
+    --surface: #1e1b18;
+    --gold: #c9a84c;
+    --gold-light: #e2c57a;
+    --text: #d4cfc8;
+    --text-muted: #7a736a;
+    --text-dim: #4a443e;
+    --border: #2e2a25;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .station-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .station-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: #e2c57a;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-image {
+    overflow: hidden;
+    background: #080706;
+  }
+
+  .hero-image a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.92;
+    display: block;
+  }
+
+  .hero-text {
+    padding: 5rem 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: #e8e2d8;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { font-style: italic; color: var(--gold-light); }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 3.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+
+  .meta-key {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    padding-top: 0.15rem;
+    white-space: nowrap;
+  }
+
+  .meta-val { font-size: 0.95rem; color: var(--text-muted); }
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+  }
+
+  .section-label { padding-top: 0.2rem; }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #e2c57a;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    display: block;
+  }
+
+  .section-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #d8d2c8;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    max-width: 680px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content p:last-child { margin-bottom: 0; }
+
+  .cartel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .cartel-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .cartel p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .cartel p:last-child { margin-bottom: 0; }
+
+  .detail-img {
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .detail-img a {
+    display: block;
+  }
+
+  .detail-img img {
+    width: 100%;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .detail-caption {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .critiques {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+    max-width: 680px;
+  }
+
+  .critique-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .critique-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .critique-item p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .face-a-face {
+    border-top: 1px solid var(--border);
+    padding: 5rem 0;
+  }
+
+  .face-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .face-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-left: calc(200px + 4rem);
+  }
+
+  .face-item a {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .face-item img {
+    width: 100%;
+    display: block;
+    opacity: 0.88;
+    transition: opacity 0.3s;
+  }
+
+  .face-item img:hover { opacity: 1; }
+
+  .face-item-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .face-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #d8d2c8;
+    margin-bottom: 0.25rem;
+  }
+
+  .face-item .face-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .face-item p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-nav { display: flex; gap: 2rem; }
+
+  .footer-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e2c57a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-nav a:hover { color: #e2c57a; }
+
+  .footer-credit {
+    font-size: 0.75rem;
+    color: #e2c57a;
+    font-style: italic;
+  }
+
+  .preambule {
+    background: #110f0d;
+    border: 1px solid var(--border);
+    border-left: 3px solid #8b2020;
+    padding: 2.5rem 3rem;
+    max-width: 680px;
+    margin-top: 2.5rem;
+  }
+
+  .preambule-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #8b2020;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .preambule p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #b8b2a8;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .preambule p:last-child { margin-bottom: 0; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE MOBILE — ajouté juin 2026
+     Toutes les grilles fixes sont remplacées
+     par des layouts mobiles-first
+  ═══════════════════════════════════════════ */
+
+  /* HERO mobile: colonne unique */
+  .hero { display: flex !important; flex-direction: column; }
+  .hero-image img { max-height: 55vh; object-fit: cover; object-position: center top; }
+  .hero-text { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
+  .eyebrow { margin-bottom: 1rem !important; }
+  .subtitle { margin-bottom: 1.5rem !important; }
+
+  /* SECTIONS mobile: pas de grille */
+  header { padding: 1.5rem 1.5rem !important; }
+  main { padding: 0 1.5rem !important; }
+  .section { display: block !important; padding: 2.5rem 0 !important; }
+  .section-label { display: flex; flex-direction: row; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; padding-top: 0 !important; }
+  .section-number { font-size: 2.5rem !important; margin-bottom: 0 !important; }
+
+  /* CRITIQUES mobile: colonne */
+  .critiques { display: flex !important; flex-direction: column; gap: 1.5rem; }
+  .critique-item p { max-width: none !important; }
+
+  /* FACE À FACE mobile: colonne */
+  .face-header { display: block !important; margin-bottom: 1.5rem; }
+  .face-grid { display: flex !important; flex-direction: column; gap: 2.5rem; margin-left: 0 !important; }
+  .face-item a { margin-bottom: 1rem; }
+  .face-item img { margin-bottom: 1rem !important; }
+
+  /* DETAIL DUO: reste en 2 colonnes (images petites, OK sur mobile) */
+
+  /* FOOTER mobile */
+  footer { flex-direction: column !important; padding: 1.75rem 1.5rem !important; gap: 1rem; }
+  .footer-nav { flex-wrap: wrap; justify-content: space-between; }
+  .footer-credit { text-align: center !important; }
+
+  /* MARIE MADELEINE panneaux mobile */
+  .panneau-hero { display: flex !important; flex-direction: column; min-height: auto !important; }
+  .panneau-header { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
+  .panneau-image img { max-height: 50vh; object-fit: contain; }
+  .panneau-cartels { display: block !important; padding: 1.5rem !important; }
+  .station-intro { padding: 2.5rem 1.5rem !important; }
+
+  /* DESKTOP ≥ 768px : restauration de la mise en page originale */
+  @media (min-width: 768px) {
+    header { padding: 2rem 4rem !important; }
+    .hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 90vh; flex-direction: unset; }
+    .hero-image img { max-height: none; height: 100%; }
+    .hero-text { padding: 5rem 5rem 4rem !important; border-top: none; border-left: 1px solid var(--border) !important; }
+    .eyebrow { margin-bottom: 2.5rem !important; }
+    .subtitle { margin-bottom: 3.5rem !important; }
+    main { padding: 0 4rem !important; max-width: 1400px; }
+    .section { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 5rem 0 !important; }
+    .section-label { flex-direction: column !important; align-items: flex-start !important; gap: 0.5rem; margin-bottom: 0; padding-top: 0.2rem !important; }
+    .section-number { font-size: 3.5rem !important; margin-bottom: 0.5rem !important; }
+    .critiques { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 680px; flex-direction: unset; }
+    .face-header { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .face-grid { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; flex-direction: unset; margin-left: calc(200px + 4rem) !important; }
+    footer { flex-direction: row !important; padding: 3rem 4rem !important; gap: 0; justify-content: space-between; align-items: center; }
+    .footer-credit { text-align: right !important; }
+    .panneau-hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 85vh; flex-direction: unset; }
+    .panneau-header { border-top: none; border-left: 1px solid var(--border) !important; padding: 5rem 5rem 4rem !important; }
+    .panneau-image img { max-height: none; height: 100%; object-fit: contain; }
+    .panneau-cartels { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 0 4rem 5rem !important; padding-top: 4rem !important; }
+    .station-intro { padding: 5rem 4rem 4rem !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <span class="station-label">Rome · 1612</span>
+  <span class="station-number">02</span>
+</header>
+
+<section class="hero">
+  <div class="hero-image">
+    <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg" target="_blank">
+      <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg" alt="Judith décapitant Holopherne, Artemisia Gentileschi, Naples">
+    </a>
+  </div>
+  <div class="hero-text">
+    <span class="eyebrow">Artemisia Gentileschi</span>
+    <h1><em>Judith décapitant<br>Holopherne</em></h1>
+    <p class="subtitle">v. 1611–1612 · Huile sur toile · 158,8 × 125,5 cm</p>
+    <div class="meta-grid">
+      <span class="meta-key">Conservation</span>
+      <span class="meta-val">Museo di Capodimonte, Naples</span>
+      <span class="meta-key">Période</span>
+      <span class="meta-val">Rome — Le procès</span>
+      <span class="meta-key">Technique</span>
+      <span class="meta-val">Huile sur toile</span>
+      <span class="meta-key">Dimensions</span>
+      <span class="meta-val">158,8 × 125,5 cm</span>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number" style="font-size:2rem; color:#5a2020;">○</span>
+      <span class="section-title">Préambule</span>
+    </div>
+    <div class="section-content">
+      <h2>Le procès</h2>
+      <div class="preambule">
+        <span class="preambule-label">Contexte · 1611–1612</span>
+        <p>En 1611, Artemisia Gentileschi a dix-sept ans quand Agostino Tassi, peintre fréquentant l'atelier de son père, la viole. Tassi promet de l'épouser pour réparer l'offense. Un an après, le père apprend que Tassi est déjà marié et décide de porter plainte pour <em>stupro violente</em> — défloration par la force.</p>
+        <p>L'instruction dure neuf mois. Pendant le procès, Artemisia subit un examen gynécologique imposé par le tribunal, puis le supplice des sibili : une corde passée entre les doigts, serrée jusqu'à risquer de briser les os, pour vérifier la véracité de ses accusations. Elle tient sa déposition pendant la torture.</p>
+        <p>Tassi est condamné le 28 novembre 1612 à cinq ans d'exil et une lourde amende. Protégé, il ne quittera jamais Rome et ne paiera pas l'amende.</p>
+        <p>Un mois après la conclusion du procès, son père lui arrange un mariage avec un modeste peintre florentin. Artemisia a dix-neuf ans.</p>
+        <p>Le tableau suivant date de cette période.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">I</span>
+      <span class="section-title">Le tableau</span>
+    </div>
+    <div class="section-content">
+      <h2>L'histoire</h2>
+      <p>Après un siège prolongé, la ville de Béthulie était sur le point de se rendre par manque d'eau. Judith, reconnue pour sa beauté et sa sagesse, décida d'agir. Elle se rendit dans le camp ennemi, fut présentée à Holopherne, et profita de son ivresse pour le décapiter avec l'aide de sa servante. À l'aube, les soldats découvrirent leur chef assassiné et s'enfuirent.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">II</span>
+      <span class="section-title">La composition</span>
+    </div>
+    <div class="section-content">
+      <h2>La composition</h2>
+      <p>Cette composition est un triangle. Le visage froid et concentré de Judith, puis le drap maculé de sang soutenant le visage d'Holopherne, pour remonter vers la servante vêtue de rouge sombre, avant de replonger sur le mourant.</p>
+      <h2>Les corps</h2>
+      <p>Le genou droit de Judith est appuyé sur le lit. Le corps d'Holopherne est dans la position d'une victime immobilisée de force : bras bloqués, tête tenue par les cheveux. La servante ne retient pas l'homme — elle soutient Judith.</p>
+      <h2>Les mains</h2>
+      <p>Les bras et les mains actent l'histoire. D'une main ferme dans les cheveux d'Holopherne, Judith appuie sur sa tempe pendant que l'autre lui tranche la gorge. La servante bloque de toutes ses forces le bras gauche alors que l'autre bras d'Holopherne pointe vers elle. Mais trop tard.</p>
+      <div class="detail-img">
+        <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples_mains.jpg" target="_blank">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples_mains.jpg" alt="Détail des mains — Judith décapitant Holopherne">
+        </a>
+        <p class="detail-caption">Détail — Les mains</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">III</span>
+      <span class="section-title">Couleurs et technique</span>
+    </div>
+    <div class="section-content">
+      <h2>Couleurs et technique picturale</h2>
+      <p>Dans ce tableau entouré de pénombre, trois couleurs organisent l'acte. La robe bleue de Judith, couleur froide qui enrobe son visage déterminé. Sous son bras, illuminé par ce drap blanc ensanglanté. Dessus, le bras d'Holopherne nous mène à la servante habillée d'un rouge sombre allant jusqu'au brun.</p>
+      <p>La matière elle-même est présente, par ce matelas qui s'écrase sous le poids du corps. Artemisia ne peint pas simplement une scène. Elle peint un acte physique.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <span class="section-number">IV</span>
+      <span class="section-title">Lectures critiques</span>
+    </div>
+    <div class="section-content">
+      <h2>Ce que disent les historiens</h2>
+      <div class="critiques">
+        <div class="critique-item">
+          <span class="critique-name">Mary Garrard</span>
+          <p>Une rage cathartique. Artemisia se peint en Judith, donne à Holopherne les traits de son violeur. Une vengeance silencieuse peinte.</p>
+        </div>
+        <div class="critique-item">
+          <span class="critique-name">Marie-Jo Bonnet</span>
+          <p>Pas de la vengeance — de la reconstruction. La servante, jeune et active, dit la sororité. Deux femmes, une mission commune.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="face-a-face">
+    <div class="face-header">
+      <div class="section-label">
+        <span class="section-number">V</span>
+        <span class="section-title">Face à face</span>
+      </div>
+      <div class="section-content">
+        <h2>Le même sujet, deux visions différentes</h2>
+      </div>
+    </div>
+    <div class="face-grid">
+
+      <div class="face-item">
+        <a href="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg" target="_blank">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg" alt="Judith décapitant Holopherne, Artemisia Gentileschi, Naples">
+        </a>
+        <span class="face-item-label">Artemisia Gentileschi</span>
+        <h3>Judith décapitant Holopherne</h3>
+        <span class="face-date">v. 1611–1612 · Museo di Capodimonte, Naples</span>
+      </div>
+
+      <div class="face-item">
+        <a href="judith_naples_caravage.jpg" target="_blank">
+          <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples_caravage.jpg" alt="Judith décapitant Holopherne, Caravage, Rome">
+        </a>
+        <span class="face-item-label">Michelangelo Merisi, dit le Caravage</span>
+        <h3>Judith décapitant Holopherne</h3>
+        <span class="face-date">v. 1598–1602 · Palazzo Barberini, Rome</span>
+        <p>Ici le format est horizontal, la scène théâtrale. Judith s'écarte de l'homme qu'elle décapite, son visage dit le dégoût ou la peur. La servante, vieille et caricaturale, attend en retrait avec son sac. Le poing gauche de Judith tient les cheveux d'Holopherne — mais sans tension, sans effort. Le sang qui gicle est un décor. La scène est posée, distante, presque arrangée. Petit détail, Caravage a peint un grand drapé rouge qui descend vers Holopherne, qu'Artemisia a repris avec le bras de la servante plongeant vers le roi assyrien.</p>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">← Parcours</a>
+    <a href="allegorie_inclination.html">03 · Allégorie →</a>
+  </nav>
+  <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
+</footer>
+
+</body>
+</html>
