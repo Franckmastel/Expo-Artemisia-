@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artemisia Gentileschi · Exposition immersive</title>
+<!--
+  <meta name="description" content="Exposition immersive Artemisia Gentileschi — parcours de 9 tableaux, de Rome à Naples, 1610–1639.">
+  <meta property="og:title" content="Artemisia Gentileschi · Exposition immersive">
+  <meta property="og:description" content="Une vie, une œuvre. De Rome à Naples, de la violence subie à la gloire internationale.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg">
+-->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -51,6 +57,12 @@
 
   @media(max-width:700px){
     .hero,.parcours { padding:50px 24px; }
+    .tableau-item { grid-template-columns:40px 1fr; gap:0 16px; }
+    .item-num { font-size:20px; }
+    .item-meta { display:none; }
+    .item-arrow { display:none; }
+    footer { padding:30px 24px; }
+  }
     .tableau-item { grid-template-columns:40px 1fr auto; gap:0 20px; }
     footer { padding:30px 24px; }
   }
@@ -165,7 +177,7 @@
       <div class="item-meta">Royal Collection Trust, Londres</div>
     </div>
     <span class="item-soon">À venir</span>
-  </div>
+  </a>
 
 </main>
 
