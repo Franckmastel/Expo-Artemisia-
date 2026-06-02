@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Allégorie de l'Inclination · Artemisia Gentileschi · 1615–1616</title>
 <!--
-  <meta name="description" content="Allégorie de l'Inclination, 1615–1616 — commande de Buonarroti le Jeune, Casa Buonarroti, Florence.">
+  <meta name="description" content="Allégorie de l'Inclination, 1615–1616 — Casa Buonarroti, Florence.">
   <meta property="og:title" content="Allégorie de l'Inclination · Artemisia Gentileschi · Florence">
   <meta property="og:image" content="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/allegorie_eclairee.jpeg">
 -->
@@ -400,70 +400,33 @@
 
   /* ═══════════════════════════════════════════
      RESPONSIVE MOBILE — ajouté juin 2026
-     Toutes les grilles fixes sont remplacées
-     par des layouts mobiles-first
   ═══════════════════════════════════════════ */
-
-  /* HERO mobile: colonne unique */
-  .hero { display: flex !important; flex-direction: column; }
-  .hero-image img { max-height: 55vh; object-fit: cover; object-position: center top; }
-  .hero-text { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
-  .eyebrow { margin-bottom: 1rem !important; }
-  .subtitle { margin-bottom: 1.5rem !important; }
-
-  /* SECTIONS mobile: pas de grille */
-  header { padding: 1.5rem 1.5rem !important; }
-  main { padding: 0 1.5rem !important; }
-  .section { display: block !important; padding: 2.5rem 0 !important; }
-  .section-label { display: flex; flex-direction: row; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; padding-top: 0 !important; }
-  .section-number { font-size: 2.5rem !important; margin-bottom: 0 !important; }
-
-  /* CRITIQUES mobile: colonne */
-  .critiques { display: flex !important; flex-direction: column; gap: 1.5rem; }
-  .critique-item p { max-width: none !important; }
-
-  /* FACE À FACE mobile: colonne */
-  .face-header { display: block !important; margin-bottom: 1.5rem; }
-  .face-grid { display: flex !important; flex-direction: column; gap: 2.5rem; margin-left: 0 !important; }
-  .face-item a { margin-bottom: 1rem; }
-  .face-item img { margin-bottom: 1rem !important; }
-
-  /* DETAIL DUO: reste en 2 colonnes (images petites, OK sur mobile) */
-
-  /* FOOTER mobile */
-  footer { flex-direction: column !important; padding: 1.75rem 1.5rem !important; gap: 1rem; }
-  .footer-nav { flex-wrap: wrap; justify-content: space-between; }
-  .footer-credit { text-align: center !important; }
-
-  /* MARIE MADELEINE panneaux mobile */
-  .panneau-hero { display: flex !important; flex-direction: column; min-height: auto !important; }
-  .panneau-header { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
-  .panneau-image img { max-height: 50vh; object-fit: contain; }
-  .panneau-cartels { display: block !important; padding: 1.5rem !important; }
-  .station-intro { padding: 2.5rem 1.5rem !important; }
-
-  /* DESKTOP ≥ 768px : restauration de la mise en page originale */
-  @media (min-width: 768px) {
-    header { padding: 2rem 4rem !important; }
-    .hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 90vh; flex-direction: unset; }
-    .hero-image img { max-height: none; height: 100%; }
-    .hero-text { padding: 5rem 5rem 4rem !important; border-top: none; border-left: 1px solid var(--border) !important; }
-    .eyebrow { margin-bottom: 2.5rem !important; }
-    .subtitle { margin-bottom: 3.5rem !important; }
-    main { padding: 0 4rem !important; max-width: 1400px; }
-    .section { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 5rem 0 !important; }
-    .section-label { flex-direction: column !important; align-items: flex-start !important; gap: 0.5rem; margin-bottom: 0; padding-top: 0.2rem !important; }
-    .section-number { font-size: 3.5rem !important; margin-bottom: 0.5rem !important; }
-    .critiques { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 680px; flex-direction: unset; }
-    .face-header { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; margin-bottom: 4rem; }
-    .face-grid { display: grid !important; grid-template-columns: 1fr 1fr; gap: 2.5rem; flex-direction: unset; margin-left: calc(200px + 4rem) !important; }
-    footer { flex-direction: row !important; padding: 3rem 4rem !important; gap: 0; justify-content: space-between; align-items: center; }
-    .footer-credit { text-align: right !important; }
-    .panneau-hero { display: grid !important; grid-template-columns: 1fr 1fr; min-height: 85vh; flex-direction: unset; }
-    .panneau-header { border-top: none; border-left: 1px solid var(--border) !important; padding: 5rem 5rem 4rem !important; }
-    .panneau-image img { max-height: none; height: 100%; object-fit: contain; }
-    .panneau-cartels { display: grid !important; grid-template-columns: 200px 1fr; gap: 4rem; padding: 0 4rem 5rem !important; padding-top: 4rem !important; }
-    .station-intro { padding: 5rem 4rem 4rem !important; }
+  @media (max-width: 767px) {
+    header { padding: 1.5rem !important; }
+    .hero { display: flex !important; flex-direction: column; min-height: auto !important; }
+    .hero-image { width: 100%; }
+    .hero-image img { max-height: 60vh !important; width: 100% !important; height: auto !important; object-fit: contain !important; object-position: center center !important; }
+    .hero-text { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; justify-content: flex-start !important; }
+    .eyebrow { margin-bottom: 1rem !important; }
+    .subtitle { margin-bottom: 1.5rem !important; }
+    main { padding: 0 1.5rem !important; max-width: 100% !important; }
+    .section { display: block !important; padding: 2rem 0 !important; }
+    .section-label { display: flex !important; flex-direction: row !important; align-items: baseline; gap: 1rem; margin-bottom: 1.25rem; padding-top: 0 !important; }
+    .section-number { font-size: 2.5rem !important; margin-bottom: 0 !important; }
+    .critiques { display: flex !important; flex-direction: column; gap: 1.5rem; }
+    .critique-item p { max-width: none !important; }
+    .section-content p { max-width: none !important; }
+    .face-header { display: block !important; margin-bottom: 1.5rem; }
+    .face-grid { display: flex !important; flex-direction: column; gap: 2rem; margin-left: 0 !important; }
+    .face-item img { margin-bottom: 1rem !important; }
+    footer { flex-direction: column !important; padding: 1.75rem 1.5rem !important; gap: 1rem; align-items: flex-start !important; }
+    .footer-nav { flex-wrap: wrap; justify-content: space-between; width: 100%; }
+    .footer-credit { text-align: center !important; width: 100%; }
+    .panneau-hero { display: flex !important; flex-direction: column; min-height: auto !important; }
+    .panneau-header { border-left: none !important; border-top: 1px solid var(--border); padding: 2rem 1.5rem !important; }
+    .panneau-image img { max-height: 50vh !important; object-fit: contain !important; }
+    .panneau-cartels { display: block !important; padding: 1.5rem !important; }
+    .station-intro { padding: 2.5rem 1.5rem !important; }
   }
 
 </style>
@@ -608,7 +571,10 @@
 <footer>
   <nav class="footer-nav">
     <a href="index.html">← Parcours</a>
-    <a href="joueuse_luth.html">04 · Joueuse de luth →</a>
+    <div style="display:flex; gap:2rem;">
+      <a href="judith_naples_v6_compressed.html">← 02 · Judith</a>
+      <a href="joueuse_luth.html">04 · Joueuse de luth →</a>
+    </div>
   </nav>
   <span class="footer-credit">Exposition Artemisia Gentileschi · Conception scénographique</span>
 </footer>
