@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artemisia Gentileschi — Exposition</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width:100%; height:100%; overflow:hidden; background:#060504; font-family:Georgia,serif; }
+
+    #curtain { position:fixed; inset:0; background:#000; z-index:100; animation:curtainOpen 1.4s ease 0.3s forwards; }
+    @keyframes curtainOpen { 0%{opacity:1} 100%{opacity:0;pointer-events:none} }
+
+    #vp {
+      position:fixed; inset:0;
+      perspective:520px; perspective-origin:50% 48%;
+      background:radial-gradient(ellipse at 50% 50%, #131110 0%, #060504 100%);
+      overflow:hidden;
+    }
+    #scene { position:absolute; inset:0; transform-style:preserve-3d; }
+
+    #header {
+      position:fixed; top:0; left:0; right:0; z-index:20;
+      text-align:center; padding:2rem 0 1.5rem;
+      background:linear-gradient(to bottom, rgba(6,5,4,0.9) 60%, rgba(6,5,4,0));
+      pointer-events:none;
+    }
+    #header h1 { color:#e4dfda; font-size:1.8rem; font-weight:400; letter-spacing:4px; text-transform:uppercase; margin-bottom:0.3rem; }
+    #header p { color:#8a827a; font-size:0.9rem; font-style:italic; letter-spacing:1px; }
+
+    /* Le Cartel d'introduction en 3D */
+    .intro-cartel {
+      position:absolute; top:50%; left:50%;
+      width:520px; max-width:90vw;
+      background:rgba(18, 16, 15, 0.98);
+      border:1px solid #3a322d;
+      padding:2.2rem;
+      color:#e4dfda;
+      text-align:center;
+      box-shadow:0 20px 40px rgba(0,0,0,0.9);
+      transform-style:preserve-3d;
+      backface-visibility:hidden;
+      transition:opacity 0.8s ease;
+    }
+    .intro-cartel h2 { font-size:1.5rem; color:#c9a063; margin-bottom:1.2rem; font-weight:400; letter-spacing:2px; }
+    
+    /* Zone de texte scrollable avec curseur */
+    .intro-text-container {
+      max-height: 220px;
+      overflow-y: auto;
+      text-align: justify;
+      padding-right: 12px;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #b5ada5;
+      scrollbar-width: thin;
+      scrollbar-color: #c9a063 #12100f;
+    }
+    
+    .intro-text-container::-webkit-scrollbar { width: 5px; }
+    .intro-text-container::-webkit-scrollbar-track { background: #12100f; }
+    .intro-text-container::-webkit-scrollbar-thumb { background: #c9a063; border-radius: 3px; }
+
+    .intro-cartel .scroll-hint { font-size:0.8rem; color:#8a827a; font-style:italic; animation: pulse 2s infinite; letter-spacing: 1px; }
+
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+    /* Les Cartes Stations */
+    .card {
+      position:absolute; top:50%; left:50%;
+      width:300px; height:220px;
+      background:#12100f; border:1px solid #2a221d; padding:10px;
+      box-shadow:0 15px 35px rgba(0,0,0,0.7);
+      transform-style:preserve-3d; backface-visibility:hidden;
+      transition:opacity 0.3s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display:block;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+    
+    .card.hovered { border-color:#c9a063; box-shadow:0 0 25px rgba(201, 160, 99, 0.4); }
+    .card img { width:100%; height:160px; object-fit:cover; filter:grayscale(0.1) brightness(0.8); transition:filter 0.2s ease; }
+    .card.hovered img { filter:grayscale(0) brightness(1); }
+
+    .legende { margin-top:8px; display:flex; flex-direction:column; justify-content:center; }
+    .leg-num { font-size:0.7rem; color:#c9a063; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+    .leg-titre { font-size:0.85rem; color:#e4dfda; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    #instructions {
+      position:fixed; bottom:1.5rem; left:0; right:0; z-index:20;
+      text-align:center; color:#5a524b; font-size:0.75rem; letter-spacing:2px;
+      text-transform:uppercase; pointer-events:none;
+    }
+
+    @media(max-width:768px) {
+      #header h1 { font-size:1.3rem; letter-spacing:2px; }
+      .card { width:260px; height:200px; }
+      .card img { height:140px; }
+      .intro-cartel { padding:1.5rem; width: 90vw; }
+      .intro-text-container { max-height: 180px; font-size: 0.9rem; }
+    }
+
+    /* Transition de sortie de l'index */
+    body {
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+    body.fade-out {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="curtain"></div>
+
+<div id="header">
+  <h1>Artemisia Gentileschi</h1>
+  <p>Une présence itinérante et numérique</p>
+</div>
+
+<div id="vp">
+  <div id="scene">
+    <div id="introCartel" class="intro-cartel">
+      <h2>L'Art du Courage</h2>
+      <div id="cartelText" class="intro-text-container">
+        Bienvenue dans cette galerie virtuelle dédiée à Artemisia Gentileschi. À travers douze stations scénographiques conçues pour des projections immersives 4K, découvrez la puissance dramatique, la maîtrise technique des pigments et l'esprit entrepreneurial d'une des figures majeures du caravagisme au XVIIe siècle.<br><br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+      <div class="scroll-hint">Faites défiler le texte pour lire la suite ↓</div>
+    </div>
+  </div>
+</div>
+
+<div id="instructions">Défilez pour avancer ou reculer</div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
+
+const stations = [
+  { num:'01', html:'01_suzanne.html',           img:'suzanne.jpg',                           titre:'Suzanne et les vieillards',     x:-150, y:-25, z:-520  },
+  { num:'02', html:'02_judith_naples.html',      img:'judith_naples__.jpg',                  titre:'Judith et Holopherne — Naples', x: 130, y: 20,  z:-1040 },
+  { num:'03', html:'03_inclinaison.html',        img:'Allegorie_inclination_crop.jpg',       titre:"Allégorie de l'Inclination",    x:-120, y: 40,  z:-1560 },
+  { num:'04', html:'04_joueuse_luth.html',       img:'Joueuse_luth.jpeg',                    titre:'La Joueuse de luth',            x: 140, y:-30,  z:-2080 },
+  { num:'05', html:'05_judith_florence.html',    img:'judith_florence.jpg',                  titre:'Judith — Florence',             x:-130, y: 15,  z:-2600 },
+  { num:'06', html:'06_judith_servante.html',    img:'judith_bougie.jpg',                    titre:'Judith et sa servante',         x: 120, y: 35,  z:-3120 },
+  { num:'07', html:'07_marie_madeleine.html',    img:'marie_madeleine_extase.jpg',           titre:'Marie-Madeleine en extase',     x:-140, y:-35,  z:-3640 },
+  { num:'08', html:'08_venus_cupidon.html',      img:'Venus_and_Cupid.jpg',                  titre:'Vénus et Cupidon',              x: 125, y:-15,  z:-4160 },
+  { num:'09', html:'09_lucrece_getty.html',      img:'lucrece.jpeg',                         titre:'Lucrèce',                       x:-115, y: 30,  z:-4680 },
+  { num:'10', html:'10_esther.html',              img:'esther_assuerus.jpg',                  titre:'Esther et Assuérus',             x: 135, y: 10,  z:-5200 },
+  { num:'11', html:'11_saint_jean.html',          img:'naissance_baptiste.jpg',               titre:'Naissance de saint Jean',       x:-125, y:-20,  z:-5720 },
+  { num:'12', html:'12_allegorie_peinture.html', img:'autoportrait_allegorie_peinture.jpg', titre:'Autoportrait — Allégorie',       x: 115, y: 25,  z:-6240 },
+];
+
+const floatSpeed = [0.80,1.10,0.70,1.25,0.90,1.05,0.75,1.20,0.85,1.00,0.78,1.15];
+const floatAmp   = [10,8,12,9,11,8,10,9,11,8,12,9];
+const floatPhase = stations.map((_,i) => i * 0.85);
+
+const scene = document.getElementById('scene');
+const introCartel = document.getElementById('introCartel');
+const cartelText = document.getElementById('cartelText');
+const introZ = 0;
+
+let VW = window.innerWidth, VH = window.innerHeight;
+const PERSP = 520;
+
+window.addEventListener('resize', () => {
+  VW = window.innerWidth;
+  VH = window.innerHeight;
+});
+
+let mouseX = -1000, mouseY = -1000;
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+const cardEls = stations.map((d, i) => {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <img src="${BASE}${d.img}" alt="${d.titre}" loading="lazy">
+    <div class="legende">
+      <div class="leg-num">Station ${d.num}</div>
+      <div class="leg-titre">${d.titre}</div>
+    </div>`;
+  scene.appendChild(div);
+  return div;
+});
+
+let camZ = 0, targetCamZ = 0;
+const MAX_CAM = 6700;
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+function project(x, y, z) {
+  const scale = PERSP / (PERSP - z);
+  return {
+    sx: VW/2 + x * scale,
+    sy: VH/2 + y * scale,
+    scale: scale
+  };
+}
+
+function checkCollision(mx, my, executeClick) {
+  if (camZ < 40) return -1;
+
+  const sortedActive = stations
+    .map((d, i) => ({ data: d, index: i }))
+    .filter(item => item.data.bounds)
+    .sort((a, b) => b.data.bounds.z - a.data.bounds.z);
+
+  let detectedIndex = -1;
+  for (const item of sortedActive) {
+    const b = item.data.bounds;
+    if (mx >= b.left && mx <= b.right && my >= b.top && my <= b.bottom) {
+      detectedIndex = item.index;
+      break; 
+    }
+  }
+
+  // C'est ici qu'on gère la redirection amortie par le fondu CSS
+  if (executeClick && detectedIndex !== -1) {
+    const destination = `./${stations[detectedIndex].html}`;
+    document.body.classList.add('fade-out');
+    
+    setTimeout(() => {
+      window.location.href = destination;
+    }, 800); // 500ms correspond à la durée du fondu CSS
+  }
+
+  return detectedIndex;
+}
+
+function tick() {
+  camZ = lerp(camZ, targetCamZ, 0.07);
+  const now = Date.now() * 0.001;
+
+  // 1. Gestion du Cartel d'introduction
+  const effIntroZ = introZ + camZ;
+  introCartel.style.transform = `translate(-50%, -50%) translate3d(0px, 0px, ${effIntroZ}px)`;
+  
+  let introOp = 1;
+  if (effIntroZ > 0) {
+    introOp = 1 - effIntroZ / 120;
+  }
+  introOp = Math.max(0, Math.min(1, introOp));
+  introCartel.style.opacity = introOp;
+  introCartel.style.display = (introOp <= 0 || effIntroZ > 120) ? 'none' : 'block';
+
+  const hintEl = introCartel.querySelector('.scroll-hint');
+  if (cartelText.scrollTop + cartelText.clientHeight >= cartelText.scrollHeight - 5) {
+    hintEl.textContent = "Faites défiler pour entrer dans l'exposition ↓";
+    hintEl.style.color = "#c9a063";
+  } else {
+    hintEl.textContent = "Faites défiler le texte pour lire la suite ↓";
+    hintEl.style.color = "#8a827a";
+  }
+
+  // 2. Positionnement des stations
+  stations.forEach((d, i) => {
+    const effZ = d.z + camZ;
+    const floatY = Math.sin(now * floatSpeed[i] + floatPhase[i]) * floatAmp[i];
+
+    cardEls[i].style.transform = `translate(-50%,-50%) translate3d(${d.x}px,${d.y + floatY}px,${effZ}px)`;
+
+    let op = 0;
+    if (effZ > -2200 && effZ < 80) {
+      op = effZ < -900 ? (effZ+2200)/1300 : effZ > 0 ? 1-effZ/80 : 1;
+      op = Math.max(0, Math.min(1, op));
+    }
+    cardEls[i].style.opacity = op;
+    cardEls[i].style.display = (effZ > -2500 && effZ < 150) ? 'block' : 'none';
+
+    if (effZ > -2000 && effZ < -10 && op > 0.1) {
+      const p = project(d.x, d.y, effZ); 
+      const w = 300 * p.scale;
+      const h = 220 * p.scale;
+      d.bounds = {
+        left: p.sx - w/2,
+        right: p.sx + w/2,
+        top: p.sy - h/2,
+        bottom: p.sy + h/2,
+        z: effZ
+      };
+    } else {
+      d.bounds = null;
+    }
+  });
+
+  const hoveredIdx = checkCollision(mouseX, mouseY, false);
+
+  cardEls.forEach((el, idx) => {
+    if (idx === hoveredIdx) {
+      el.classList.add('hovered');
+    } else {
+      el.classList.remove('hovered');
+    }
+  });
+
+  document.body.style.cursor = (hoveredIdx !== -1) ? 'pointer' : 'default';
+
+  requestAnimationFrame(tick);
+}
+
+window.addEventListener('click', (e) => {
+  if (e.target.closest('#header') || e.target.closest('#introCartel')) return;
+  checkCollision(e.clientX, e.clientY, true);
+});
+
+window.addEventListener('wheel', e => {
+  e.preventDefault();
+  
+  if (targetCamZ === 0 && e.deltaY > 0 && cartelText.scrollTop + cartelText.clientHeight < cartelText.scrollHeight - 5) {
+    cartelText.scrollTop += e.deltaY * 0.6;
+  }
+  else if (targetCamZ === 0 && e.deltaY < 0 && cartelText.scrollTop > 0) {
+    cartelText.scrollTop += e.deltaY * 0.6;
+  }
+  else {
+    targetCamZ = Math.max(0, Math.min(targetCamZ + e.deltaY * 0.9, MAX_CAM));
+  }
+}, { passive:false });
+
+let ty0 = 0;
+window.addEventListener('touchstart', e => { 
+  ty0 = e.touches[0].clientY; 
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+}, { passive:true });
+
+window.addEventListener('touchmove',  e => {
+  const deltaY = ty0 - e.touches[0].clientY;
+  ty0 = e.touches[0].clientY;
+  mouseX = e.touches[0].clientX;
+  mouseY = e.touches[0].clientY;
+
+  if (targetCamZ === 0 && deltaY > 0 && cartelText.scrollTop + cartelText.clientHeight < cartelText.scrollHeight - 5) {
+    cartelText.scrollTop += deltaY;
+  }
+  else if (targetCamZ === 0 && deltaY < 0 && cartelText.scrollTop > 0) {
+    cartelText.scrollTop += deltaY;
+  }
+  else {
+    targetCamZ = Math.max(0, Math.min(targetCamZ + deltaY * 1.5, MAX_CAM));
+  }
+}, { passive:true });
+
+tick();
+// Corrige le problème du retour en arrière (page invisible à cause du cache)
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    document.body.classList.remove('fade-out');
+  }
+});
+</script>
+</body>
+</html>
