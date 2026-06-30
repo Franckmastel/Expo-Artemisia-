@@ -220,14 +220,16 @@ function checkCollision(mx, my, executeClick) {
     }
   }
 
-  // C'est ici qu'on gère la redirection amortie par le fondu CSS
+  // SAUVEGARDE : Si on clique sur une carte, on mémorise la position actuelle du carrousel
   if (executeClick && detectedIndex !== -1) {
+    sessionStorage.setItem('savedCamZ', targetCamZ);
+    
     const destination = `./${stations[detectedIndex].html}`;
     document.body.classList.add('fade-out');
     
     setTimeout(() => {
       window.location.href = destination;
-    }, 800); // 500ms correspond à la durée du fondu CSS
+    }, 800);
   }
 
   return detectedIndex;
@@ -347,13 +349,22 @@ window.addEventListener('touchmove',  e => {
   }
 }, { passive:true });
 
+// RESTAURATION ET INITIALISATION
+// On vérifie si une position précédente existe en mémoire avant de lancer le rendu
+const savedPosition = sessionStorage.getItem('savedCamZ');
+if (savedPosition !== null) {
+  targetCamZ = parseFloat(savedPosition);
+  camZ = targetCamZ; // On force l'alignement immédiat pour éviter un bond visuel au chargement
+}
+
 tick();
-// Corrige le problème du retour en arrière (page invisible à cause du cache)
+
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
     document.body.classList.remove('fade-out');
   }
 });
+</script>
 </script>
 </body>
 </html>

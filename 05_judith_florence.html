@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station 05 — Judith et sa servante (Florence)</title>
+    <title>Station 05 — Judith et Holopherne Florence</title>
     <style>
         :root {
             --bg:    #0d0d0d;
@@ -125,15 +125,25 @@
         .artwork-wrap img:hover { filter: brightness(1.15); box-shadow: 0 16px 60px rgba(184,149,42,0.4); transform: scale(1.02); }
 
         .panel-left { display: flex; align-items: center; justify-content: center; gap: 48px; padding: 24px 56px; }
-        .wall-group { display: flex; align-items: center; gap: 12px; min-height: 145px; }
+        .wall-group { display: flex; align-items: center; gap: 12px; }
         .panel-left .wall-group { transform: translate3d(0, -35px, 2px); transform-style: preserve-3d; }
-        .panel-left .artwork-wrap { width: 155px; height: 210px; }
+
+        .img-left-1 { width: 230px; height: 145px; object-fit: contain; background: #0a0806; }
+        .img-left-2 { width: 185px; height: 145px; object-fit: contain; background: #0a0806; }
+
+        .wall-group img {
+            display: block; flex-shrink: 0; border: 1px solid #2a241c;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.8); cursor: zoom-in;
+            transition: filter 0.3s, box-shadow 0.3s, transform 0.3s; transform: translateZ(1px);
+        }
+        .wall-group img:hover { filter: brightness(1.25); box-shadow: 0 12px 35px rgba(184,149,42,0.5); transform: scale(1.02) translateZ(1px); }
 
         .cartel { border-top: 1px solid var(--gold); padding-top: 9px; flex-shrink: 0; cursor: zoom-in; transition: border-color 0.25s; transform: translateZ(1px); }
         .cartel:hover { border-color: #e8c85a; }
         .cartel-title { font-family: Georgia, serif; font-size: 9.5px; color: var(--cream); letter-spacing: 0.3px; line-height: 1.4; margin-bottom: 5px; }
         .cartel-body { font-size: 8px; color: #8a7a60; line-height: 1.6; }
         .cartel-main { max-width: 160px; align-self: center; }
+        .cartel-sm   { max-width: 125px; }
 
         dialog { border: none; background: transparent; padding: 0; margin: 0; }
         dialog::backdrop { background: rgba(0,0,0,0.9); opacity: 0; transition: opacity 0.3s ease; }
@@ -144,16 +154,35 @@
             background: transparent; display: flex; align-items: center; justify-content: center;
         }
 
-        .dlg-content-flex { display: flex; gap: 80px; align-items: center; justify-content: center; max-width: 95vw; height: 86vh; }
+        .dlg-content-flex { display: flex; gap: 60px; align-items: center; justify-content: center; max-width: 95vw; height: 86vh; }
+        .dlg-img-col { display: flex; gap: 40px; align-items: center; justify-content: center; flex: 1; min-width: 0; }
         .dlg-content-flex img {
-            max-width: 74vw; max-height: 86vh; object-fit: contain;
+            max-width: 56vw; max-height: 86vh; object-fit: contain;
             border: 1px solid #2a241c; box-shadow: 0 30px 80px rgba(0,0,0,0.95);
             transform-origin: center; opacity: 0; display: block;
         }
-        .dlg-content-flex img.dlg-comp { display: none; max-width: 36vw; }
-        .dlg-content-flex.comparative img { max-width: 36vw; }
+
+        .dlg-content-flex.comparative .dlg-img-col img { max-width: 28vw; }
+        .dlg-content-flex.comparative .dlg-img-col { gap: 24px; }
+        .dlg-content-flex.comparative { gap: 36px; }
+        .dlg-content-flex.comparative .dlg-cartel-col { width: 24vw; padding-left: 28px; }
+
+        #dlg-img-comp { display: none; }
+
+        /* Cartel attaché, affiché à côté de l'œuvre dans le même lightbox */
+        .dlg-cartel-col {
+            flex-shrink: 0; width: 30vw; max-width: 420px; max-height: 78vh;
+            overflow-y: auto; padding: 10px 6px 10px 36px;
+            border-left: 1px solid var(--gold);
+            opacity: 0;
+        }
+        .dlg-cartel-col.empty { display: none; }
+        .dlg-cartel-col .full-title { font-family: Georgia, serif; font-size: 1.05rem; color: var(--cream); margin-bottom: 18px; line-height: 1.45; }
+        .dlg-cartel-col .full-body  { font-size: 0.875rem; color: #d8cea9; line-height: 1.85; }
+        .dlg-cartel-col .full-body p + p { margin-top: 1.1em; }
 
         dialog[open] .dlg-content-flex img,
+        dialog[open] .dlg-cartel-col,
         dialog[open] .inner {
             animation: appleMusicZoomIn 2s ease-in-out forwards;
         }
@@ -188,25 +217,44 @@
             from { opacity: 1; }
             to   { opacity: 0; }
         }
-    </style>
+    .btn-index {
+  position: fixed;
+  top: 2rem;
+  right: 12rem;
+  z-index: 999;
+  color: #8a827a;
+  font-family: Georgia, serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.btn-index:hover {
+  color: #c9a063;
+}
+</style>
 </head>
 <body>
+<body>
+
     <div id="curtain"></div>
 
 <header>
-    <h1>Station 05 — Judith (Florence)</h1>
-    <nav class="nav-links">
+    <h1>Station 05 - Judith et Holopherne Florence</h1>
+    <nav class="nav-links"><a href="00_index.html">Index</a>
         <a href="04_joueuse_luth.html">&larr; Station Précédente</a>
         <a href="06_judith_servante.html" class="btn-next">Station Suivante &rarr;</a>
     </nav>
 </header>
 
 <div class="controls-bar">
-    <p class="hint">Vue d'ensemble : exploration libre. Vues dédiées pour interagir avec l'œuvre.</p>
+    <p class="hint">Vue d'ensemble : exploration libre. Vues dédiées pour interagir avec les œuvres.</p>
     <div class="controls">
         <button class="active" data-view="orbit">Vue d'ensemble</button>
         <button data-view="front">Face au tableau</button>
-        <button data-view="left">Mur gauche (Analyse)</button>
+        <button data-view="left">Mur gauche — Confrontation</button>
     </div>
 </div>
 
@@ -216,10 +264,10 @@
         <div class="panel panel-front">
             <div class="artwork-wrap">
                <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_florence.jpg"
-                    alt="Judith décapitant Holopherne"
+                    alt="Judith & Holopherne de Florence"
                     data-dlg="img"
                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_florence.jpg"
-                    data-alt="Artemisia Gentileschi — Judith décapitant Holopherne (Florence)">
+                    data-alt="Artemisia Gentileschi — judith_florence">
             </div>
             
             <div class="cartel cartel-main"
@@ -227,26 +275,44 @@
                  data-title="Artemisia Gentileschi"
                  data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&#10;&#10;Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
                 <p class="cartel-title">Artemisia Gentileschi</p>
-                <p class="cartel-body">Judith décapitant Holopherne<br>Huile sur toile, v. 1620<br>Musée des Offices, Florence</p>
+                <p class="cartel-body">Judith & Holopherne-florence<br>Huile sur toile<br>Palazzo Pitti, Florence</p>
             </div>
         </div>
 
         <div class="panel panel-left">
             <div class="wall-group">
-                <div class="artwork-wrap">
-                    <img src="" alt="" data-dlg="img" data-src="" data-comp-src="" data-alt="">
-                </div>
-                <div class="artwork-wrap">
-                    <img src="" alt="" data-dlg="img" data-src="" data-comp-src="" data-alt="">
+                <img class="img-left-1"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_fede_galicia.jpg"
+                     alt="Judith de Fede Galicia"
+                     data-dlg="img"
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_fede_galicia.jpg"
+                     data-comp="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_florence.jpg"
+                     data-alt="Différence  — Fede Galicia vs Artemisia Gentileschi">
+                
+                <div class="cartel cartel-sm"
+                     data-dlg="cartel"
+                     data-title="Fede Galicia face à Artemisia"
+                     data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.">
+                    <p class="cartel-title">Fede Galicia</p>
+                    <p class="cartel-body">Judith de Florence<br>Face à face de deux visions différentes.</p>
                 </div>
             </div>
-            
-            <div class="cartel"
-                 data-dlg="cartel"
-                 data-title="Analyse de l'œuvre"
-                 data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Section en attente de texte explicatif pour la station 05.">
-                <p class="cartel-title">Confrontation / Analyse</p>
-                <p class="cartel-body">Texte explicatif à venir pour accompagner l'œuvre monumentale.</p>
+
+            <div class="wall-group">
+                <img class="img-left-2"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg"
+                     alt="Timoclea se venge du Capitaine Alessandro Magno"
+                     data-dlg="img"
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg"
+                     data-alt="Elisabetta Sirani">
+                
+                <div class="cartel cartel-sm"
+                     data-dlg="cartel"
+                     data-title="Détail de l'œuvre"
+                     data-body="Timoclea se venge du viol commis par ce capitine. Par Elisabetta Sirani qui elle aussi dirigea un atelier de peintre. Elle meurt à 27 ans empoisonnée.">
+                    <p class="cartel-title">Elisabetta Sirani</p>
+                    <p class="cartel-body">Timoclea, un autre mythe utilisé ici </p>
+                </div>
             </div>
         </div>
         
@@ -258,16 +324,14 @@
 <dialog id="dlg-img">
     <button class="btn-close" id="close-img">&#215;</button>
     <div class="dlg-content-flex" id="dlg-flex-wrapper">
-        <img id="dlg-img-main" src="" alt="">
-        <img id="dlg-img-comp" class="dlg-comp" src="" alt="">
-    </div>
-</dialog>
-
-<dialog id="dlg-cartel">
-    <button class="btn-close" id="close-cartel">&#215;</button>
-    <div class="inner">
-        <p class="full-title" id="dlg-title"></p>
-        <div class="full-body"  id="dlg-body"></div>
+        <div class="dlg-img-col">
+            <img id="dlg-img-el" src="" alt="">
+            <img id="dlg-img-comp" src="" alt="">
+        </div>
+        <div class="dlg-cartel-col empty" id="dlg-cartel-col">
+            <p class="full-title" id="dlg-img-title"></p>
+            <div class="full-body" id="dlg-img-body"></div>
+        </div>
     </div>
 </dialog>
 
@@ -356,55 +420,89 @@
 ═══════════════════════════════════════════════ */
 (function () {
     var dlgImg         = document.getElementById('dlg-img');
-    var dlgImgMain     = document.getElementById('dlg-img-main');
+    var dlgImgEl       = document.getElementById('dlg-img-el');
     var dlgImgComp     = document.getElementById('dlg-img-comp');
     var dlgFlexWrapper = document.getElementById('dlg-flex-wrapper');
-    var dlgCartel      = document.getElementById('dlg-cartel');
-    var dlgTitle       = document.getElementById('dlg-title');
-    var dlgBody        = document.getElementById('dlg-body');
+    var dlgCartelCol   = document.getElementById('dlg-cartel-col');
+    var dlgImgTitle    = document.getElementById('dlg-img-title');
+    var dlgImgBody     = document.getElementById('dlg-img-body');
+
+    document.querySelectorAll('.scene img').forEach(function (img) {
+        img.addEventListener('load', function () {
+            var p = document.getElementById('prism');
+            if (p) { p.style.display = 'none'; p.offsetHeight; p.style.display = 'block'; }
+        });
+    });
+
+    function fillCartel(cartelEl) {
+        if (!cartelEl) {
+            dlgCartelCol.classList.add('empty');
+            dlgImgTitle.textContent = '';
+            dlgImgBody.innerHTML = '';
+            return;
+        }
+        dlgCartelCol.classList.remove('empty');
+        dlgImgTitle.textContent = cartelEl.dataset.title || '';
+        dlgImgBody.innerHTML = (cartelEl.dataset.body || '')
+            .split('\n\n')
+            .map(function (p) { return '<p>' + p + '</p>'; })
+            .join('');
+    }
+
+    function openImgLightbox(imgEl) {
+        dlgImgEl.src = imgEl.dataset.src;
+        dlgImgEl.alt = imgEl.dataset.alt || '';
+
+        if (imgEl.dataset.comp) {
+            dlgImgComp.src = imgEl.dataset.comp;
+            dlgImgComp.alt = "Tableau principal de référence";
+            dlgImgComp.style.display = "block";
+            dlgFlexWrapper.classList.add('comparative');
+        } else {
+            dlgImgComp.src = "";
+            dlgImgComp.style.display = "none";
+            dlgFlexWrapper.classList.remove('comparative');
+        }
+
+        var wrap = imgEl.closest('.wall-group') || imgEl.closest('.panel-front');
+        var cartelEl = wrap ? wrap.querySelector('.cartel') : null;
+        fillCartel(cartelEl);
+
+        dlgImg.showModal();
+    }
 
     document.addEventListener('click', function (e) {
         var imgEl = e.target.closest('[data-dlg="img"]');
         if (imgEl) {
-            if (!imgEl.dataset.src && !imgEl.src) return; // Sécurité si balise vide
-            dlgImgMain.src = imgEl.dataset.src;
-            dlgImgMain.alt = imgEl.dataset.alt || '';
-
-            if (imgEl.dataset.compSrc) {
-                dlgImgComp.src = imgEl.dataset.compSrc;
-                dlgImgComp.style.display = "block";
-                dlgFlexWrapper.classList.add('comparative');
-            } else {
-                dlgImgComp.src = '';
-                dlgImgComp.style.display = "none";
-                dlgFlexWrapper.classList.remove('comparative');
-            }
-            dlgImg.showModal();
+            openImgLightbox(imgEl);
             return;
         }
 
         var cartelEl = e.target.closest('[data-dlg="cartel"]');
         if (cartelEl) {
-            dlgTitle.textContent = cartelEl.dataset.title;
-            dlgBody.innerHTML = cartelEl.dataset.body
-                .split('\n\n')
-                .map(function (p) { return '<p>' + p + '</p>'; })
-                .join('');
-            dlgCartel.showModal();
+            var wrap = cartelEl.closest('.wall-group') || cartelEl.closest('.panel-front');
+            var siblingImg = wrap ? wrap.querySelector('[data-dlg="img"]') : null;
+            if (siblingImg) {
+                openImgLightbox(siblingImg);
+            } else {
+                fillCartel(cartelEl);
+                dlgImgEl.src = ''; dlgImgComp.src = ''; dlgImgComp.style.display = 'none';
+                dlgFlexWrapper.classList.remove('comparative');
+                dlgImg.showModal();
+            }
         }
     });
 
     document.getElementById('close-img').addEventListener('click', function () { dlgImg.close(); });
-    document.getElementById('close-cartel').addEventListener('click', function () { dlgCartel.close(); });
     dlgImg.addEventListener('click', function (e) { if (e.target === dlgImg) dlgImg.close(); });
-    dlgCartel.addEventListener('click', function (e) { if (e.target === dlgCartel) dlgCartel.close(); });
 
     dlgImg.addEventListener('close', function () {
         setTimeout(function () {
-            dlgImgMain.src = '';
+            dlgImgEl.src = '';
             dlgImgComp.src = '';
             dlgImgComp.style.display = "none";
             dlgFlexWrapper.classList.remove('comparative');
+            fillCartel(null);
         }, 300);
     });
 })();
