@@ -160,10 +160,13 @@
             background: transparent; display: flex; align-items: center; justify-content: center;
         }
 
-        .dlg-content-flex { display: flex; gap: 60px; align-items: center; justify-content: center; max-width: 95vw; height: 86vh; }
-        .dlg-img-col { display: flex; gap: 40px; align-items: center; justify-content: center; flex: 1; min-width: 0; }
+        .dlg-content-flex {
+            display: flex; gap: 0; align-items: center; justify-content: flex-start;
+            max-width: 100vw; width: 100vw; height: 86vh; padding: 0 24px 0 36px;
+        }
+        .dlg-img-col { display: flex; gap: 22px; align-items: center; justify-content: center; flex: 1; min-width: 0; }
         .dlg-content-flex img {
-            max-width: 56vw; max-height: 86vh; object-fit: contain;
+            max-width: 76vw; max-height: 86vh; object-fit: contain;
             border: 1px solid #2a241c; box-shadow: 0 30px 80px rgba(0,0,0,0.95);
             transform-origin: center; opacity: 0; display: block;
         }
@@ -179,7 +182,7 @@
             justify-content: flex-start;
         }
         .dlg-content-flex.comparative.wide-imgs .dlg-img-col {
-            flex-direction: row; gap: 22px; justify-content: flex-start; align-items: center;
+            flex-direction: row; gap: 22px; justify-content: flex-start; align-items: flex-end;
             flex: 1; min-width: 0;
         }
         .dlg-content-flex.comparative.wide-imgs .dlg-img-col img {
@@ -194,8 +197,8 @@
         #dlg-img-comp { display: none; }
 
         .dlg-cartel-col {
-            flex-shrink: 0; width: 30vw; max-width: 420px; max-height: 78vh;
-            overflow-y: auto; padding: 25px 25px 25px 36px;
+            flex-shrink: 0; width: 17vw; max-width: 360px; max-height: 78vh;
+            overflow-y: auto; padding: 25px 25px 25px 22px; margin-left: 22px;
             border-left: 1px solid var(--gold); background: rgba(16,12,8,0.90);
             opacity: 0; display: flex; flex-direction: column;
         }
@@ -486,12 +489,16 @@
         var aspect1 = dlgImgEl.naturalWidth   / dlgImgEl.naturalHeight;
         var aspect2 = dlgImgComp.naturalWidth / dlgImgComp.naturalHeight;
         // côte-à-côte : hauteur identique imposée aux deux images, largeur libre selon le ratio propre de chacune
-        var widthBudgetEach = (colWidth - gap) / 2;
-        var aspectMax = Math.max(aspect1, aspect2);
-        var targetH = Math.min(maxHEach, widthBudgetEach / aspectMax);
-        dlgImgEl.style.height  = targetH + 'px';
-        dlgImgEl.style.width   = 'auto';
-        dlgImgComp.style.height = targetH + 'px';
+        // Artemisia (dlgImgComp) en pleine hauteur disponible, le comparateur (dlgImgEl, format horizontal
+        // dominant — Tintoret / Caravage) plafonné aux 2/3 de cette hauteur, les deux alignés sur le bas.
+        var ratioComp = 3 / 4;
+        var widthBudgetTotal = colWidth - gap;
+        var hFull = Math.min(maxHEach, widthBudgetTotal / (aspect2 + ratioComp * aspect1));
+        var hArtemisia  = hFull;
+        var hComparateur = hFull * ratioComp;
+        dlgImgEl.style.height   = hComparateur + 'px';
+        dlgImgEl.style.width    = 'auto';
+        dlgImgComp.style.height = hArtemisia + 'px';
         dlgImgComp.style.width  = 'auto';
     }
     window.addEventListener('resize', sizeStackImages);
