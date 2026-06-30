@@ -268,14 +268,14 @@ function tick() {
     cardEls[i].style.transform = `translate(-50%,-50%) translate3d(${d.x}px,${d.y + floatY}px,${effZ}px)`;
 
     let op = 0;
-    if (effZ > -2200 && effZ < 80) {
-      op = effZ < -900 ? (effZ+2200)/1300 : effZ > 0 ? 1-effZ/80 : 1;
+    if (effZ > -2200 && effZ < 220) {
+      op = effZ < -900 ? (effZ+2200)/1300 : effZ > 0 ? 1-effZ/220 : 1;
       op = Math.max(0, Math.min(1, op));
     }
     cardEls[i].style.opacity = op;
-    cardEls[i].style.display = (effZ > -2500 && effZ < 150) ? 'block' : 'none';
+    cardEls[i].style.display = (effZ > -2500 && effZ < 290) ? 'block' : 'none';
 
-    if (effZ > -2000 && effZ < -10 && op > 0.1) {
+    if (effZ > -2000 && effZ < 280 && op > 0.1) {
       const p = project(d.x, d.y, effZ); 
       const w = 300 * p.scale;
       const h = 220 * p.scale;
