@@ -167,6 +167,23 @@
         .dlg-content-flex.comparative { gap: 36px; }
         .dlg-content-flex.comparative .dlg-cartel-col { width: 24vw; padding-left: 28px; }
 
+        /* ── Côte-à-côte plein cadre, hauteur commune (Franck — réglage 08/10/11 généralisé) ── */
+        .dlg-content-flex.comparative.wide-imgs {
+            max-width: 100vw; width: 100vw; gap: 0; padding: 0 24px 0 36px;
+            justify-content: flex-start;
+        }
+        .dlg-content-flex.comparative.wide-imgs .dlg-img-col {
+            flex-direction: row; gap: 22px; justify-content: flex-start; align-items: center;
+            flex: 1; min-width: 0;
+        }
+        .dlg-content-flex.comparative.wide-imgs .dlg-img-col img {
+            width: auto; height: auto; max-width: none; max-height: none; object-fit: initial;
+        }
+        .dlg-content-flex.comparative.wide-imgs .dlg-cartel-col {
+            width: 17vw; flex-shrink: 0; padding-left: 22px; margin-left: 22px;
+        }
+        .dlg-content-flex.comparative.wide-imgs #dlg-img-comp { order: 1; }
+
         #dlg-img-comp { display: none; }
 
         .dlg-cartel-col {
@@ -439,6 +456,27 @@
             .join('');
     }
 
+    function sizeStackImages() {
+        if (!dlgFlexWrapper.classList.contains('wide-imgs')) return;
+        if (!dlgImgEl.naturalWidth || !dlgImgComp.naturalWidth) return;
+        var col = dlgImgEl.closest('.dlg-img-col');
+        if (!col) return;
+        var colWidth = col.getBoundingClientRect().width || (window.innerWidth * 0.55);
+        var gap = 22;
+        var maxHEach = window.innerHeight * 0.84;
+        var aspect1 = dlgImgEl.naturalWidth   / dlgImgEl.naturalHeight;
+        var aspect2 = dlgImgComp.naturalWidth / dlgImgComp.naturalHeight;
+        // côte-à-côte : hauteur identique imposée aux deux images, largeur libre selon le ratio propre de chacune
+        var widthBudgetEach = (colWidth - gap) / 2;
+        var aspectMax = Math.max(aspect1, aspect2);
+        var targetH = Math.min(maxHEach, widthBudgetEach / aspectMax);
+        dlgImgEl.style.height  = targetH + 'px';
+        dlgImgEl.style.width   = 'auto';
+        dlgImgComp.style.height = targetH + 'px';
+        dlgImgComp.style.width  = 'auto';
+    }
+    window.addEventListener('resize', sizeStackImages);
+
     function openImgLightbox(imgEl) {
         dlgImgEl.src = imgEl.dataset.src;
         dlgImgEl.alt = imgEl.dataset.alt || '';
@@ -448,10 +486,15 @@
             dlgImgComp.alt = "Tableau principal de référence";
             dlgImgComp.style.display = "block";
             dlgFlexWrapper.classList.add('comparative');
+            dlgFlexWrapper.classList.add('wide-imgs');
+            dlgImgEl.onload = sizeStackImages;
+            dlgImgComp.onload = sizeStackImages;
+            requestAnimationFrame(function () { requestAnimationFrame(sizeStackImages); });
         } else {
             dlgImgComp.src = "";
             dlgImgComp.style.display = "none";
             dlgFlexWrapper.classList.remove('comparative');
+            dlgFlexWrapper.classList.remove('wide-imgs');
         }
 
         var wrap = imgEl.closest('.wall-group') || imgEl.closest('.panel-front');
@@ -478,6 +521,7 @@
                 fillCartel(cartelEl);
                 dlgImgEl.src = ''; dlgImgComp.src = ''; dlgImgComp.style.display = 'none';
                 dlgFlexWrapper.classList.remove('comparative');
+            dlgFlexWrapper.classList.remove('wide-imgs');
                 dlgImg.showModal();
             }
         }
@@ -489,9 +533,14 @@
     dlgImg.addEventListener('close', function () {
         setTimeout(function () {
             dlgImgEl.src = '';
+            dlgImgEl.style.width = '';
+            dlgImgEl.style.height = '';
             dlgImgComp.src = '';
             dlgImgComp.style.display = "none";
+            dlgImgComp.style.width = '';
+            dlgImgComp.style.height = '';
             dlgFlexWrapper.classList.remove('comparative');
+            dlgFlexWrapper.classList.remove('wide-imgs');
             fillCartel(null);
         }, 300);
     });
