@@ -73,18 +73,18 @@
 
     /* Media query TOUJOURS en dernier, pour gagner la priorité sur mobile */
     @media (max-width: 700px) {
-      .scene { perspective: 500px; }
-      .wall {
-        width: 320px;
-        height: 320px;
-        margin-top: -160px;
-        margin-left: -160px;
-      }
-      .wall-center { transform: translateZ(-160px); }
-      .wall-left   { transform: rotateY(90deg)  translateZ(-160px); }
-      .wall-right  { transform: rotateY(-90deg) translateZ(-160px); }
-      .ceiling     { transform: rotateX(-90deg) translateZ(-160px); }
-    }
+  .scene { perspective: 400px; }
+  .wall {
+    width: 70vw;
+    height: 70vw;
+    margin-top: -35vw;
+    margin-left: -35vw;
+  }
+  .wall-center { transform: translateZ(-35vw); }
+  .wall-left   { transform: rotateY(90deg)  translateZ(-35vw); }
+  .wall-right  { transform: rotateY(-90deg) translateZ(-35vw); }
+  .ceiling     { transform: rotateX(-90deg) translateZ(-35vw); }
+}
   </style>
 </head>
 <body>
