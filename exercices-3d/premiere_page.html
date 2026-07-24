@@ -5,38 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expo Artemisia - Salle 3D</title>
   <style>
-    @media (max-width: 700px) {
-  .scene {
-    perspective: 500px;
-  }
-  .wall {
-    width: 320px;
-    height: 320px;
-    margin-top: -160px;
-    margin-left: -160px;
-  }
-  .wall-center { transform: translateZ(-160px); }
-  .wall-left   { transform: rotateY(90deg)  translateZ(-160px); }
-  .wall-right  { transform: rotateY(-90deg) translateZ(-160px); }
-  .ceiling     { transform: rotateX(-90deg) translateZ(-160px); }
-}
-
-    /* Reset de base : annule les marges/paddings par défaut du navigateur,
-       et fait en sorte que les bordures ne s'ajoutent pas à la largeur/hauteur définies */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* LA SCÈNE = la fenêtre fixe par laquelle on regarde. Ne bouge jamais. */
     .scene {
       width: 100vw;
       height: 100vh;
-      perspective: 800px;              /* distance de l'œil virtuel à la scène */
-      perspective-origin: 50% 50%;      /* l'œil est centré au milieu de l'écran */
+      perspective: 800px;
+      perspective-origin: 50% 50%;
       overflow: hidden;
-      background: #1a0f08;              /* brun très foncé */
+      background: #1a0f08;
     }
 
-    /* LA PIÈCE = le volume qu'on fait tourner. Ses enfants (les murs)
-       doivent rester en 3D entre eux grâce à preserve-3d. */
     .room {
       width: 100%;
       height: 100%;
@@ -44,16 +23,14 @@
       transform-style: preserve-3d;
     }
 
-    /* Réglages communs aux 3 murs : taille, centrage au milieu de .room,
-       bordure dorée, fond légèrement plus clair que la scène */
     .wall {
       position: absolute;
       width: 600px;
       height: 600px;
       top: 50%;
       left: 50%;
-      margin-top: -200px;   /* la moitié de la hauteur, pour centrer verticalement */
-      margin-left: -300px;  /* la moitié de la largeur, pour centrer horizontalement */
+      margin-top: -200px;
+      margin-left: -300px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -61,40 +38,53 @@
       background: #2a1810;
     }
 
-    /* Chaque mur reculé de la même distance (-300px) = même distance au centre.
-       wall-left et wall-right tournés à 90°/-90° = même angle, symétrique. */
     .wall-center { transform: translateZ(-300px); }
     .wall-left   { transform: rotateY(90deg)  translateZ(-300px); }
     .wall-right  { transform: rotateY(-90deg) translateZ(-300px); }
 
     .ceiling {
-  transform: rotateX(-90deg) translateZ(-300px);
-  transform-style: preserve-3d;
-}
-.projecteur {
-  position: absolute;
-  width: 60px;
-  height: 25px;
-  background: #1a1a1a;
-  border: 1px solid #b8952a;
-  border-radius: 4px;
-  transform: translateZ(20px);
-  transform-style: preserve-3d;
-}
-.proj-centre {
-  top: 50%;
-  left: 50%;
-  margin-top: -12px;
-  margin-left: -30px;
-}
-.proj-gauche {
-  top: 50%;
-  left: 38%;
-  margin-top: -12px;
-  margin-left: -30px;
-    transform:  rotateX(-90deg);
+      transform: rotateX(-90deg) translateZ(-300px);
+      transform-style: preserve-3d;
+    }
 
-}
+    .projecteur {
+      position: absolute;
+      width: 60px;
+      height: 25px;
+      background: #1a1a1a;
+      border: 1px solid #b8952a;
+      border-radius: 4px;
+      transform: translateZ(20px);
+      transform-style: preserve-3d;
+    }
+    .proj-centre {
+      top: 50%;
+      left: 50%;
+      margin-top: -12px;
+      margin-left: -30px;
+    }
+    .proj-gauche {
+      top: 50%;
+      left: 38%;
+      margin-top: -12px;
+      margin-left: -30px;
+      transform: translateZ(20px) rotateY(90deg);
+    }
+
+    /* Media query TOUJOURS en dernier, pour gagner la priorité sur mobile */
+    @media (max-width: 700px) {
+      .scene { perspective: 500px; }
+      .wall {
+        width: 320px;
+        height: 320px;
+        margin-top: -160px;
+        margin-left: -160px;
+      }
+      .wall-center { transform: translateZ(-160px); }
+      .wall-left   { transform: rotateY(90deg)  translateZ(-160px); }
+      .wall-right  { transform: rotateY(-90deg) translateZ(-160px); }
+      .ceiling     { transform: rotateX(-90deg) translateZ(-160px); }
+    }
   </style>
 </head>
 <body>
@@ -105,34 +95,40 @@
       <div class="wall wall-center"><h2>MUR CENTRAL</h2></div>
       <div class="wall wall-right"><h2>MUR DROIT</h2></div>
       <div class="wall ceiling">
-  <h2>PLAFOND</h2>
-  <div class="projecteur proj-centre"></div>
-  <div class="projecteur proj-gauche"></div>
-</div>
-</div>
+        <h2>PLAFOND</h2>
+        <div class="projecteur proj-centre"></div>
+        <div class="projecteur proj-gauche"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
   (function () {
     var scene = document.querySelector('.scene');
     var room = document.querySelector('.room');
 
-    var maxAngleY = 25; // amplitude horizontale max (gauche/droite), en degrés
-    var maxAngleX = 6;  // amplitude verticale max (haut/bas), volontairement petite
+    var maxAngleY = 25;
+    var maxAngleX = 6;
+
+    scene.addEventListener('mousemove', function (e) {
+      var rect = scene.getBoundingClientRect();
+      var xPercent = (e.clientX - rect.left) / rect.width - 0.5;
+      var yPercent = (e.clientY - rect.top) / rect.height - 0.5;
+      var angleY = xPercent * maxAngleY * 2;
+      var angleX = -yPercent * maxAngleX * 2;
+      room.style.transform = 'rotateX(' + angleX + 'deg) rotateY(' + angleY + 'deg)';
+    });
 
     scene.addEventListener('touchmove', function (e) {
-  var touch = e.touches[0];
-  var rect = scene.getBoundingClientRect();
+      var touch = e.touches[0];
+      var rect = scene.getBoundingClientRect();
+      var xPercent = (touch.clientX - rect.left) / rect.width - 0.5;
+      var yPercent = (touch.clientY - rect.top) / rect.height - 0.5;
+      var angleY = xPercent * maxAngleY * 2;
+      var angleX = -yPercent * maxAngleX * 2;
+      room.style.transform = 'rotateX(' + angleX + 'deg) rotateY(' + angleY + 'deg)';
+    }, { passive: true });
 
-  var xPercent = (touch.clientX - rect.left) / rect.width - 0.5;
-  var yPercent = (touch.clientY - rect.top) / rect.height - 0.5;
-
-  var angleY = xPercent * maxAngleY * 2;
-  var angleX = -yPercent * maxAngleX * 2;
-
-  room.style.transform = 'rotateX(' + angleX + 'deg) rotateY(' + angleY + 'deg)';
-}, { passive: true });
-
-    // quand la souris quitte la scène, la pièce revient à sa position de départ
     scene.addEventListener('mouseleave', function () {
       room.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
