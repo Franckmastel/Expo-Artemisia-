@@ -13,7 +13,7 @@
       perspective: 800px;
       perspective-origin: 50% 50%;
       overflow: hidden;
-      background: #1a0f08;
+      background: #0d0d0d;
     }
 
     .room {
@@ -34,8 +34,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #b8952a;
-      background: #2a1810;
+      border: 1px solid #b8952a;
+      background: #0c0906;
     }
 
     .wall-center { transform: translateZ(-300px); }
@@ -79,6 +79,11 @@
   .wall-right  { transform: rotateY(-90deg) translateZ(-35vw); }
   .ceiling     { transform: rotateX(-90deg) translateZ(-35vw); }
 }
+.wall-center img {
+  width: auto;
+  max-height: 57%;
+  object-fit: contain;
+}
   </style>
 </head>
 <body>
@@ -86,7 +91,10 @@
   <div class="scene">
     <div class="room">
       <div class="wall wall-left"><h2>MUR GAUCHE</h2></div>
-      <div class="wall wall-center"><h2>MUR CENTRAL</h2></div>
+      <div class="wall wall-center">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg"
+        alt="Suzanne et les vieillards">
+      </div>
       <div class="wall wall-right"><h2>MUR DROIT</h2></div>
       <div class="wall ceiling">
         <h2>PLAFOND</h2>
