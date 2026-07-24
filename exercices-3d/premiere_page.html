@@ -47,6 +47,18 @@
       width: auto;
       object-fit: contain;
     }
+    .wall-left .wall-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      height: 20%;
+    }
+    .wall-left .wall-group img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
 
     .ceiling {
       transform: rotateX(-90deg) translateZ(-300px);
@@ -90,7 +102,14 @@
 
   <div class="scene">
     <div class="room">
-      <div class="wall wall-left"><h2>MUR GAUCHE</h2></div>
+      <div class="wall wall-left">
+        <div class="wall-group">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_tintoret.jpg"
+         alt="Le Tintoret — Suzanne">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_mains.jpeg"
+         alt="Détail des mains">
+        </div>
+      </div>
       <div class="wall wall-center">
         <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg"
              alt="Suzanne et les vieillards">
