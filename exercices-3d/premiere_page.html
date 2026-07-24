@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expo Artemisia - Salle 3D</title>
   <style>
+    @media (max-width: 700px) {
+  .scene {
+    perspective: 500px;
+  }
+  .wall {
+    width: 320px;
+    height: 320px;
+    margin-top: -160px;
+    margin-left: -160px;
+  }
+  .wall-center { transform: translateZ(-160px); }
+  .wall-left   { transform: rotateY(90deg)  translateZ(-160px); }
+  .wall-right  { transform: rotateY(-90deg) translateZ(-160px); }
+  .ceiling     { transform: rotateX(-90deg) translateZ(-160px); }
+}
 
     /* Reset de base : annule les marges/paddings par défaut du navigateur,
        et fait en sorte que les bordures ne s'ajoutent pas à la largeur/hauteur définies */
@@ -104,22 +119,18 @@
     var maxAngleY = 25; // amplitude horizontale max (gauche/droite), en degrés
     var maxAngleX = 6;  // amplitude verticale max (haut/bas), volontairement petite
 
-    scene.addEventListener('mousemove', function (e) {
-      // position et taille réelles de .scene à l'écran
-      var rect = scene.getBoundingClientRect();
+    scene.addEventListener('touchmove', function (e) {
+  var touch = e.touches[0];
+  var rect = scene.getBoundingClientRect();
 
-      // position de la souris DANS la scène, ramenée entre -0.5 et +0.5
-      var xPercent = (e.clientX - rect.left) / rect.width - 0.5;
-      var yPercent = (e.clientY - rect.top) / rect.height - 0.5;
+  var xPercent = (touch.clientX - rect.left) / rect.width - 0.5;
+  var yPercent = (touch.clientY - rect.top) / rect.height - 0.5;
 
-      // conversion en degrés de rotation, sur les deux axes à la fois
-      var angleY = xPercent * maxAngleY * 2;
-      var angleX = -yPercent * maxAngleX * 2; // signe inversé pour un mouvement naturel
+  var angleY = xPercent * maxAngleY * 2;
+  var angleX = -yPercent * maxAngleX * 2;
 
-      // IMPORTANT : les deux rotations doivent être écrites ensemble,
-      // dans la même chaîne transform, sinon la deuxième écrase la première
-      room.style.transform = 'rotateX(' + angleX + 'deg) rotateY(' + angleY + 'deg)';
-    });
+  room.style.transform = 'rotateX(' + angleX + 'deg) rotateY(' + angleY + 'deg)';
+}, { passive: true });
 
     // quand la souris quitte la scène, la pièce revient à sa position de départ
     scene.addEventListener('mouseleave', function () {
