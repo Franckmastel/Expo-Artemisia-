@@ -1,9 +1,205 @@
-(function () {
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expo Artemisia - Salle 3D</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .scene {
+      width: 100vw;
+      height: 100vh;
+      perspective: 800px;
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+
+    .room {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .wall {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #3a3028;
+      background: #0c0906;
+      color: #fff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      gap: 16px;
+    }
+    .wall-item {
+      display: flex;
+      align-items: center;
+      height: 20%;
+      gap: 10px;
+}
+
+   .wall-center {
+  transform: translateZ(-300px);
+ /* nécessaire pour que le cartel s'ancre par rapport à ce mur, pas à toute la page */
+}
+.wall-center .cartel {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+    .wall-left   { transform: rotateY(90deg)  translateZ(-300px); }
+    .wall-right  { transform: rotateY(-90deg) translateZ(-300px); }
+
+    /* Image du mur central */
+    .wall-center img {
+      max-height: 57%;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* Cartel générique */
+    .cartel {
+      border-top: 1px solid #b8952a;
+      padding-top: 6px;
+      max-width: 23%;
+    }
+    .cartel-title {
+      font-family: Georgia, serif;
+      font-size: 11px;
+      color: #e8dcc8;
+      margin-bottom: 4px;
+    }
+    .cartel-body {
+      font-size: 9px;
+      color: #9a8a6e;
+      line-height: 1.5;
+    }
+    .cartel-sm {
+      max-width: 18%;
+    }
+
+    /* Mur gauche — deux images côte à côte, chacune avec son cartel */
+    .wall-left .wall-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      height: 90%;
+    }
+    .wall-left .wall-group img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+    
+   
+
+    /* Plafond */
+    .ceiling {
+      transform: rotateX(-90deg) translateZ(-300px);
+      transform-style: preserve-3d;
+    }
+    .projecteur {
+      position: absolute;
+      width: 60px;
+      height: 25px;
+      background: #1a1a1a;
+      border: 1px solid #b8952a;
+      border-radius: 4px;
+      transform: translateZ(20px);
+      transform-style: preserve-3d;
+    }
+    .proj-centre {
+      top: 50%;
+      left: 50%;
+      margin-top: -12px;
+      margin-left: -30px;
+    }
+
+    /* Media query TOUJOURS en dernier, pour gagner la priorité sur mobile */
+    @media (max-width: 700px) {
+      .scene { perspective: 400px; }
+      .wall {
+        width: 70vw;
+        height: 70vw;
+        margin-top: -35vw;
+        margin-left: -35vw;
+      }
+      .wall-center { transform: translateZ(-35vw); }
+      .wall-left   { transform: rotateY(90deg)  translateZ(-35vw); }
+      .wall-right  { transform: rotateY(-90deg) translateZ(-35vw); }
+      .ceiling     { transform: rotateX(-90deg) translateZ(-35vw); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene">
+    <div class="room">
+
+      <div class="wall wall-left">
+        <div class="wall-group">
+          <div class="wall-item">
+            <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_tintoret.jpg"
+                 alt="Le Tintoret — Suzanne">
+            <div class="cartel cartel-sm">
+              <p class="cartel-title">Jacopo Tintoretto</p>
+              <p class="cartel-body">Suzanne et les vieillards, v. 1555</p>
+            </div>
+          </div>
+          <div class="wall-item">
+            <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_mains.jpeg"
+                 alt="Détail des mains">
+            <div class="cartel cartel-sm">
+              <p class="cartel-title">Détail des mains</p>
+              <p class="cartel-body">Double geste de refus et de protection.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wall wall-center">
+        <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg"
+             alt="Suzanne et les vieillards">
+        <div class="cartel">
+          <p class="cartel-title">Suzanne et les vieillards</p>
+          <p class="cartel-body">1610<br>Huile sur toile, 170 × 121 cm<br>Collection particulière</p>
+        </div>
+      </div>
+
+      <div class="wall wall-right">
+          <h2></h2>
+          <div class="cartel">
+          <p class="cartel-title">Titre à définir</p>
+          <p class="cartel-body">Texte à définir</p>
+          </div>
+      </div>
+
+      <div class="wall ceiling">
+        <h2>PLAFOND</h2>
+        <div class="projecteur proj-centre"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function () {
     var scene = document.querySelector('.scene');
     var room = document.querySelector('.room');
 
     var maxAngleY = 25;
-    var maxAngleX = 6;
+    var maxAngleX = 3;
 
     scene.addEventListener('mousemove', function (e) {
       var rect = scene.getBoundingClientRect();
@@ -30,3 +226,6 @@
     });
   })();
   </script>
+
+</body>
+</html>
