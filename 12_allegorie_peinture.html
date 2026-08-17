@@ -97,6 +97,7 @@
         .panel-right { transform: translateX(450px)  rotateY(-90deg); background: #090704; }
 
         .scene[data-view="left"] .panel-right { display: none; }
+        .scene[data-view="right"] .panel-left { display: none; }
 
         .floor {
             position: absolute;
@@ -116,22 +117,22 @@
         }
 
         /* ── Face avant ── */
-        .panel-front { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 24px 48px; }
-        .artwork-wrap { flex-shrink: 0; transform: translateZ(2px); width: 310px; height: 420px; }
-        .artwork-wrap img {
-            display: block; width: 100%; height: 100%; object-fit: contain;
-            border: 1px solid #2a241c; box-shadow: 0 16px 48px rgba(0,0,0,0.9);
-            cursor: zoom-in; transition: filter 0.3s, box-shadow 0.3s, transform 0.3s;
-        }
-        .artwork-wrap img:hover { filter: brightness(1.15); box-shadow: 0 16px 60px rgba(184,149,42,0.4); transform: scale(1.02); }
+        .panel-front { display: flex; align-items: center; justify-content: center; gap: 40px; padding: 24px 48px; }
+        .img-front-1 { width: 230px; height: 310px; object-fit: contain; background: #0a0806; }
+        .img-front-2 { width: 195px; height: 380px; object-fit: contain; background: #0a0806; }
 
         /* ── Mur gauche ── */
         .panel-left { display: flex; align-items: center; justify-content: center; gap: 48px; padding: 24px 56px; }
         .wall-group { display: flex; align-items: center; gap: 12px; }
         .panel-left .wall-group { transform: translate3d(0, -35px, 2px); transform-style: preserve-3d; }
 
-        .img-left-1 { width: 230px; height: 145px; object-fit: contain; background: #0a0806; }
-        .img-left-2 { width: 185px; height: 145px; object-fit: contain; background: #0a0806; }
+        .img-left-1 { width: 110px; height: 145px; object-fit: contain; background: #0a0806; }
+        .img-left-2 { width: 280px; height: 380px; object-fit: contain; background: #0a0806; }
+
+        /* ── Mur droit ── */
+        .panel-right { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 24px 48px; }
+        .panel-right .wall-group { transform: translate3d(0, 0, 2px); transform-style: preserve-3d; }
+        .img-right-1 { width: 310px; height: 420px; object-fit: contain; background: #0a0806; }
 
         .wall-group img {
             display: block; flex-shrink: 0; border: 1px solid #2a241c;
@@ -259,7 +260,6 @@
     <h1>Station 12 — Allégorie de la Peinture</h1>
     <nav class="nav-links"><a href="00_index.html">Index</a>
         <a href="11_saint_jean.html">&larr; Station Précédente</a>
-        <a href="fin.html" class="btn-next">Sortie de l'exposition &rarr;</a>
     </nav>
 </header>
 
@@ -269,6 +269,7 @@
         <button class="active" data-view="orbit">Vue d'ensemble</button>
         <button data-view="front">Face au tableau</button>
         <button data-view="left">Mur gauche</button>
+        <button data-view="right">Mur droit</button>
     </div>
 </div>
 
@@ -276,61 +277,103 @@
     <div class="prism" id="prism">
 
         <div class="panel panel-front">
-            <div class="artwork-wrap">
-               <img src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg"
-                    alt="Autoportrait en allégorie de la peinture"
-                    data-dlg="img"
-                    data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg"
-                    data-alt="Artemisia Gentileschi — Autoportrait en allégorie de la peinture">
+            <div class="wall-group">
+                <img class="img-front-1"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_femme_a_l_eventail.jpg"
+                     alt="Portrait d'une dame tenant un éventail"
+                     data-dlg="img"
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_femme_a_l_eventail.jpg"
+                     data-alt="Artemisia Gentileschi — Portrait d'une dame tenant un éventail">
+
+                <div class="cartel cartel-main"
+                     data-dlg="cartel"
+                     data-title="Artemisia Gentileschi"
+                     data-body="La composition la place en légère contre-plongée : elle domine le regard de qui l'observe, la tête haute, le regard hautain. Le visage rappelle celui de la Pittura, peinte plus tard, pinceau en main. Les historiens ne s'accordent pas sur qui est cette femme. Certains y voient un autoportrait déguisé sous une richesse d'étoffe inhabituelle chez Artemisia. D'autres jugent l'hypothèse peu probable, justement à cause de ce luxe. Le doute reste entier.">
+                    <p class="cartel-title">Artemisia Gentileschi</p>
+                    <p class="cartel-body">Portrait d'une dame tenant un éventail, v. 1620-1625<br>Huile sur toile<br>Ordre Souverain Militaire de Malte</p>
+                </div>
             </div>
-            
-            <div class="cartel cartel-main"
-                 data-dlg="cartel"
-                 data-title="Artemisia Gentileschi"
-                 data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&#10;&#10;Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
-                <p class="cartel-title">Artemisia Gentileschi</p>
-                <p class="cartel-body">Autoportrait en allégorie de la peinture, v. 1638-1639<br>Huile sur toile, 98.6 × 75.2 cm<br>Royal Collection, Londres</p>
+
+            <div class="wall-group">
+                <img class="img-front-2"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_il_Condottiero_Bologna.jpeg"
+                     alt="Portrait d'un d'un chevalier de l'ordre de Saint Maurice et Lazare"
+                     data-dlg="img"
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_il_Condottiero_Bologna.jpeg"
+                     data-alt="Artemisia Gentileschi — Portrait d'un condottiere">
+
+                <div class="cartel cartel-main"
+                     data-dlg="cartel"
+                     data-title="Artemisia Gentileschi"
+                     data-body="1622. Huile sur toile, 208,4 × 128,4 cm. Palazzo d'Accursio, Bologne. <br>
+Peint peu après son retour de Florence, ce portrait en pied marque une nouvelle étape dans la carrière d'Artemisia : celle des commandes officielles. On ne confie pas le portrait d'un dignitaire pontifical à n'importe quel peintre, et cette toile atteste d'une reconnaissance institutionnelle déjà acquise. La croix d'argent de l'ordre, le ruban vert, la bannière pontificale et le casque à panache disent le rang du modèle. Mais c'est la lumière qui fait le travail d'Artemisia : elle découpe la silhouette, projette une ombre nette sur le mur, révèle chaque matière, le métal, le velours, la fourrure, avec une précision qui dépasse la simple obligation protocolaire. Le visage, à la fois formel et presque jovial, échappe à la raideur habituelle du genre.
+">
+                    <p class="cartel-title">Artemisia Gentileschi</p>
+                    <p class="cartel-body">Portrait d'un chevalier de l'ordre de Saint Maurice et Lazare, 1622<br>Huile sur toile, 208.4 × 128.4 cm<br>Palazzo d'Accursio, Bologne</p>
+                </div>
             </div>
         </div>
 
         <div class="panel panel-left">
             <div class="wall-group">
                 <img class="img-left-1"
-                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_Rembrandt.jpg"
-                     alt="Rembrandt — Autoportrait"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_main_artemisia.jpeg"
+                     alt="Pierre Dumonstier le Jeune — Main d'Artemisia Gentileschi tenant un pinceau"
                      data-dlg="img"
-                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_Rembrandt.jpg"
-                     data-comp="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg"
-                     data-alt="Rembrandt — Autoportrait en peintre au travail, 1660">
-                
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_main_artemisia.jpeg"
+                     data-alt="Pierre Dumonstier le Jeune — Main d'Artemisia Gentileschi tenant un pinceau, 1625">
+
                 <div class="cartel cartel-sm"
                      data-dlg="cartel"
-                     data-title="Rembrandt — Autoportrait en peintre au travail"
-                     data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Analyse comparative sur la posture de l'artiste face à son chevalet et l'affirmation du statut social et intellectuel du peintre au XVIIe siècle.">
-                    <p class="cartel-title">Rembrandt</p>
-                    <p class="cartel-body">Autoportrait au travail, 1660<br>La mise en scène de l'artiste face à la matière et au temps.</p>
+                     data-title="Pierre Dumonstier le Jeune"
+                     data-body="Fin décembre 1625, à Rome, 
+Pierre Dumonstier le Jeune dessine une main. <br> Celle d'Artemisia Gentileschi, tenant un pinceau. Cette main a peint tout ce qui précède. Un contemporain choisit de la fixer telle quelle, sans visage, sans oeuvre achevée. Le dernier regard porté sur elle, dans cette exposition, n'est pas le sien.
+.">
+                    <p class="cartel-title">Pierre Dumonstier le Jeune</p>
+                    <p class="cartel-body">Main d'Artemisia Gentileschi tenant un pinceau, 1625<br>British Museum, Londres</p>
                 </div>
             </div>
 
             <div class="wall-group">
                 <img class="img-left-2"
-                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_symbolique.jpg"
-                     alt="Détail — Symboles"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg"
+                     alt="Autoportrait en allégorie de la peinture"
                      data-dlg="img"
-                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_symbolique.jpg"
-                     data-alt="Détail — Iconographie de la Pittura (Crop)">
-                
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg"
+                     data-alt="Artemisia Gentileschi — Autoportrait en allégorie de la peinture">
+
                 <div class="cartel cartel-sm"
                      data-dlg="cartel"
-                     data-title="Détail iconographique — La Pittura"
-                     data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Focus technique et théorique sur le masque pendant au cou (symbole de l'imitation), les cheveux en bataille et les vêtements changeants décrits par Cesare Ripa.">
-                    <p class="cartel-title">Détail symbolique</p>
-                    <p class="cartel-body">Les attributs de la peinture selon l'Iconologia.</p>
+                     data-title="Artemisia Gentileschi"
+                     data-body="Autoportrait en allégorie de la Peinture (La Pittura)<br>
+v. 1638-1639. Huile sur toile, 98,6 × 75,2 cm. Royal Collection, Londres.<br><br>
+Ici, pour la première fois dans tout ce parcours, Artemisia ne joue aucun rôle. Elle se peint en Pittura elle-même, cheveux défaits, palette en main, suivant les attributs que Cesare Ripa donnait à cette allégorie dans son manuel de référence. Mais Ripa décrivait une figure féminine, et prescrivait aussi une bouche bâillonnée, car la peinture serait muette. Artemisia reprend tout, sauf le bâillon. L'historienne Mary Garrard y voit une revendication : ce que Ripa réservait aux femmes, elle seule pouvait l'incarner. Ce qu'il leur retirait, la voix, elle a choisi de le garder.
+">
+                    <p class="cartel-title">Artemisia Gentileschi</p>
+                    <p class="cartel-body">Autoportrait en allégorie de la peinture (La pittura) v. 1638-1639<br>Huile sur toile, 98.6 × 75.2 cm<br>Royal Collection, Londres</p>
                 </div>
             </div>
         </div>
         
-        <div class="panel panel-right"></div>
+        <div class="panel panel-right">
+            <div class="wall-group">
+                <img class="img-right-1"
+                     src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_sainte_catherine.jpeg"
+                     alt="Autoportrait en sainte Catherine d'Alexandrie"
+                     data-dlg="img"
+                     data-src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_sainte_catherine.jpeg"
+                     data-alt="Artemisia Gentileschi — Autoportrait en sainte Catherine d'Alexandrie">
+
+                <div class="cartel cartel-main"
+                     data-dlg="cartel"
+                     data-title="Autoportrait en Sainte Catherine d'Alexandrie  v Florence 1615 1617"
+                     data-body="Catherine était princesse et lettrée. Des philosophes furent envoyés pour la convaincre de renoncer à sa foi. Elle les convainc, eux, plutôt que l'inverse. Condamnée pour ce refus à la roue, elle en sort intacte, sauvée avant le supplice. Artemisia se peint dans ce rôle précis, tenant la palme et la roue brisée, non pas comme une victime, mais comme une femme qui a déjà gagné son argument. Cet autoportrait précède de vingt ans la femme qui négociera ses prix avec des collectionneurs, refusera qu'on la traite en débutante, revendiquera l'égalité avec n'importe quel peintre homme.
+">
+                    <p class="cartel-title">Artemisia Gentileschi</p>
+                    <p class="cartel-body">Autoportrait en sainte Catherine d'Alexandrie, v. 1615-1617<br>Huile sur toile<br>National Gallery, Londres</p>
+                </div>
+            </div>
+        </div>
         <div class="floor"></div>
     </div>
 </div>
@@ -355,7 +398,7 @@
    1. ORBITE SOURIS
 ═══════════════════════════════════════════════ */
 (function () {
-    var BASE_X = 0, BASE_Y = -25, MAX = 10;
+    var BASE_X = 0, BASE_Y = 0, MAX = 22;
     var scene = document.getElementById('scene');
     var prism = document.getElementById('prism');
     var tX = BASE_X, tY = BASE_Y;
@@ -368,8 +411,8 @@
         if (!window._orbit.active) { raf = null; return; }
         cX += (tX - cX) * 0.07;
         cY += (tY - cY) * 0.07;
-        var scale = window.innerWidth < 1100 ? window.innerWidth / 1150 : 1;
-        var finalZ = 350 * scale;
+       var scale = Math.min(1.25, window.innerWidth / 1150);
+        var finalZ = 150* scale;
         prism.style.transform = 'scale(' + scale + ') translateZ(' + finalZ + 'px) rotateX(' + cX + 'deg) rotateY(' + cY + 'deg)';
         if (Math.abs(tX - cX) > 0.02 || Math.abs(tY - cY) > 0.02) {
             raf = requestAnimationFrame(tick);
@@ -399,16 +442,26 @@
 (function () {
     var prism = document.getElementById('prism');
     var VIEWS = {
-        orbit: { x: 0, y: -25, z: 350, orbit: true  },
+       orbit: { x: 0, y: 0, z: 150, orbit: true  },
         front: { x: 0, y: 0,   z: 480, orbit: false },
-        left:  { x: 0, y: -90, z: 450, orbit: false }
+        left:  { x: 0, y: -90, z: 450, orbit: false },
+        right: { x: 0, y:  90, z: 450, orbit: false }
     }
+
+    var HINTS = {
+        orbit: '',
+        front: 'Vue : face au tableau',
+        left:  'Vue : mur gauche',
+        right: 'Vue : mur droit'
+    };
 
     function setView(name) {
         var v = VIEWS[name];
         window._orbit.active = false;
         document.getElementById('scene').setAttribute('data-view', name);
-        var scale = window.innerWidth < 1100 ? window.innerWidth / 1150 : 1;
+        var hintEl = document.querySelector('.hint');
+        if (hintEl) hintEl.textContent = HINTS[name] || '';
+        var scale = Math.min(1.25, window.innerWidth / 1150);
         var finalZ = v.z * scale;
         prism.style.transition = 'transform 1.1s cubic-bezier(0.4, 0, 0.2, 1)';
         prism.style.transform  = 'scale(' + scale + ') translateZ(' + finalZ + 'px) rotateX(' + v.x + 'deg) rotateY(' + v.y + 'deg)';
