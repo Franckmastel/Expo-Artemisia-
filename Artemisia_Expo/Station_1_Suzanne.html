@@ -55,17 +55,25 @@
   .placeholder{font-family:sans-serif;font-size:36px;color:#fff;font-weight:600;letter-spacing:2px;}
   /* Tableau : 162 x 199 cm reels, soit 324 x 398 px a cette echelle. */
   .artwork{display:block;box-shadow:0 20px 50px rgba(0,0,0,0.6);flex-shrink:0;cursor:zoom-in;}
-  /* Cartel : 30cm de large x 50cm de haut reels (60 x 100 px), vertical.
-     Ancre par le haut : si le texte est long, il s'allonge vers le bas. */
+  /* Cartel : 30 cm x 50 cm reels (60 x 100 px).
+     Le format physique reste fixe ; les textes longs se lisent dans une zone deroulante. */
   .cartel{
     position:absolute;top:calc(50% - 50px);
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
+  .cartel strong{display:block;font-size:7.6px;margin-bottom:3px;line-height:1.12;}
+  .cartel .cartel-preview{margin:0;font-size:5.8px;line-height:1.15;color:#333;}
+  .cartel details{margin-top:3px;font-size:5.8px;line-height:1.18;color:#333;}
+  .cartel summary{cursor:pointer;color:#6c543b;font-weight:bold;list-style:none;border-top:1px solid #b9ad9d;padding-top:2px;}
+  .cartel summary::-webkit-details-marker{display:none;}
+  .cartel details[open]{position:absolute;inset:0;background:#f2ede3;padding:6px;z-index:5;overflow:auto;box-sizing:border-box;}
+  .cartel details[open] summary{position:sticky;top:-6px;background:#f2ede3;padding:2px 0 3px;border-top:0;border-bottom:1px solid #b9ad9d;margin-bottom:4px;}
+  .cartel .cartel-full{margin:0;white-space:pre-line;}
+
+  #hud{position:fixed;top:16px;left:16px;color:#0f0;font-family:monospace;font-size:14px;}
   #hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:#888;font-family:sans-serif;font-size:13px;}
   .center-dot{position:fixed;top:50%;left:50%;width:6px;height:6px;background:red;border-radius:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
 
@@ -91,9 +99,43 @@
   .lb-flex{display:flex;align-items:center;justify-content:center;gap:36px;height:100%;padding:40px;box-sizing:border-box;}
   .lb-img-col{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%;}
   .lb-img-col img{width:100%;height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.7);}
-  .lb-cartel-col{width:300px;flex-shrink:0;font-family:Georgia,serif;}
-  .lb-cartel-col .lb-title{font-size:1.2rem;color:#e8dcc8;margin:0 0 18px;line-height:1.4;}
-  .lb-cartel-col .lb-body{font-size:0.9rem;color:#c9bfa0;line-height:1.85;white-space:pre-line;}
+  .lb-cartel-col{
+    width:300px;
+    flex-shrink:0;
+    align-self:center;
+    font-family:Georgia,serif;
+    background:#fff;
+    color:#1b1b1b;
+    padding:18px;
+    border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
+  }
+  .lb-cartel-col .lb-title{
+    font-size:1.05rem;
+    color:#1b1b1b;
+    margin:0 0 10px;
+    line-height:1.35;
+  }
+  .lb-cartel-col .lb-body{
+    font-size:0.86rem;
+    color:#333;
+    line-height:1.6;
+    white-space:pre-line;
+    margin:0;
+  }
+  .lb-cartel-col.short .lb-body{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .lb-cartel-col.long .lb-body{
+    max-height:16em;
+    overflow-y:auto;
+    padding-right:10px;
+    padding-bottom:12px;
+    scrollbar-gutter:stable;
+  }
 </style>
 </head>
 <body>
@@ -105,15 +147,29 @@
       <div class="panel-face"  >
         <img class="artwork" data-key="suzanne_artemisia" style="width:242px;height:340px;object-fit:cover;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne.jpg">
         <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Suzanne et les vieillards. 121 × 170 cm.</p>
+          <strong>Suzanne et les vieillards, 1610</strong>
+          <p class="cartel-preview">Surprise au bain, Suzanne subit le chantage de deux juges menaçant de l’accuser d’adultère si elle ne cède pas à leurs avances.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Surprise au bain, Suzanne subit le chantage de deux juges menaçant de l’accuser d’adultère si elle ne cède pas à leurs avances.
+
+Si la clarté du ciel et les demi-tons trahissent la supervision d’Orazio, la force dramatique appartient exclusivement à Artemisia.
+
+La position de Suzanne : sa tête et ses jambes se détournent à l&#x27;opposé de ses bras qui repoussent l&#x27;agression, créant un contrapposto complexe inspiré de Michel-Ange. L&#x27;artiste n&#x27;a que 17 ans.</p>
+          </details>
         </div>
       </div>
       <div class="panel-back"  >
         <img class="artwork" data-key="judith_naples_caravage" style="width:360px;height:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples_caravage.jpg">
         <div class="cartel">
-          <strong>Le Caravage</strong>
-          <p>Judith décapitant Holopherne, Naples. 180 cm de large.</p>
+          <strong>Caravage — Judith et Holopherne, v. 1598</strong>
+          <p class="cartel-preview">Huile sur toile, 145 × 195 cm. Galleria Nazionale d&#x27;Arte Antica, Rome.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Huile sur toile, 145 × 195 cm. Galleria Nazionale d&#x27;Arte Antica, Rome.
+
+La scène du Caravage se déploye en largeur, préservant la séduction d&#x27;une Judith caressée par la lumière au moment même du meurtre. Artemisia brise ce compromis. Elle bascule le cadre à la verticale et mure l&#x27;espace : la beauté s&#x27;efface devant l&#x27;exécution. Secondée par Abra, elle concentre toute la stupeur du drame sur l&#x27;action et le visage d&#x27;Holopherne.</p>
+          </details>
         </div>
       </div>
     </div>
@@ -121,15 +177,27 @@
       <div class="panel-face"  >
         <img class="artwork" data-key="judith_naples_artemisia" style="width:252px;height:318px;object-fit:cover;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_naples__.jpg">
         <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Judith décapitant Holopherne, Naples. 126 × 159 cm.</p>
+          <strong>Judith décapitant Holopherne, c. 1612-1613</strong>
+          <p class="cartel-preview">Deux ans après la lumière de Suzanne, le Caravagisme engloutit la scène, et il n&#x27;y a plus rien autour des trois corps, sinon le drap blanc déjà taché de rouge.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Deux ans après la lumière de Suzanne, le Caravagisme engloutit la scène, et il n&#x27;y a plus rien autour des trois corps, sinon le drap blanc déjà taché de rouge.
+
+La servante n&#x27;est plus reléguée en arrière-plan comme chez la plupart des peintres de son temps, mais pèse de tout son poids sur le corps d&#x27;Holopherne, et ses mains verrouillent ses bras au matelas, car elle ne regarde pas ailleurs, elle tient. L&#x27;historienne Marie-Jo Bonnet y voit un geste de sororité, loin de la servante spectatrice qu&#x27;on trouve chez Caravage.
+
+Le regard de Judith est rivé sur la lame. Ses bras tendus donnent d&#x27;abord l&#x27;impression qu&#x27;elle recule, mais c&#x27;est sa jambe droite, appuyée contre le lit, qui porte tout l&#x27;effort. Artemisia peint cette toile à dix-neuf ans, dans la tourmente et les mois qui suivent son procès pour viol contre Agostino Tassi.</p>
+          </details>
         </div>
       </div>
       <div class="panel-back"  >
         <img class="artwork" data-key="allegory_photopea" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Allegoryr-photopea.jpg">
         <div class="cartel">
-          <strong>Allégorie</strong>
-          <p>180 cm de haut.</p>
+          <strong>Face-à-face avec l’original</strong>
+          <p class="cartel-preview">Peinte entièrement nue en 1616 pour symboliser la pureté de l&#x27;inspiration, l’œuvre subit la censure 70 ans plus tard. Leonardo di Buonarroto, l&#x27;héritier du palais, jugeant cette nudité inappropriée, charge le peintre Volterrano d’ajouter les drapés et les voiles actuels. La restauration physique étant impossible sans détruire la couche d&#x27;origine, la science a permis cette reconstitution numérique.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Peinte entièrement nue en 1616 pour symboliser la pureté de l&#x27;inspiration, l’œuvre subit la censure 70 ans plus tard. Leonardo di Buonarroto, l&#x27;héritier du palais, jugeant cette nudité inappropriée, charge le peintre Volterrano d’ajouter les drapés et les voiles actuels. La restauration physique étant impossible sans détruire la couche d&#x27;origine, la science a permis cette reconstitution numérique.</p>
+          </details>
         </div>
       </div>
     </div>
@@ -137,15 +205,29 @@
       <div class="panel-face"  >
         <img class="artwork" data-key="allegorie_eclairee" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/allegorie_eclairee2.jpeg">
         <div class="cartel">
-          <strong>Allégorie éclairée</strong>
-          <p>180 cm de haut.</p>
+          <strong>L’Inclination — Florence, 1615</strong>
+          <p class="cartel-preview">Florence, 1615. Michelangelo Buonarroti le Jeune réunit plusieurs peintres pour décorer le plafond de sa galerie, dédié à la mémoire de son grand-oncle. Artemisia est la seule femme du chantier. Son tableau compte parmi les premiers achevés, alors qu&#x27;elle traverse une grossesse difficile et des dettes.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Florence, 1615. Michelangelo Buonarroti le Jeune réunit plusieurs peintres pour décorer le plafond de sa galerie, dédié à la mémoire de son grand-oncle. Artemisia est la seule femme du chantier. Son tableau compte parmi les premiers achevés, alors qu&#x27;elle traverse une grossesse difficile et des dettes.
+
+Le commanditaire, en l&#x27;associant à cette figure, joue sur son nom : Arte mi sia, que l&#x27;art soit à moi. Officiellement, le tableau représente le penchant naturel de Michel-Ange pour l&#x27;art. Le visage est celui d&#x27;Artemisia.</p>
+          </details>
         </div>
       </div>
       <div class="panel-back"  >
         <img class="artwork" data-key="suzanne_tintoret" style="width:242px;height:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/suzanne_tintoret.jpg">
         <div class="cartel">
-          <strong>Le Tintoret</strong>
-          <p>Suzanne et les vieillards. 121 cm de large.</p>
+          <strong>Jacopo Tintoretto — Suzanne et les vieillards, v. 1555</strong>
+          <p class="cartel-preview">Chez Le Tintoret, le jardin est vaste et la lumière douce. Suzanne se regarde dans un miroir, entourée de bijoux et d&#x27;étoffes. Les deux vieillards traînent en bordure du tableau, plutôt discrets, presque anecdotiques. L’œuvre invite à la contemplation d&#x27;une jeune femme complaisante, faite pour le plaisir des yeux.</p>
+          <details>
+            <summary>Lire la suite ▾</summary>
+            <p class="cartel-full">Chez Le Tintoret, le jardin est vaste et la lumière douce. Suzanne se regarde dans un miroir, entourée de bijoux et d&#x27;étoffes. Les deux vieillards traînent en bordure du tableau, plutôt discrets, presque anecdotiques. L’œuvre invite à la contemplation d&#x27;une jeune femme complaisante, faite pour le plaisir des yeux.
+
+Chez Artemisia, le cadre se referme brutalement sur les corps, une pierre grise et un ciel lointain. Les vieillards ne se cachent plus : ils envahissent l&#x27;espace.
+
+Pour concevoir ses personnages, Le Tintoret utilise en atelier de petites figurines ou ses assistants masculins. Dans l&#x27;isolement de sa chambre à Rome, Artemisia Gentileschi recourt, à un miroir. C’est son propre corps qui sert de modèle pour imposer la vérité anatomique de sa Suzanne.</p>
+          </details>
         </div>
       </div>
     </div>
@@ -156,6 +238,7 @@
   <a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
 </div>
 <div class="center-dot"></div>
+<div id="hud">rot = 0</div>
 <div id="hint">Glisser a la souris pour tourner — cliquer un tableau pour le voir seul</div>
 
 <dialog class="lightbox" id="dlg-img">
@@ -164,7 +247,7 @@
   <div class="lb-img-col">
    <img id="dlg-img-main" src="" alt="">
   </div>
-  <div class="lb-cartel-col">
+  <div class="lb-cartel-col" id="dlg-cartel-col">
    <p class="lb-title" id="dlg-title"></p>
    <div class="lb-body" id="dlg-body"></div>
   </div>
@@ -172,6 +255,7 @@
 </dialog>
 <script>
 const world = document.getElementById('world');
+const hud = document.getElementById('hud');
 const viewport = document.getElementById('viewport');
 let currentRot = 0;
 let currentZoom = 1;
@@ -179,6 +263,7 @@ let dragging = false, startX = 0, startRot = 0;
 
 function apply(){
   world.style.transform = `translate(-50%,-50%) scale(${currentZoom}) rotateY(${currentRot}deg)`;
+  hud.textContent = `rot = ${currentRot.toFixed(1)}   zoom = ${currentZoom.toFixed(2)}`;
 }
 apply();
 
@@ -204,29 +289,48 @@ window.setRot = function(r){ currentRot = r; apply(); };
 /* ═══ Oeuvres : registre + vue solo (memes donnees que l'ancien fichier) ═══ */
 const RAW = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
 const ARTWORKS = {
-  suzanne_artemisia: { img: RAW+'suzanne.jpg', title:'Suzanne et les vieillards', body:'Artemisia Gentileschi. 121 × 170 cm.' },
-  suzanne_tintoret:  { img: RAW+'suzanne_tintoret.jpg', title:'Suzanne et les vieillards', body:'Le Tintoret. 121 cm de large.' },
-  judith_naples_artemisia: { img: RAW+'judith_naples__.jpg', title:'Judith décapitant Holopherne, Naples', body:'Artemisia Gentileschi. 126 × 159 cm.' },
-  judith_naples_caravage:  { img: RAW+'judith_naples_caravage.jpg', title:'Judith décapitant Holopherne, Naples', body:'Le Caravage. 180 cm de large.' },
-  allegorie_eclairee: { img: RAW+'allegorie_eclairee2.jpeg', title:'Allégorie éclairée', body:'180 cm de haut.' },
-  allegory_photopea:  { img: RAW+'Allegoryr-photopea.jpg', title:'Allégorie', body:'180 cm de haut.' }
+  suzanne_artemisia: { img: RAW+'suzanne.jpg', title:'Suzanne et les vieillards, 1610', body:'Surprise au bain, Suzanne subit le chantage de deux juges menaçant de l’accuser d’adultère si elle ne cède pas à leurs avances.\n\nSi la clarté du ciel et les demi-tons trahissent la supervision d’Orazio, la force dramatique appartient exclusivement à Artemisia.\n\nLa position de Suzanne : sa tête et ses jambes se détournent à l\'opposé de ses bras qui repoussent l\'agression, créant un contrapposto complexe inspiré de Michel-Ange. L\'artiste n\'a que 17 ans.' },
+  suzanne_tintoret: { img: RAW+'suzanne_tintoret.jpg', title:'Jacopo Tintoretto — Suzanne et les vieillards, v. 1555', body:'Chez Le Tintoret, le jardin est vaste et la lumière douce. Suzanne se regarde dans un miroir, entourée de bijoux et d\'étoffes. Les deux vieillards traînent en bordure du tableau, plutôt discrets, presque anecdotiques. L’œuvre invite à la contemplation d\'une jeune femme complaisante, faite pour le plaisir des yeux.\n\nChez Artemisia, le cadre se referme brutalement sur les corps, une pierre grise et un ciel lointain. Les vieillards ne se cachent plus : ils envahissent l\'espace.\n\nPour concevoir ses personnages, Le Tintoret utilise en atelier de petites figurines ou ses assistants masculins. Dans l\'isolement de sa chambre à Rome, Artemisia Gentileschi recourt, à un miroir. C’est son propre corps qui sert de modèle pour imposer la vérité anatomique de sa Suzanne.' },
+  judith_naples_artemisia: { img: RAW+'judith_naples__.jpg', title:'Judith décapitant Holopherne, c. 1612-1613', body:'Deux ans après la lumière de Suzanne, le Caravagisme engloutit la scène, et il n\'y a plus rien autour des trois corps, sinon le drap blanc déjà taché de rouge.\n\nLa servante n\'est plus reléguée en arrière-plan comme chez la plupart des peintres de son temps, mais pèse de tout son poids sur le corps d\'Holopherne, et ses mains verrouillent ses bras au matelas, car elle ne regarde pas ailleurs, elle tient. L\'historienne Marie-Jo Bonnet y voit un geste de sororité, loin de la servante spectatrice qu\'on trouve chez Caravage.\n\nLe regard de Judith est rivé sur la lame. Ses bras tendus donnent d\'abord l\'impression qu\'elle recule, mais c\'est sa jambe droite, appuyée contre le lit, qui porte tout l\'effort. Artemisia peint cette toile à dix-neuf ans, dans la tourmente et les mois qui suivent son procès pour viol contre Agostino Tassi.' },
+  judith_naples_caravage: { img: RAW+'judith_naples_caravage.jpg', title:'Caravage — Judith et Holopherne, v. 1598', body:'Huile sur toile, 145 × 195 cm. Galleria Nazionale d\'Arte Antica, Rome.\n\nLa scène du Caravage se déploye en largeur, préservant la séduction d\'une Judith caressée par la lumière au moment même du meurtre. Artemisia brise ce compromis. Elle bascule le cadre à la verticale et mure l\'espace : la beauté s\'efface devant l\'exécution. Secondée par Abra, elle concentre toute la stupeur du drame sur l\'action et le visage d\'Holopherne.' },
+  allegorie_eclairee: { img: RAW+'allegorie_eclairee2.jpeg', title:'L’Inclination — Florence, 1615', body:'Florence, 1615. Michelangelo Buonarroti le Jeune réunit plusieurs peintres pour décorer le plafond de sa galerie, dédié à la mémoire de son grand-oncle. Artemisia est la seule femme du chantier. Son tableau compte parmi les premiers achevés, alors qu\'elle traverse une grossesse difficile et des dettes.\n\nLe commanditaire, en l\'associant à cette figure, joue sur son nom : Arte mi sia, que l\'art soit à moi. Officiellement, le tableau représente le penchant naturel de Michel-Ange pour l\'art. Le visage est celui d\'Artemisia.' },
+  allegory_photopea: { img: RAW+'Allegoryr-photopea.jpg', title:'Face-à-face avec l’original', body:'Peinte entièrement nue en 1616 pour symboliser la pureté de l\'inspiration, l’œuvre subit la censure 70 ans plus tard. Leonardo di Buonarroto, l\'héritier du palais, jugeant cette nudité inappropriée, charge le peintre Volterrano d’ajouter les drapés et les voiles actuels. La restauration physique étant impossible sans détruire la couche d\'origine, la science a permis cette reconstitution numérique.' }
 };
 
 const dlg = document.getElementById('dlg-img');
 const dlgImg = document.getElementById('dlg-img-main');
 const dlgTitle = document.getElementById('dlg-title');
 const dlgBody = document.getElementById('dlg-body');
+const dlgCartelCol = document.getElementById('dlg-cartel-col');
+
+function updateLightboxCartel(fullText){
+  const txt = (fullText || '').trim();
+  const isLong = txt.length > 320 || (txt.match(/\n/g) || []).length >= 2;
+
+  dlgBody.textContent = txt;
+  dlgCartelCol.classList.toggle('long', isLong);
+  dlgCartelCol.classList.toggle('short', !isLong);
+  dlgBody.scrollTop = 0;
+}
 
 function openLightbox(key){
   const a = ARTWORKS[key];
   if (!a) return;
   dlgImg.src = a.img; dlgImg.alt = a.title;
   dlgTitle.textContent = a.title;
-  dlgBody.textContent = a.body;
+  updateLightboxCartel(a.body || '');
   dlg.showModal();
+  dlgBody.scrollTop = 0;
 }
 document.getElementById('dlg-close').addEventListener('click', ()=> dlg.close());
 dlg.addEventListener('click', e=>{ if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', ()=>{ dlgBody.scrollTop = 0; });
+
+// Les cartels restent interactifs sans declencher la vue solo ni la rotation.
+document.querySelectorAll('.cartel').forEach(cartel=>{
+  cartel.addEventListener('pointerdown', e=>e.stopPropagation());
+  cartel.addEventListener('click', e=>e.stopPropagation());
+});
 
 document.querySelectorAll('.artwork[data-key]').forEach(el=>{
   el.addEventListener('click', e=>{
