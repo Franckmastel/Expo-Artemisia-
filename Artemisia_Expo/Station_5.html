@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Tourniquet - axe + 3 murs a 120</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden;user-select:none;}
+  #viewport{width:100vw;height:100vh;perspective:2400px;perspective-origin:50% 50%;cursor:grab;}
+  #viewport.dragging{cursor:grabbing;}
+  #world{position:absolute;top:50%;left:50%;transform-style:preserve-3d;}
+
+  #floor{
+    position:absolute;top:50%;left:50%;width:3000px;height:3000px;
+    transform:translate(-50%,-50%) rotateX(90deg) translateZ(-260px);
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 160px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 160px),
+      radial-gradient(ellipse at center, rgba(255,255,255,0.09) 0%, rgba(0,0,0,0) 55%),
+      #050505;
+  }
+  #ceiling{
+    position:absolute;top:50%;left:50%;width:3000px;height:3000px;
+    transform:translate(-50%,-50%) rotateX(90deg) translateZ(300px);
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0 1px, transparent 1px 200px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.25) 0 1px, transparent 1px 200px),
+      #333330;
+  }
+
+  /* L'AXE : une simple ligne verticale, fixe au centre du monde.
+     Comme elle est elle-meme centree sur l'axe de rotation Y, elle ne bouge
+     jamais a l'ecran, quel que soit l'angle. */
+  #axis{
+    position:absolute;top:-260px;left:-2px;width:4px;height:520px;
+    background:linear-gradient(to bottom, rgba(74,53,39,0), rgba(74,53,39,0.95) 15%, rgba(74,53,39,0.95) 85%, rgba(74,53,39,0));
+    transform-style:preserve-3d;
+  }
+
+  /* Chaque mur part de l'axe (charniere sur son bord gauche = le point 0,0,0)
+     et s'etend vers l'exterieur. Les 3 murs sont ensuite tournes a 0/120/240. */
+  /* Echelle : 2px = 1cm. Mur reel = 250cm (haut) x 300cm (large). */
+  .wall{
+    position:absolute;top:-250px;left:0;width:600px;height:500px;
+    transform-origin:0% 50%;
+    transform-style:preserve-3d;
+  }
+  .panel-face,.panel-back{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    backface-visibility:hidden;
+    box-sizing:border-box;
+    background:#181310;
+  }
+  .panel-back{transform:rotateY(180deg);}
+  .placeholder{font-family:sans-serif;font-size:32px;color:#4a3d2e;font-weight:600;letter-spacing:2px;text-align:center;}
+
+  /* A REMPLACER : quand une image est ajoutee, utiliser <img class="artwork" data-key="...">
+     comme dans Carrousel.html (Judith), avec largeur/hauteur reelles (2px = 1cm) et un data-key
+     correspondant a une entree du registre ARTWORKS plus bas dans le script. */
+  .artwork{display:block;box-shadow:0 20px 50px rgba(0,0,0,0.6);flex-shrink:0;cursor:zoom-in;}
+  /* Cartels muraux : copie exacte du modèle Station 1 — Suzanne. */
+  .cartel{
+    position:absolute;top:calc(50% - 50px);
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
+  }
+  .cartel-inline{
+    position:static;flex-shrink:0;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
+  }
+  .cartel strong,.cartel-inline strong{display:block;font-size:7.6px;margin-bottom:3px;line-height:1.12;}
+  .cartel .cartel-preview,.cartel-inline .cartel-preview{margin:0;font-size:5.8px;line-height:1.15;color:#333;}
+  .cartel details,.cartel-inline details{margin-top:3px;font-size:5.8px;line-height:1.18;color:#333;}
+  .cartel summary,.cartel-inline summary{cursor:pointer;color:#6c543b;font-weight:bold;list-style:none;border-top:1px solid #b9ad9d;padding-top:2px;}
+  .cartel summary::-webkit-details-marker,.cartel-inline summary::-webkit-details-marker{display:none;}
+  .cartel details[open],.cartel-inline details[open]{position:absolute;inset:0;background:#f2ede3;padding:6px;z-index:5;overflow:auto;box-sizing:border-box;}
+  .cartel-inline{position:relative;}
+  .cartel details[open] summary,.cartel-inline details[open] summary{position:sticky;top:-6px;background:#f2ede3;padding:2px 0 3px;border-top:0;border-bottom:1px solid #b9ad9d;margin-bottom:4px;}
+  .cartel .cartel-full,.cartel-inline .cartel-full{margin:0;white-space:pre-line;}
+  #hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:#888;font-family:sans-serif;font-size:13px;}
+  .center-dot{position:fixed;top:50%;left:50%;width:6px;height:6px;background:red;border-radius:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
+
+  .nav-bts{position:fixed;top:24px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;}
+  .nav-bts a{
+    background:rgba(255,255,255,0.08);color:#eee;border:1px solid rgba(255,255,255,0.2);
+    padding:8px 16px;border-radius:20px;font-size:13px;font-family:sans-serif;
+    text-decoration:none;cursor:pointer;
+  }
+  .nav-bts a:hover{background:rgba(255,255,255,0.16);}
+
+  dialog.lightbox{
+    border:none;background:#0d0d0d;padding:0;margin:auto;
+    width:92vw;max-width:1400px;height:88vh;border-radius:4px;
+    color:#eee;
+  }
+  dialog.lightbox::backdrop{background:rgba(0,0,0,0.88);}
+  .lb-close{
+    position:absolute;top:16px;right:20px;background:none;border:none;
+    color:#ccc;font-size:28px;cursor:pointer;line-height:1;z-index:2;
+  }
+  .lb-close:hover{color:#fff;}
+  .lb-flex{display:flex;align-items:center;justify-content:center;gap:36px;height:100%;padding:40px;box-sizing:border-box;}
+  .lb-img-col{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%;}
+  .lb-img-col img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.7);}
+  .lb-cartel-col{
+    width:300px;
+    flex-shrink:0;
+    align-self:center;
+    font-family:Georgia,serif;
+    background:#fff;
+    color:#1b1b1b;
+    padding:18px;
+    border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
+  }
+  .lb-cartel-col .lb-title{
+    font-size:1.05rem;
+    color:#1b1b1b;
+    margin:0 0 10px;
+    line-height:1.35;
+  }
+  .lb-cartel-col .lb-body{
+    font-size:0.86rem;
+    color:#333;
+    line-height:1.6;
+    white-space:pre-line;
+    margin:0;
+  }
+  .lb-cartel-col.short .lb-body{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .lb-cartel-col.long .lb-body{
+    max-height:16em;
+    overflow-y:auto;
+    padding-right:10px;
+    padding-bottom:12px;
+    scrollbar-gutter:stable;
+  }
+</style>
+</head>
+<body>
+<div id="viewport">
+<div id="world">
+<div id="ceiling"></div>
+<div id="floor"></div>
+<div class="wall" id="w1" style="transform:rotateY(0deg);">
+<div class="panel-face">
+<img class="artwork" data-key="esther_artemisia" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/esther_assuerus.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Esther et Assuérus, 1627-1630</strong><p class="cartel-preview">Sujet : Esther jeûne depuis trois jours avant de se présenter, sans y être conviée, devant Assuérus. La loi interdit cette approche sous peine de mort.…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Sujet : Esther jeûne depuis trois jours avant de se présenter, sans y être conviée, devant Assuérus. La loi interdit cette approche sous peine de mort. Elle vient plaider pour son peuple, condamné par un décret qu'elle seule peut faire annuler. Devant le roi, affaiblie, elle défaille. Assuérus, saisi par sa pâleur, se lève : il lui pardonne l'intrusion et révoque le décret.
+
+Considérée comme l'une des plus grandes toiles connues d'Artemisia, peinte entre 1627 et 1630, pendant son séjour à Venise. Elle y admire le faste des peintres vénitiens, et le restitue ici en soieries, brocarts et bijoux, au goût d'une cour qui aime les étoffes riches autant que les scènes de théâtre. Entre Esther et le roi, un espace vide amplifie la tension, le fossé du pouvoir. Contre le cou d'Esther, une servante niche son visage, presque à la toucher — un geste d'une tendresse charnelle, rare dans une scène de cour.
+
+Détail — L'évanouissement d'Esther suspend le récit pour laisser place à un moment d'intimité. Privée de ses forces, la reine abandonne son corps à ses deux suivantes. L'une retient son buste par l'arrière, l'autre pose sa joue tout contre la sienne, presque à la toucher. La douceur de deux femmes qui en soutiennent une troisième. La sororité chez Artemisia n'est pas seulement l'action commune, mais aussi ce moment où l'on se laisse porter.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="naissance_tintoret" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/naissance_st_jean_tintoret.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Le Tintoret — La Naissance de saint Jean-Baptiste</strong><p class="cartel-preview">Le même épisode biblique, peint à un siècle d'écart. Chez le Tintoret, Zacharie domine la scène par sa seule stature, debout, presque aussi haut que le…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Le même épisode biblique, peint à un siècle d'écart. Chez le Tintoret, Zacharie domine la scène par sa seule stature, debout, presque aussi haut que le tableau, drapé de rose et d'or dans la lumière. Autour de lui, une dizaine de figures occupent une maison vivante, un escalier, un chat, une servante qui allaite l'enfant. Élisabeth y apparaît deux fois, alitée puis déjà relevée, un procédé de narration continue propre à la peinture vénitienne.
+
+Artemisia resserre tout. Quatre femmes, un enfant. Zacharie n'est plus qu'une silhouette dans l'angle le plus sombre de la toile, en train d'écrire le nom qu'il ne peut pas encore prononcer. Ce que le Tintoret donne à l'homme par la seule taille de son corps, Artemisia le retire, pour le donner tout entier à ce groupe de femmes.</p></details></div>
+</div>
+</div>
+<div class="wall" id="w2" style="transform:rotateY(120deg);">
+<div class="panel-face">
+<img class="artwork" data-key="naissance_baptiste" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/naissance_baptiste.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — La Naissance de saint Jean-Baptiste</strong><p class="cartel-preview">Huile sur toile — 184 × 258 cm Madrid, Museo Nacional del Prado Commandée pour le palais du Buen Retiro à Madrid, cette œuvre illustre la pleine maturité…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Huile sur toile — 184 × 258 cm
+Madrid, Museo Nacional del Prado
+
+Commandée pour le palais du Buen Retiro à Madrid, cette œuvre illustre la pleine maturité napolitaine d'Artemisia Gentileschi. L'artiste relègue le miracle religieux et Zacharie à l'arrière-plan pour concentrer l'espace sur une scène intimiste, portée par des figures féminines. L'héritage caravagesque s'y exprime par un clair-obscur feutré et un naturalisme saisissant dans le soin apporté au nouveau-né. Artemisia Gentileschi y déploie un remarquable travail des étoffes et des reflets métalliques, transformant l'épisode biblique en une célébration réaliste de la solidarité féminine autour du nouveau-né.
+
+Détail — La Sororité
+Occupant les deux tiers de la composition et captant l'essentiel de la lumière, quatre femmes s'activent autour du premier bain. Le foyer lumineux frappe de plein fouet le corps fragile du nourrisson et la femme qui s'apprête à l'accueillir. Du chatoiement du châle à gauche de l'image jusqu'au travail remarquable sur la bassine de cuivre au premier plan, Artemisia met dans sa peinture (la texture des tissus, la vibration des chairs, les expressions) le même soin méticuleux que ces femmes prodiguent au nouveau-né.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="main_artemisia" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_main_artemisia.jpeg" style="height:200px;width:auto;"/>
+<div class="cartel"><strong>Pierre Dumonstier</strong><p class="cartel-preview">Main d Artemisia 1625</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Main
+
+</p></details></div>
+</div>
+</div>
+<div class="wall" id="w3" style="transform:rotateY(240deg);">
+<div class="panel-face">
+<img class="artwork" data-key="autoportrait" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/autoportrait_allegorie_peinture.jpg" style="height:200px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Autoportrait en allégorie de la Peinture (La Pittura), v. 1638-1639</strong><p class="cartel-preview">Huile sur toile, 98,6 × 75,2 cm. Royal Collection, Londres. Ici, pour la première fois dans tout ce parcours, Artemisia ne joue aucun rôle. Elle se peint…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Huile sur toile, 98,6 × 75,2 cm. Royal Collection, Londres.
+
+Ici, pour la première fois dans tout ce parcours, Artemisia ne joue aucun rôle. Elle se peint en Pittura elle-même, cheveux défaits, palette en main, suivant les attributs que Cesare Ripa donnait à cette allégorie dans son manuel de référence. Mais Ripa décrivait une figure féminine, et prescrivait aussi une bouche bâillonnée, car la peinture serait muette. Artemisia reprend tout, sauf le bâillon. L'historienne Mary Garrard y voit une revendication : ce que Ripa réservait aux femmes, elle seule pouvait l'incarner. Ce qu'il leur retirait, la voix, elle a choisi de le garder.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="esther_veronese" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/esther_veronese.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Véronèse — Esther devant Assuérus</strong><p class="cartel-preview">Chez Véronèse, toute la toile baigne dans une seule gamme, ivoire, or, ocre, presque monochrome : rien ne distingue chromatiquement les figures entre…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Chez Véronèse, toute la toile baigne dans une seule gamme, ivoire, or, ocre, presque monochrome : rien ne distingue chromatiquement les figures entre elles — reine, suivantes, roi, courtisans, tout appartient à la même lumière dorée et continue. Le roi, entouré de sa cour, reste distant. La détresse d'Esther s'efface dans l'unité du décor.
+
+Là où Véronèse ordonne la scène dans l'équilibre d'une architecture fixe, Artemisia met l'espace en tension. Au centre, le vide s'anime par le contraste des corps : à gauche, le glissement d'Esther vers le bas ; à droite, Assuérus qui se redresse et se penche vers elle. Selon la manière dont l'œil parcourt la toile, ce face-à-face se lit comme deux trajectoires qui s'opposent, une poussée pour retenir une chute, ou encore l'amorce d'un mouvement circulaire reliant les deux figures. Artemisia laisse la dynamique de l'instant suspendue dans cet intervalle.</p></details></div>
+</div>
+</div>
+<div id="axis"></div>
+</div>
+</div>
+<div class="nav-bts">
+<a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
+</div>
+<div class="center-dot"></div>
+<div id="hint">Glisser a la souris pour tourner — cliquer un tableau pour le voir seul</div>
+<dialog class="lightbox" id="dlg-img">
+<button class="lb-close" id="dlg-close">×</button>
+<div class="lb-flex">
+<div class="lb-img-col">
+<img alt="" id="dlg-img-main" src=""/>
+</div>
+<div class="lb-cartel-col" id="dlg-cartel-col">
+<p class="lb-title" id="dlg-title"></p>
+<div class="lb-body" id="dlg-body"></div>
+</div>
+</div>
+</dialog>
+<script>
+const world = document.getElementById('world');
+const viewport = document.getElementById('viewport');
+let currentRot = 0;
+let currentZoom = 1;
+let dragging = false, startX = 0, startRot = 0;
+
+function apply(){
+  world.style.transform = `translate(-50%,-50%) scale(${currentZoom}) rotateY(${currentRot}deg)`;
+}
+apply();
+
+viewport.addEventListener('wheel', e=>{
+  e.preventDefault();
+  currentZoom = Math.min(3, Math.max(0.5, currentZoom - e.deltaY * 0.001));
+  apply();
+}, {passive:false});
+
+viewport.addEventListener('pointerdown', e=>{
+  dragging = true; startX = e.clientX; startRot = currentRot;
+  viewport.classList.add('dragging');
+});
+window.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  currentRot = startRot + (e.clientX - startX) * 0.3;
+  apply();
+});
+window.addEventListener('pointerup', ()=>{ dragging = false; viewport.classList.remove('dragging'); });
+
+window.setRot = function(r){ currentRot = r; apply(); };
+
+/* ═══ Oeuvres : registre + vue solo ═══
+   Ajouter ici une entree par tableau (meme cle que le data-key de l'<img> correspondante),
+   exactement comme dans Carrousel.html (Judith). Registre vide pour l'instant. */
+const RAW = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
+const ARTWORKS = {
+  esther_artemisia: { img: RAW+"esther_assuerus.jpg", title:"Artemisia Gentileschi — Esther et Assuérus, 1627-1630", body:"Sujet : Esther jeûne depuis trois jours avant de se présenter, sans y être conviée, devant Assuérus. La loi interdit cette approche sous peine de mort. Elle vient plaider pour son peuple, condamné par un décret qu'elle seule peut faire annuler. Devant le roi, affaiblie, elle défaille. Assuérus, saisi par sa pâleur, se lève : il lui pardonne l'intrusion et révoque le décret.\n\nConsidérée comme l'une des plus grandes toiles connues d'Artemisia, peinte entre 1627 et 1630, pendant son séjour à Venise. Elle y admire le faste des peintres vénitiens, et le restitue ici en soieries, brocarts et bijoux, au goût d'une cour qui aime les étoffes riches autant que les scènes de théâtre. Entre Esther et le roi, un espace vide amplifie la tension, le fossé du pouvoir. Contre le cou d'Esther, une servante niche son visage, presque à la toucher — un geste d'une tendresse charnelle, rare dans une scène de cour.\n\nDétail — L'évanouissement d'Esther suspend le récit pour laisser place à un moment d'intimité. Privée de ses forces, la reine abandonne son corps à ses deux suivantes. L'une retient son buste par l'arrière, l'autre pose sa joue tout contre la sienne, presque à la toucher. La douceur de deux femmes qui en soutiennent une troisième. La sororité chez Artemisia n'est pas seulement l'action commune, mais aussi ce moment où l'on se laisse porter." },
+  esther_veronese: { img: RAW+"esther_veronese.jpg", title:"Véronèse — Esther devant Assuérus", body:"Chez Véronèse, toute la toile baigne dans une seule gamme, ivoire, or, ocre, presque monochrome : rien ne distingue chromatiquement les figures entre elles — reine, suivantes, roi, courtisans, tout appartient à la même lumière dorée et continue. Le roi, entouré de sa cour, reste distant. La détresse d'Esther s'efface dans l'unité du décor.\n\nLà où Véronèse ordonne la scène dans l'équilibre d'une architecture fixe, Artemisia met l'espace en tension. Au centre, le vide s'anime par le contraste des corps : à gauche, le glissement d'Esther vers le bas ; à droite, Assuérus qui se redresse et se penche vers elle. Selon la manière dont l'œil parcourt la toile, ce face-à-face se lit comme deux trajectoires qui s'opposent, une poussée pour retenir une chute, ou encore l'amorce d'un mouvement circulaire reliant les deux figures. Artemisia laisse la dynamique de l'instant suspendue dans cet intervalle." },
+  naissance_baptiste: { img: RAW+"naissance_baptiste.jpg", title:"Artemisia Gentileschi — La Naissance de saint Jean-Baptiste", body:"Huile sur toile — 184 × 258 cm\nMadrid, Museo Nacional del Prado\n\nCommandée pour le palais du Buen Retiro à Madrid, cette œuvre illustre la pleine maturité napolitaine d'Artemisia Gentileschi. L'artiste relègue le miracle religieux et Zacharie à l'arrière-plan pour concentrer l'espace sur une scène intimiste, portée par des figures féminines. L'héritage caravagesque s'y exprime par un clair-obscur feutré et un naturalisme saisissant dans le soin apporté au nouveau-né. Artemisia Gentileschi y déploie un remarquable travail des étoffes et des reflets métalliques, transformant l'épisode biblique en une célébration réaliste de la solidarité féminine autour du nouveau-né.\n\nDétail technique — La Sororité\nOccupant les deux tiers de la composition et captant l'essentiel de la lumière, quatre femmes s'activent autour du premier bain. Le foyer lumineux frappe de plein fouet le corps fragile du nourrisson et la femme qui s'apprête à l'accueillir. Du chatoiement du châle à gauche de l'image jusqu'au travail remarquable sur la bassine de cuivre au premier plan, Artemisia met dans sa peinture (la texture des tissus, la vibration des chairs, les expressions) le même soin méticuleux que ces femmes prodiguent au nouveau-né." },
+  naissance_tintoret: { img: RAW+"naissance_st_jean_tintoret.jpg", title:"Le Tintoret — La Naissance de saint Jean-Baptiste", body:"Le même épisode biblique, peint à un siècle d'écart. Chez le Tintoret, Zacharie domine la scène par sa seule stature, debout, presque aussi haut que le tableau, drapé de rose et d'or dans la lumière. Autour de lui, une dizaine de figures occupent une maison vivante, un escalier, un chat, une servante qui allaite l'enfant. Élisabeth y apparaît deux fois, alitée puis déjà relevée, un procédé de narration continue propre à la peinture vénitienne.\n\nArtemisia resserre tout. Quatre femmes, un enfant. Zacharie n'est plus qu'une silhouette dans l'angle le plus sombre de la toile, en train d'écrire le nom qu'il ne peut pas encore prononcer. Ce que le Tintoret donne à l'homme par la seule taille de son corps, Artemisia le retire, pour le donner tout entier à ce groupe de femmes." },
+  autoportrait: { img: RAW+"autoportrait_allegorie_peinture.jpg", title:"Artemisia Gentileschi — Autoportrait en allégorie de la Peinture (La Pittura), v. 1638-1639", body:"Huile sur toile, 98,6 × 75,2 cm. Royal Collection, Londres.\n\nIci, pour la première fois dans tout ce parcours, Artemisia ne joue aucun rôle. Elle se peint en Pittura elle-même, cheveux défaits, palette en main, suivant les attributs que Cesare Ripa donnait à cette allégorie dans son manuel de référence. Mais Ripa décrivait une figure féminine, et prescrivait aussi une bouche bâillonnée, car la peinture serait muette. Artemisia reprend tout, sauf le bâillon. L'historienne Mary Garrard y voit une revendication : ce que Ripa réservait aux femmes, elle seule pouvait l'incarner. Ce qu'il leur retirait, la voix, elle a choisi de le garder." },
+  main_artemisia: { img: RAW+'st12_main_artemisia.jpeg', title:`Pierre Dumonstier — Main d’Artemisia, 1625`, body:`Pierre Dumonstier. Main d’Artemisia, 1625.` }
+};
+
+const dlg = document.getElementById('dlg-img');
+const dlgImg = document.getElementById('dlg-img-main');
+const dlgTitle = document.getElementById('dlg-title');
+const dlgBody = document.getElementById('dlg-body');
+const dlgCartelCol = document.getElementById('dlg-cartel-col');
+
+function updateLightboxCartel(fullText){
+  const txt = (fullText || '').trim();
+  const isLong = txt.length > 320 || (txt.match(/\n/g) || []).length >= 2;
+
+  dlgBody.textContent = txt;
+  dlgCartelCol.classList.toggle('long', isLong);
+  dlgCartelCol.classList.toggle('short', !isLong);
+  dlgBody.scrollTop = 0;
+}
+
+function openLightbox(key){
+  const a = ARTWORKS[key];
+  if (!a) return;
+  dlgImg.src = a.img; dlgImg.alt = a.title;
+  dlgTitle.textContent = a.title;
+  updateLightboxCartel(a.body || '');
+  dlg.showModal();
+  dlgBody.scrollTop = 0;
+}
+
+document.getElementById('dlg-close').addEventListener('click', ()=> dlg.close());
+dlg.addEventListener('click', e=>{ if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', ()=>{ dlgBody.scrollTop = 0; });
+
+
+// Les cartels restent interactifs sans declencher la vue solo ni la rotation.
+document.querySelectorAll('.cartel').forEach(cartel=>{
+  cartel.addEventListener('pointerdown', e=>e.stopPropagation());
+  cartel.addEventListener('click', e=>e.stopPropagation());
+});
+
+document.querySelectorAll('.artwork[data-key]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.stopPropagation();
+    openLightbox(el.dataset.key);
+  });
+});
+
+/* Place chaque cartel juste a droite de son tableau, quelle que soit la
+   largeur de celui-ci (fixe ou calculee automatiquement depuis l'image). */
+function placeCartel(img){
+  const cartel = img.nextElementSibling;
+  if (!cartel || !cartel.classList.contains('cartel')) return;
+  const w = img.offsetWidth;
+  cartel.style.left = `calc(50% + ${w/2 + 20}px)`;
+}
+document.querySelectorAll('.artwork[data-key]').forEach(img=>{
+  if (img.complete) placeCartel(img);
+  else img.addEventListener('load', ()=>placeCartel(img));
+});
+</script>
+</body>
+</html>
