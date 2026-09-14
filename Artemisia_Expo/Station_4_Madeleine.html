@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8"/>
 <title>Tourniquet - axe + 3 murs a 120</title>
 <style>
   html,body{margin:0;height:100%;background:#000;overflow:hidden;user-select:none;}
@@ -58,25 +59,33 @@
      comme dans Carrousel.html (Judith), avec largeur/hauteur reelles (2px = 1cm) et un data-key
      correspondant a une entree du registre ARTWORKS plus bas dans le script. */
   .artwork{display:block;box-shadow:0 20px 50px rgba(0,0,0,0.6);flex-shrink:0;cursor:zoom-in;}
+  /* Cartels muraux : copie exacte du modèle Station 1 — Suzanne. */
   .cartel{
     position:absolute;top:calc(50% - 50px);
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
-  .duo-row{display:flex;align-items:center;justify-content:center;gap:16px;}
   .cartel-inline{
     position:static;flex-shrink:0;
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel-inline strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel-inline p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
+  .cartel strong,.cartel-inline strong{display:block;font-size:7.6px;margin-bottom:3px;line-height:1.12;}
+  .cartel .cartel-preview,.cartel-inline .cartel-preview{margin:0;font-size:5.8px;line-height:1.15;color:#333;}
+  .cartel details,.cartel-inline details{margin-top:3px;font-size:5.8px;line-height:1.18;color:#333;}
+  .cartel summary,.cartel-inline summary{cursor:pointer;color:#6c543b;font-weight:bold;list-style:none;border-top:1px solid #b9ad9d;padding-top:2px;}
+  .cartel summary::-webkit-details-marker,.cartel-inline summary::-webkit-details-marker{display:none;}
+  .cartel details[open],.cartel-inline details[open]{position:absolute;inset:0;background:#f2ede3;padding:6px;z-index:5;overflow:auto;box-sizing:border-box;}
+  .cartel-inline{position:relative;}
+  .cartel details[open] summary,.cartel-inline details[open] summary{position:sticky;top:-6px;background:#f2ede3;padding:2px 0 3px;border-top:0;border-bottom:1px solid #b9ad9d;margin-bottom:4px;}
+  .cartel .cartel-full,.cartel-inline .cartel-full{margin:0;white-space:pre-line;}
+
+  .duo-row{display:flex;align-items:center;justify-content:center;gap:16px;}
+  #hud{position:fixed;top:16px;left:16px;color:#0f0;font-family:monospace;font-size:14px;}
   #hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:#888;font-family:sans-serif;font-size:13px;}
   .center-dot{position:fixed;top:50%;left:50%;width:6px;height:6px;background:red;border-radius:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
 
@@ -102,94 +111,120 @@
   .lb-flex{display:flex;align-items:center;justify-content:center;gap:36px;height:100%;padding:40px;box-sizing:border-box;}
   .lb-img-col{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%;}
   .lb-img-col img{width:100%;height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.7);}
-  .lb-cartel-col{width:300px;flex-shrink:0;font-family:Georgia,serif;}
-  .lb-cartel-col .lb-title{font-size:1.2rem;color:#e8dcc8;margin:0 0 18px;line-height:1.4;}
-  .lb-cartel-col .lb-body{font-size:0.9rem;color:#c9bfa0;line-height:1.85;white-space:pre-line;}
+  .lb-cartel-col{
+    width:300px;
+    flex-shrink:0;
+    align-self:center;
+    font-family:Georgia,serif;
+    background:#fff;
+    color:#1b1b1b;
+    padding:18px;
+    border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
+  }
+  .lb-cartel-col .lb-title{
+    font-size:1.05rem;
+    color:#1b1b1b;
+    margin:0 0 10px;
+    line-height:1.35;
+  }
+  .lb-cartel-col .lb-body{
+    font-size:0.86rem;
+    color:#333;
+    line-height:1.6;
+    white-space:pre-line;
+    margin:0;
+  }
+  .lb-cartel-col.short .lb-body{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .lb-cartel-col.long .lb-body{
+    max-height:16em;
+    overflow-y:auto;
+    padding-right:10px;
+    padding-bottom:12px;
+    scrollbar-gutter:stable;
+  }
 </style>
 </head>
 <body>
 <div id="viewport">
-  <div id="world">
-    <div id="ceiling"></div>
-    <div id="floor"></div>
-    <div class="wall" id="w1" style="transform:rotateY(0deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="madeleine_pitti" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_pitty.jpg">
-        <div class="cartel">
-          <strong>Marie-Madeleine, Palazzo Pitti</strong>
-          <p>180 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="venus_giorgione" style="width:360px;height:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/venus_endormie_giorgionne.jpg">
-        <div class="cartel">
-          <strong>Giorgione</strong>
-          <p>Vénus endormie. 180 cm de large.</p>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w2" style="transform:rotateY(120deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="venus_cupidon" style="width:360px;height:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Venus_and_Cupid.jpg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Vénus et Cupidon. 180 cm de large.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <div class="duo-row">
-          <img class="artwork" data-key="lucrece_veronese" style="height:160px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Lucrece_veronese.jpg">
-          <div class="cartel-inline">
-            <strong>Paolo Veronese</strong>
-            <p>Lucrèce. Texte de cartel à finaliser.</p>
-          </div>
-          <img class="artwork" data-key="lucrece_rome" style="height:160px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Lucrece_rome.jpg">
-          <div class="cartel-inline">
-            <strong>Lucrèce, collection romaine</strong>
-            <p>Texte de cartel à finaliser.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w3" style="transform:rotateY(240deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="lucrece_artemisia" style="height:200px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/lucrece.jpeg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Lucrèce. 100 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="madeleine_kimbell" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_kimbell_museum.jpg">
-        <div class="cartel">
-          <strong>Marie-Madeleine, Kimbell Art Museum</strong>
-          <p>180 cm de haut.</p>
-        </div>
-      </div>
-    </div>
-    <div id="axis"></div>
-  </div>
+<div id="world">
+<div id="ceiling"></div>
+<div id="floor"></div>
+<div class="wall" id="w1" style="transform:rotateY(0deg);">
+<div class="panel-face">
+<img class="artwork" data-key="madeleine_pitti" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_pitty.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — La Conversion de Marie-Madeleine, v. 1615</strong><p class="cartel-preview">Cette composition s’articule autour de trois pôles visuels isolés par un clair-obscur rigoureux : le drapé saturé de la robe de soie jaune, le miroir et…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Cette composition s’articule autour de trois pôles visuels isolés par un clair-obscur rigoureux : le drapé saturé de la robe de soie jaune, le miroir et l'inscription latine en lettres d'or.
+
+Le renoncement au monde séculier est figé sans théâtralité : la main droite de la sainte effleure à peine le miroir, marquant le détachement plutôt que le rejet violent. Au-dessus de l'objet, suspendue dans la pénombre du fond, la sentence tirée de l'Évangile de Luc — « Optimam partem elegit » (« Elle a choisi la meilleure part »).</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="venus_giorgione" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/venus_endormie_giorgionne.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Giorgione–Titien — Vénus endormie</strong><p class="cartel-preview">Giorgione commence cette Vénus vers 1510, il meurt sans l'achever. Titien peint le paysage qui l'entoure. Le corps reste nu, seul, endormi en plein air,…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Giorgione commence cette Vénus vers 1510, il meurt sans l'achever. Titien peint le paysage qui l'entoure. Le corps reste nu, seul, endormi en plein air, la main posée sur elle-même, sans autre présence que le paysage.
+
+Artemisia reprend un siècle plus tard ce type déjà passé dans toute l'école vénitienne. Elle ferme la scène sur un rideau, ajoute Cupidon qui veille et écarte toute menace et place un temple au loin. Le sommeil n'est plus solitaire. Il est gardé.</p></details></div>
+</div>
+</div>
+<div class="wall" id="w2" style="transform:rotateY(120deg);">
+<div class="panel-face">
+<img class="artwork" data-key="venus_cupidon" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Venus_and_Cupid.jpg" style="width:360px;height:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Vénus et Cupidon, v. 1625–1630</strong><p class="cartel-preview">Même dans ce sujet inhabituel pour elle, plusieurs indices trahissent la main d'Artemisia. Le visage de Vénus reprend ses propres traits, comme dans…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Même dans ce sujet inhabituel pour elle, plusieurs indices trahissent la main d'Artemisia. Le visage de Vénus reprend ses propres traits, comme dans plusieurs de ses tableaux. La pose se distingue par son naturel : la main repose sans tension, les jambes se referment sans rigidité artificielle. Mary Garrard* relève aussi la fermeté du poignet de Vénus, contrastant avec les mains enfantines de Cupidon, une constante chez Artemisia, qui donne à ses figures féminines une prise ferme, jamais purement décorative.
+
+*professeure émérite d'histoire de l'art à l'American University (Washington, DC).</p></details></div>
+</div>
+<div class="panel-back">
+<div class="duo-row">
+<img class="artwork" data-key="lucrece_veronese" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Lucrece_veronese.jpg" style="height:160px;width:auto;"/>
+<div class="cartel-inline"><strong>Véronèse — Lucrèce</strong><p class="cartel-preview">Paolo Véronèse traite le suicide de Lucrèce selon les codes du faste vénitien. L'intensité du drame s'efface sous la virtuosité des matières : la richesse…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Paolo Véronèse traite le suicide de Lucrèce selon les codes du faste vénitien. L'intensité du drame s'efface sous la virtuosité des matières : la richesse des velours verts, le chatoiement des soies, le décorum des motifs floraux enchâssent le personnage. La tête inclinée, drapée dans l'apparat, Lucrèce devient un sujet de délectation plastique où la violence est domestiquée par l'élégance.
+
+Artemisia Gentileschi rompt avec cette théâtralité décorative. Elle remplace l'apparat des étoffes lourdes par un voile qui se défait, tourbillonne, n'obéit plus au corps. Le regard ne se pose plus sur l'objet mais fuit vers le ciel. Là où Véronèse peint un sacrifice déjà résolu, Artemisia peint l'instant qui précède, suspendu, tendu, sans rien perdre d'un certain érotisme, par la poitrine dénudée et le traitement de la peau.</p></details></div>
+<img class="artwork" data-key="lucrece_rome" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Lucrece_rome.jpg" style="height:160px;width:auto;"/>
+<div class="cartel-inline"><strong>Artemisia Gentileschi — Lucrèce, Rome, 1620</strong><p class="cartel-preview">La lumière est dure, elle rebondit sur le corps de Lucrèce. Le regard est tendu et celle-ci se lit jusque dans les mains. Les plis de la chemise, comme…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">La lumière est dure, elle rebondit sur le corps de Lucrèce. Le regard est tendu et celle-ci se lit jusque dans les mains. Les plis de la chemise, comme ceux du velours sur la jambe sont décrits avec précision. Ce tableau appartient encore à Rome, à l'orbite de Caravage.
+
+Face à lui, la Lucrèce peinte des années plus tard à Venise dit tout le chemin parcouru : la lumière s'est adoucie, le pinceau s'élargit sur les tissus et devient plus subjectif. La peau devient presque diaphane. Entre les deux toiles, ce n'est pas un sujet qui change de visage. C'est une artiste qui gagne, avec la maturité, la liberté de se détacher du détail.</p></details></div>
+</div>
+</div>
+</div>
+<div class="wall" id="w3" style="transform:rotateY(240deg);">
+<div class="panel-face">
+<img class="artwork" data-key="lucrece_artemisia" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/lucrece.jpeg" style="height:200px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Lucrèce, 1627</strong><p class="cartel-preview">Cette Lucrèce, peinte en 1627, est exécutée à Venise. Influencée par le courant artistique, le style est plus sensible, elle s'éloigne du caravagisme. Les…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Cette Lucrèce, peinte en 1627, est exécutée à Venise. Influencée par le courant artistique, le style est plus sensible, elle s'éloigne du caravagisme. Les contrastes sont plus doux, les tissus ne sont plus dessinés au pinceau fin. Au contraire, de larges coups de brosse, qu'on appelle aussi touche libre, suggèrent la matière plutôt que de la décrire avec précision.
+
+Artemisia est en perpétuelle adaptation, elle avale tout ce qu'elle peut. Elle a soif de connaissance. Cette Lucrèce est un tournant dans son art, par sa facture plus douce, son pinceau plus libre, moins précis, plus sensuel et luxueux.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="madeleine_kimbell" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/marie_madeleine_kimbell_museum.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Marie-Madeleine pénitente, v. 1625–1626</strong><p class="cartel-preview">Le tableau a disparu pendant près de quatre siècles, pris pour une simple copie d'atelier lors d'une vente en 2001. C'est un motif de rideau, identique à…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Le tableau a disparu pendant près de quatre siècles, pris pour une simple copie d'atelier lors d'une vente en 2001. C'est un motif de rideau, identique à celui d'une autre toile confirmée, qui a permis en 2021 de lui rendre son autrice.</p></details></div>
+</div>
+</div>
+<div id="axis"></div>
+</div>
 </div>
 <div class="nav-bts">
-  <a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
+<a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
 </div>
 <div class="center-dot"></div>
+<div id="hud">rot = 0</div>
 <div id="hint">Glisser a la souris pour tourner — cliquer un tableau pour le voir seul</div>
-
 <dialog class="lightbox" id="dlg-img">
- <button class="lb-close" id="dlg-close">&times;</button>
- <div class="lb-flex">
-  <div class="lb-img-col">
-   <img id="dlg-img-main" src="" alt="">
-  </div>
-  <div class="lb-cartel-col">
-   <p class="lb-title" id="dlg-title"></p>
-   <div class="lb-body" id="dlg-body"></div>
-  </div>
- </div>
+<button class="lb-close" id="dlg-close">×</button>
+<div class="lb-flex">
+<div class="lb-img-col">
+<img alt="" id="dlg-img-main" src=""/>
+</div>
+<div class="lb-cartel-col" id="dlg-cartel-col">
+<p class="lb-title" id="dlg-title"></p>
+<div class="lb-body" id="dlg-body"></div>
+</div>
+</div>
 </dialog>
 <script>
 const world = document.getElementById('world');
+const hud = document.getElementById('hud');
 const viewport = document.getElementById('viewport');
 let currentRot = 0;
 let currentZoom = 1;
@@ -197,6 +232,7 @@ let dragging = false, startX = 0, startRot = 0;
 
 function apply(){
   world.style.transform = `translate(-50%,-50%) scale(${currentZoom}) rotateY(${currentRot}deg)`;
+  hud.textContent = `rot = ${currentRot.toFixed(1)}   zoom = ${currentZoom.toFixed(2)}`;
 }
 apply();
 
@@ -224,30 +260,62 @@ window.setRot = function(r){ currentRot = r; apply(); };
    exactement comme dans Carrousel.html (Judith). Registre vide pour l'instant. */
 const RAW = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
 const ARTWORKS = {
-  madeleine_pitti: { img: RAW+'marie_madeleine_pitty.jpg', title:'Marie-Madeleine, Palazzo Pitti', body:'180 cm de haut.' },
-  madeleine_kimbell: { img: RAW+'marie_madeleine_kimbell_museum.jpg', title:'Marie-Madeleine, Kimbell Art Museum', body:'180 cm de haut.' },
-  venus_cupidon: { img: RAW+'Venus_and_Cupid.jpg', title:'Vénus et Cupidon', body:'Artemisia Gentileschi. 180 cm de large.' },
-  venus_giorgione: { img: RAW+'venus_endormie_giorgionne.jpg', title:'Vénus endormie', body:'Giorgione. 180 cm de large.' },
-  lucrece_artemisia: { img: RAW+'lucrece.jpeg', title:'Lucrèce', body:'Artemisia Gentileschi. 100 cm de haut.' },
-  lucrece_veronese: { img: RAW+'Lucrece_veronese.jpg', title:'Lucrèce', body:'Paolo Veronese. Texte de cartel à finaliser.' },
-  lucrece_rome: { img: RAW+'Lucrece_rome.jpg', title:'Lucrèce, collection romaine', body:'Texte de cartel à finaliser.' }
+  madeleine_pitti: { img: RAW+"marie_madeleine_pitty.jpg", title:"Artemisia Gentileschi — La Conversion de Marie-Madeleine, v. 1615", body:"Cette composition s’articule autour de trois pôles visuels isolés par un clair-obscur rigoureux : le drapé saturé de la robe de soie jaune, le miroir et l'inscription latine en lettres d'or.\n\nLe renoncement au monde séculier est figé sans théâtralité : la main droite de la sainte effleure à peine le miroir, marquant le détachement plutôt que le rejet violent. Au-dessus de l'objet, suspendue dans la pénombre du fond, la sentence tirée de l'Évangile de Luc — « Optimam partem elegit » (« Elle a choisi la meilleure part »)." },
+  madeleine_kimbell: { img: RAW+"marie_madeleine_kimbell_museum.jpg", title:"Artemisia Gentileschi — Marie-Madeleine pénitente, v. 1625–1626", body:"Le tableau a disparu pendant près de quatre siècles, pris pour une simple copie d'atelier lors d'une vente en 2001. C'est un motif de rideau, identique à celui d'une autre toile confirmée, qui a permis en 2021 de lui rendre son autrice." },
+  venus_cupidon: { img: RAW+"Venus_and_Cupid.jpg", title:"Artemisia Gentileschi — Vénus et Cupidon, v. 1625–1630", body:"Même dans ce sujet inhabituel pour elle, plusieurs indices trahissent la main d'Artemisia. Le visage de Vénus reprend ses propres traits, comme dans plusieurs de ses tableaux. La pose se distingue par son naturel : la main repose sans tension, les jambes se referment sans rigidité artificielle. Mary Garrard* relève aussi la fermeté du poignet de Vénus, contrastant avec les mains enfantines de Cupidon, une constante chez Artemisia, qui donne à ses figures féminines une prise ferme, jamais purement décorative.\n\n*professeure émérite d'histoire de l'art à l'American University (Washington, DC)." },
+  venus_giorgione: { img: RAW+"venus_endormie_giorgionne.jpg", title:"Giorgione–Titien — Vénus endormie", body:"Giorgione commence cette Vénus vers 1510, il meurt sans l'achever. Titien peint le paysage qui l'entoure. Le corps reste nu, seul, endormi en plein air, la main posée sur elle-même, sans autre présence que le paysage.\n\nArtemisia reprend un siècle plus tard ce type déjà passé dans toute l'école vénitienne. Elle ferme la scène sur un rideau, ajoute Cupidon qui veille et écarte toute menace et place un temple au loin. Le sommeil n'est plus solitaire. Il est gardé." },
+  lucrece_artemisia: { img: RAW+"lucrece.jpeg", title:"Artemisia Gentileschi — Lucrèce, 1627", body:"Cette Lucrèce, peinte en 1627, est exécutée à Venise. Influencée par le courant artistique, le style est plus sensible, elle s'éloigne du caravagisme. Les contrastes sont plus doux, les tissus ne sont plus dessinés au pinceau fin. Au contraire, de larges coups de brosse, qu'on appelle aussi touche libre, suggèrent la matière plutôt que de la décrire avec précision.\n\nArtemisia est en perpétuelle adaptation, elle avale tout ce qu'elle peut. Elle a soif de connaissance. Cette Lucrèce est un tournant dans son art, par sa facture plus douce, son pinceau plus libre, moins précis, plus sensuel et luxueux." },
+  lucrece_veronese: { img: RAW+"Lucrece_veronese.jpg", title:"Véronèse — Lucrèce", body:"Paolo Véronèse traite le suicide de Lucrèce selon les codes du faste vénitien. L'intensité du drame s'efface sous la virtuosité des matières : la richesse des velours verts, le chatoiement des soies, le décorum des motifs floraux enchâssent le personnage. La tête inclinée, drapée dans l'apparat, Lucrèce devient un sujet de délectation plastique où la violence est domestiquée par l'élégance.\n\nArtemisia Gentileschi rompt avec cette théâtralité décorative. Elle remplace l'apparat des étoffes lourdes par un voile qui se défait, tourbillonne, n'obéit plus au corps. Le regard ne se pose plus sur l'objet mais fuit vers le ciel. Là où Véronèse peint un sacrifice déjà résolu, Artemisia peint l'instant qui précède, suspendu, tendu, sans rien perdre d'un certain érotisme, par la poitrine dénudée et le traitement de la peau." },
+  lucrece_rome: { img: RAW+"Lucrece_rome.jpg", title:"Artemisia Gentileschi — Lucrèce, Rome, 1620", body:"La lumière est dure, elle rebondit sur le corps de Lucrèce. Le regard est tendu et celle-ci se lit jusque dans les mains. Les plis de la chemise, comme ceux du velours sur la jambe sont décrits avec précision. Ce tableau appartient encore à Rome, à l'orbite de Caravage.\n\nFace à lui, la Lucrèce peinte des années plus tard à Venise dit tout le chemin parcouru : la lumière s'est adoucie, le pinceau s'élargit sur les tissus et devient plus subjectif. La peau devient presque diaphane. Entre les deux toiles, ce n'est pas un sujet qui change de visage. C'est une artiste qui gagne, avec la maturité, la liberté de se détacher du détail." }
 };
 
 const dlg = document.getElementById('dlg-img');
 const dlgImg = document.getElementById('dlg-img-main');
 const dlgTitle = document.getElementById('dlg-title');
 const dlgBody = document.getElementById('dlg-body');
+const dlgCartelCol = document.getElementById('dlg-cartel-col');
+
+function updateLightboxCartel(fullText){
+  const txt = (fullText || '').trim();
+  const isLong = txt.length > 320 || (txt.match(/\n/g) || []).length >= 2;
+
+  dlgBody.textContent = txt;
+  dlgCartelCol.classList.toggle('long', isLong);
+  dlgCartelCol.classList.toggle('short', !isLong);
+  dlgBody.scrollTop = 0;
+}
 
 function openLightbox(key){
   const a = ARTWORKS[key];
   if (!a) return;
   dlgImg.src = a.img; dlgImg.alt = a.title;
   dlgTitle.textContent = a.title;
-  dlgBody.textContent = a.body;
+  updateLightboxCartel(a.body || '');
   dlg.showModal();
+  dlgBody.scrollTop = 0;
 }
+
 document.getElementById('dlg-close').addEventListener('click', ()=> dlg.close());
 dlg.addEventListener('click', e=>{ if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', ()=>{ dlgBody.scrollTop = 0; });
+
+
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('.cartel-toggle');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const box = btn.closest('.cartel, .cartel-inline');
+  if (!box) return;
+  const isOpen = box.classList.toggle('open');
+  btn.textContent = isOpen ? 'Réduire ▴' : 'Lire la suite ▾';
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+document.querySelectorAll('.cartel, .cartel-inline').forEach(cartel=>{
+  cartel.addEventListener('pointerdown', e=>e.stopPropagation());
+  cartel.addEventListener('click', e=>e.stopPropagation());
+});
 
 document.querySelectorAll('.artwork[data-key]').forEach(el=>{
   el.addEventListener('click', e=>{

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8"/>
 <title>Tourniquet - axe + 3 murs a 120</title>
 <style>
   html,body{margin:0;height:100%;background:#000;overflow:hidden;user-select:none;}
@@ -58,15 +59,30 @@
      comme dans Carrousel.html (Judith), avec largeur/hauteur reelles (2px = 1cm) et un data-key
      correspondant a une entree du registre ARTWORKS plus bas dans le script. */
   .artwork{display:block;box-shadow:0 20px 50px rgba(0,0,0,0.6);flex-shrink:0;cursor:zoom-in;}
+  /* Cartels muraux : copie exacte du modèle Station 1 — Suzanne. */
   .cartel{
     position:absolute;top:calc(50% - 50px);
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
+  .cartel-inline{
+    position:static;flex-shrink:0;
+    width:60px;height:100px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
+  }
+  .cartel strong,.cartel-inline strong{display:block;font-size:7.6px;margin-bottom:3px;line-height:1.12;}
+  .cartel .cartel-preview,.cartel-inline .cartel-preview{margin:0;font-size:5.8px;line-height:1.15;color:#333;}
+  .cartel details,.cartel-inline details{margin-top:3px;font-size:5.8px;line-height:1.18;color:#333;}
+  .cartel summary,.cartel-inline summary{cursor:pointer;color:#6c543b;font-weight:bold;list-style:none;border-top:1px solid #b9ad9d;padding-top:2px;}
+  .cartel summary::-webkit-details-marker,.cartel-inline summary::-webkit-details-marker{display:none;}
+  .cartel details[open],.cartel-inline details[open]{position:absolute;inset:0;background:#f2ede3;padding:6px;z-index:5;overflow:auto;box-sizing:border-box;}
+  .cartel-inline{position:relative;}
+  .cartel details[open] summary,.cartel-inline details[open] summary{position:sticky;top:-6px;background:#f2ede3;padding:2px 0 3px;border-top:0;border-bottom:1px solid #b9ad9d;margin-bottom:4px;}
+  .cartel .cartel-full,.cartel-inline .cartel-full{margin:0;white-space:pre-line;}
   #hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:#888;font-family:sans-serif;font-size:13px;}
   .center-dot{position:fixed;top:50%;left:50%;width:6px;height:6px;background:red;border-radius:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
 
@@ -92,84 +108,105 @@
   .lb-flex{display:flex;align-items:center;justify-content:center;gap:36px;height:100%;padding:40px;box-sizing:border-box;}
   .lb-img-col{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%;}
   .lb-img-col img{width:100%;height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.7);}
-  .lb-cartel-col{width:300px;flex-shrink:0;font-family:Georgia,serif;}
-  .lb-cartel-col .lb-title{font-size:1.2rem;color:#e8dcc8;margin:0 0 18px;line-height:1.4;}
-  .lb-cartel-col .lb-body{font-size:0.9rem;color:#c9bfa0;line-height:1.85;white-space:pre-line;}
+  .lb-cartel-col{
+    width:300px;
+    flex-shrink:0;
+    align-self:center;
+    font-family:Georgia,serif;
+    background:#fff;
+    color:#1b1b1b;
+    padding:18px;
+    border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
+  }
+  .lb-cartel-col .lb-title{
+    font-size:1.05rem;
+    color:#1b1b1b;
+    margin:0 0 10px;
+    line-height:1.35;
+  }
+  .lb-cartel-col .lb-body{
+    font-size:0.86rem;
+    color:#333;
+    line-height:1.6;
+    white-space:pre-line;
+    margin:0;
+  }
+  .lb-cartel-col.short .lb-body{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .lb-cartel-col.long .lb-body{
+    max-height:16em;
+    overflow-y:auto;
+    padding-right:10px;
+    padding-bottom:12px;
+    scrollbar-gutter:stable;
+  }
 </style>
 </head>
 <body>
 <div id="viewport">
-  <div id="world">
-    <div id="ceiling"></div>
-    <div id="floor"></div>
-    <div class="wall" id="w1" style="transform:rotateY(0deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="judith_epee" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_epee_profil.jpg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Judith, l'épée de profil. 180 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="sainte_catherine_guido_reni" style="height:200px;width:auto;object-fit:contain;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/sainte_catherine_Guido_Reni.jpg">
-        <div class="cartel">
-          <strong>Guido Reni</strong>
-          <p>Sainte Catherine. Dimensions à compléter.</p>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w2" style="transform:rotateY(120deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="sainte_catherine" style="height:200px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/sainte_Catherine.jpg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Sainte Catherine. 100 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="femme_eventail" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_femme_a_l_eventail.jpg">
-        <div class="cartel">
-          <strong>Femme à l'éventail</strong>
-          <p>180 cm de haut.</p>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w3" style="transform:rotateY(240deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="condottiero" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_il_Condottiero_Bologna.jpeg">
-        <div class="cartel">
-          <strong>Il Condottiero</strong>
-          <p>180 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="fede_galizia" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_fede_galicia.jpg">
-        <div class="cartel">
-          <strong>Fede Galizia</strong>
-          <p>Judith. Texte de cartel à finaliser.</p>
-        </div>
-      </div>
-    </div>
-    <div id="axis"></div>
-  </div>
+<div id="world">
+<div id="ceiling"></div>
+<div id="floor"></div>
+<div class="wall" id="w1" style="transform:rotateY(0deg);">
+<div class="panel-face">
+<img class="artwork" data-key="judith_epee" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_epee_profil.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Judith et l’épée de profil</strong><p class="cartel-preview">Texte de cartel à compléter. Texte provisoire de mise en page. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ce contenu sera remplacé par le…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Texte de cartel à compléter.
+
+Texte provisoire de mise en page. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ce contenu sera remplacé par le texte définitif du cartel.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="sainte_catherine_guido_reni" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/sainte_catherine_Guido_Reni.jpg" style="height:200px;width:auto;object-fit:contain;"/>
+<div class="cartel"><strong>Guido Reni — Sainte Catherine</strong><p class="cartel-preview">Texte de cartel à compléter. Texte provisoire de mise en page. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ce contenu sera remplacé par le…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Texte de cartel à compléter.
+
+Texte provisoire de mise en page. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ce contenu sera remplacé par le texte définitif du cartel.</p></details></div>
+</div>
+</div>
+<div class="wall" id="w2" style="transform:rotateY(120deg);">
+<div class="panel-face">
+<img class="artwork" data-key="sainte_catherine" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/sainte_Catherine.jpg" style="height:200px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Autoportrait en Sainte Catherine d’Alexandrie, v. 1615-1617</strong><p class="cartel-preview">Catherine était princesse et lettrée. Des philosophes furent envoyés pour la convaincre de renoncer à sa foi. Elle les convainc, eux, plutôt que…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Catherine était princesse et lettrée. Des philosophes furent envoyés pour la convaincre de renoncer à sa foi. Elle les convainc, eux, plutôt que l'inverse. Condamnée pour ce refus à la roue, elle en sort intacte, sauvée avant le supplice. Artemisia se peint dans ce rôle précis, tenant la palme et la roue brisée, non pas comme une victime, mais comme une femme qui a déjà gagné son argument. Cet autoportrait précède de vingt ans la femme qui négociera ses prix avec des collectionneurs, refusera qu'on la traite en débutante, revendiquera l'égalité avec n'importe quel peintre homme.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="femme_eventail" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_femme_a_l_eventail.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Femme à l’éventail</strong><p class="cartel-preview">La composition la place en légère contre-plongée : elle domine le regard de qui l'observe, la tête haute, le regard hautain. Le visage rappelle celui de…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">La composition la place en légère contre-plongée : elle domine le regard de qui l'observe, la tête haute, le regard hautain. Le visage rappelle celui de la Pittura, peinte plus tard, pinceau en main. Les historiens ne s'accordent pas sur qui est cette femme. Certains y voient un autoportrait déguisé sous une richesse d'étoffe inhabituelle chez Artemisia. D'autres jugent l'hypothèse peu probable, justement à cause de ce luxe. Le doute reste entier.</p></details></div>
+</div>
+</div>
+<div class="wall" id="w3" style="transform:rotateY(240deg);">
+<div class="panel-face">
+<img class="artwork" data-key="condottiero" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/st12_il_Condottiero_Bologna.jpeg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Il Condottiero, 1622</strong><p class="cartel-preview">Huile sur toile, 208,4 × 128,4 cm. Palazzo d'Accursio, Bologne. Peint peu après son retour de Florence, ce portrait en pied marque une nouvelle étape dans…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Huile sur toile, 208,4 × 128,4 cm. Palazzo d'Accursio, Bologne.
+
+Peint peu après son retour de Florence, ce portrait en pied marque une nouvelle étape dans la carrière d'Artemisia : celle des commandes officielles. On ne confie pas le portrait d'un dignitaire pontifical à n'importe quel peintre, et cette toile atteste d'une reconnaissance institutionnelle déjà acquise. La croix d'argent de l'ordre, le ruban vert, la bannière pontificale et le casque à panache disent le rang du modèle. Mais c'est la lumière qui fait le travail d'Artemisia : elle découpe la silhouette, projette une ombre nette sur le mur, révèle chaque matière, le métal, le velours, la fourrure, avec une précision qui dépasse la simple obligation protocolaire. Le visage, à la fois formel et presque jovial, échappe à la raideur habituelle du genre.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="fede_galizia" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_fede_galicia.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Fede Galizia — Judith et la tête d’Holopherne, 1596</strong><p class="cartel-preview">Fede Galizia choisit la matière comme sujet. Le double rang de perles, le brocart du corsage, le velours du béret, la lame ciselée où l'artiste appose sa…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Fede Galizia choisit la matière comme sujet. Le double rang de perles, le brocart du corsage, le velours du béret, la lame ciselée où l'artiste appose sa signature.\n\nFormée par son père miniaturiste, elle fait de la précision du détail une forme de virtuosité à part entière.</p></details></div>
+</div>
+</div>
+<div id="axis"></div>
+</div>
 </div>
 <div class="nav-bts">
-  <a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
+<a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
 </div>
 <div class="center-dot"></div>
 <div id="hint">Glisser a la souris pour tourner — cliquer un tableau pour le voir seul</div>
-
 <dialog class="lightbox" id="dlg-img">
- <button class="lb-close" id="dlg-close">&times;</button>
- <div class="lb-flex">
-  <div class="lb-img-col">
-   <img id="dlg-img-main" src="" alt="">
-  </div>
-  <div class="lb-cartel-col">
-   <p class="lb-title" id="dlg-title"></p>
-   <div class="lb-body" id="dlg-body"></div>
-  </div>
- </div>
+<button class="lb-close" id="dlg-close">×</button>
+<div class="lb-flex">
+<div class="lb-img-col">
+<img alt="" id="dlg-img-main" src=""/>
+</div>
+<div class="lb-cartel-col" id="dlg-cartel-col">
+<p class="lb-title" id="dlg-title"></p>
+<div class="lb-body" id="dlg-body"></div>
+</div>
+</div>
 </dialog>
 <script>
 const world = document.getElementById('world');
@@ -207,29 +244,63 @@ window.setRot = function(r){ currentRot = r; apply(); };
    exactement comme dans Carrousel.html (Judith). Registre vide pour l'instant. */
 const RAW = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
 const ARTWORKS = {
-  judith_epee: { img: RAW+'judith_epee_profil.jpg', title:"Judith, l'épée de profil", body:'Artemisia Gentileschi. 180 cm de haut.' },
-  sainte_catherine: { img: RAW+'sainte_Catherine.jpg', title:'Sainte Catherine', body:'Artemisia Gentileschi. 100 cm de haut.' },
-  sainte_catherine_guido_reni: { img: RAW+'sainte_catherine_Guido_Reni.jpg', title:'Sainte Catherine', body:'Guido Reni. Dimensions à compléter.' },
-  femme_eventail: { img: RAW+'st12_femme_a_l_eventail.jpg', title:"Femme à l'éventail", body:'180 cm de haut.' },
-  condottiero: { img: RAW+'st12_il_Condottiero_Bologna.jpeg', title:'Il Condottiero', body:'180 cm de haut.' },
-  fede_galizia: { img: RAW+'judith_fede_galicia.jpg', title:'Fede Galizia — Judith', body:'Texte de cartel à finaliser.' }
+  judith_epee: { img: RAW+'judith_epee_profil.jpg', title:"Artemisia Gentileschi — Judith et l’épée de profil", body:"Texte de cartel à compléter." },
+  sainte_catherine_guido_reni: { img: RAW+'sainte_catherine_Guido_Reni.jpg', title:'Guido Reni — Sainte Catherine', body:'Texte de cartel à compléter.' },
+  sainte_catherine: { img: RAW+'sainte_Catherine.jpg', title:'Artemisia Gentileschi — Autoportrait en Sainte Catherine d’Alexandrie, v. 1615-1617', body:"Catherine était princesse et lettrée. Des philosophes furent envoyés pour la convaincre de renoncer à sa foi. Elle les convainc, eux, plutôt que l'inverse. Condamnée pour ce refus à la roue, elle en sort intacte, sauvée avant le supplice. Artemisia se peint dans ce rôle précis, tenant la palme et la roue brisée, non pas comme une victime, mais comme une femme qui a déjà gagné son argument. Cet autoportrait précède de vingt ans la femme qui négociera ses prix avec des collectionneurs, refusera qu'on la traite en débutante, revendiquera l'égalité avec n'importe quel peintre homme." },
+  femme_eventail: { img: RAW+'st12_femme_a_l_eventail.jpg', title:"Artemisia Gentileschi — Femme à l’éventail", body:"La composition la place en légère contre-plongée : elle domine le regard de qui l'observe, la tête haute, le regard hautain. Le visage rappelle celui de la Pittura, peinte plus tard, pinceau en main. Les historiens ne s'accordent pas sur qui est cette femme. Certains y voient un autoportrait déguisé sous une richesse d'étoffe inhabituelle chez Artemisia. D'autres jugent l'hypothèse peu probable, justement à cause de ce luxe. Le doute reste entier." },
+  condottiero: { img: RAW+'st12_il_Condottiero_Bologna.jpeg', title:'Artemisia Gentileschi — Il Condottiero, 1622', body:"Huile sur toile, 208,4 × 128,4 cm. Palazzo d'Accursio, Bologne.\n\nPeint peu après son retour de Florence, ce portrait en pied marque une nouvelle étape dans la carrière d'Artemisia : celle des commandes officielles. On ne confie pas le portrait d'un dignitaire pontifical à n'importe quel peintre, et cette toile atteste d'une reconnaissance institutionnelle déjà acquise. La croix d'argent de l'ordre, le ruban vert, la bannière pontificale et le casque à panache disent le rang du modèle. Mais c'est la lumière qui fait le travail d'Artemisia : elle découpe la silhouette, projette une ombre nette sur le mur, révèle chaque matière, le métal, le velours, la fourrure, avec une précision qui dépasse la simple obligation protocolaire. Le visage, à la fois formel et presque jovial, échappe à la raideur habituelle du genre." },
+  fede_galizia: { img: RAW+'judith_fede_galicia.jpg', title:'Fede Galizia — Judith et la tête d’Holopherne, 1596', body:"Fede Galizia choisit la matière comme sujet. Le double rang de perles, le brocart du corsage, le velours du béret, la lame ciselée où l'artiste appose sa signature.\n\nFormée par son père miniaturiste, elle fait de la précision du détail une forme de virtuosité à part entière." }
 };
 
 const dlg = document.getElementById('dlg-img');
 const dlgImg = document.getElementById('dlg-img-main');
 const dlgTitle = document.getElementById('dlg-title');
 const dlgBody = document.getElementById('dlg-body');
+const dlgCartelCol = document.getElementById('dlg-cartel-col');
+
+function updateLightboxCartel(fullText){
+  const txt = (fullText || '').trim();
+  const isLong = txt.length > 320 || (txt.match(/\n/g) || []).length >= 2;
+
+  dlgBody.textContent = txt;
+  dlgCartelCol.classList.toggle('long', isLong);
+  dlgCartelCol.classList.toggle('short', !isLong);
+  dlgBody.scrollTop = 0;
+}
 
 function openLightbox(key){
   const a = ARTWORKS[key];
   if (!a) return;
   dlgImg.src = a.img; dlgImg.alt = a.title;
   dlgTitle.textContent = a.title;
-  dlgBody.textContent = a.body;
+  updateLightboxCartel(a.body || '');
   dlg.showModal();
+  dlgBody.scrollTop = 0;
 }
+
 document.getElementById('dlg-close').addEventListener('click', ()=> dlg.close());
 dlg.addEventListener('click', e=>{ if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', ()=>{ dlgBody.scrollTop = 0; });
+
+
+document.querySelectorAll('.cartel').forEach(cartel=>{
+  cartel.addEventListener('pointerdown', e=>e.stopPropagation());
+  cartel.addEventListener('click', e=>{
+    if (e.target.closest('.cartel-toggle')) return;
+    e.stopPropagation();
+  });
+});
+document.querySelectorAll('.cartel-toggle').forEach(btn=>{
+  btn.addEventListener('click', e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const box = btn.closest('.cartel');
+    if (!box) return;
+    const isOpen = box.classList.toggle('open');
+    btn.textContent = isOpen ? 'Réduire ▴' : 'Lire la suite ▾';
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+});
 
 document.querySelectorAll('.artwork[data-key]').forEach(el=>{
   el.addEventListener('click', e=>{

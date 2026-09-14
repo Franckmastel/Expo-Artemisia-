@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8"/>
 <title>Tourniquet - axe + 3 murs a 120</title>
 <style>
   html,body{margin:0;height:100%;background:#000;overflow:hidden;user-select:none;}
@@ -59,26 +60,31 @@
      correspondant a une entree du registre ARTWORKS plus bas dans le script. */
   .artwork{display:block;box-shadow:0 20px 50px rgba(0,0,0,0.6);flex-shrink:0;cursor:zoom-in;}
   .cartel{
-    position:absolute;top:calc(50% - 50px);
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    position:absolute;top:calc(50% - 70px);
+    width:60px;height:140px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
-  /* Variante pour un mur qui presente 2 tableaux cote a cote (pas de positionnement
-     dynamique necessaire : le flex gere l'espacement tout seul). */
-  .duo-row{display:flex;align-items:center;justify-content:center;gap:16px;}
   .cartel-inline{
     position:static;flex-shrink:0;
-    width:60px;min-height:100px;height:auto;
-    background:#f2ede3;color:#111;padding:6px 6px;
-    font-family:Georgia, serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
-    box-sizing:border-box;
+    width:60px;height:140px;
+    background:#f2ede3;color:#111;padding:6px;
+    font-family:Georgia,serif;box-shadow:0 6px 16px rgba(0,0,0,0.5);
+    box-sizing:border-box;overflow:hidden;
   }
-  .cartel-inline strong{display:block;font-size:8px;margin-bottom:3px;line-height:1.15;}
-  .cartel-inline p{margin:0;font-size:6.5px;line-height:1.2;color:#333;}
+  .cartel strong,.cartel-inline strong{display:block;font-size:7.6px;margin-bottom:3px;line-height:1.12;}
+  .cartel .cartel-preview,.cartel-inline .cartel-preview{margin:0;font-size:5.8px;line-height:1.15;color:#333;}
+  .cartel details,.cartel-inline details{margin-top:3px;font-size:5.8px;line-height:1.18;color:#333;}
+  .cartel summary,.cartel-inline summary{cursor:pointer;color:#6c543b;font-weight:bold;list-style:none;border-top:1px solid #b9ad9d;padding-top:2px;}
+  .cartel summary::-webkit-details-marker,.cartel-inline summary::-webkit-details-marker{display:none;}
+  .cartel details[open],.cartel-inline details[open]{position:absolute;inset:0;background:#f2ede3;padding:6px;z-index:5;overflow:auto;box-sizing:border-box;}
+  .cartel-inline details[open]{position:absolute;}
+  .cartel details[open] summary,.cartel-inline details[open] summary{position:sticky;top:-6px;background:#f2ede3;padding:2px 0 3px;border-top:0;border-bottom:1px solid #b9ad9d;margin-bottom:4px;}
+  .cartel .cartel-full,.cartel-inline .cartel-full{margin:0;white-space:pre-line;}
+  .duo-row{display:flex;align-items:center;justify-content:center;gap:16px;position:relative;}
+
+  #hud{position:fixed;top:16px;left:16px;color:#0f0;font-family:monospace;font-size:14px;}
   #hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:#888;font-family:sans-serif;font-size:13px;}
   .center-dot{position:fixed;top:50%;left:50%;width:6px;height:6px;background:red;border-radius:50%;transform:translate(-50%,-50%);z-index:999;pointer-events:none;}
 
@@ -104,94 +110,122 @@
   .lb-flex{display:flex;align-items:center;justify-content:center;gap:36px;height:100%;padding:40px;box-sizing:border-box;}
   .lb-img-col{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:100%;}
   .lb-img-col img{width:100%;height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.7);}
-  .lb-cartel-col{width:300px;flex-shrink:0;font-family:Georgia,serif;}
-  .lb-cartel-col .lb-title{font-size:1.2rem;color:#e8dcc8;margin:0 0 18px;line-height:1.4;}
-  .lb-cartel-col .lb-body{font-size:0.9rem;color:#c9bfa0;line-height:1.85;white-space:pre-line;}
+  .lb-cartel-col{
+    width:300px;
+    flex-shrink:0;
+    align-self:center;
+    font-family:Georgia,serif;
+    background:#fff;
+    color:#1b1b1b;
+    padding:18px;
+    border-radius:4px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
+  }
+  .lb-cartel-col .lb-title{
+    font-size:1.05rem;
+    color:#1b1b1b;
+    margin:0 0 10px;
+    line-height:1.35;
+  }
+  .lb-cartel-col .lb-body{
+    font-size:0.86rem;
+    color:#333;
+    line-height:1.6;
+    white-space:pre-line;
+    margin:0;
+  }
+  /* Texte court : hauteur naturelle. */
+  .lb-cartel-col.short .lb-body{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  /* Texte long : environ 10 lignes visibles, puis défilement vertical. */
+  .lb-cartel-col.long .lb-body{
+    max-height:16em;
+    overflow-y:auto;
+    padding-right:10px;
+    padding-bottom:12px;
+    scrollbar-gutter:stable;
+  }
 </style>
 </head>
 <body>
 <div id="viewport">
-  <div id="world">
-    <div id="ceiling"></div>
-    <div id="floor"></div>
-    <div class="wall" id="w1" style="transform:rotateY(0deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="joueuse_artemisia" style="width:216px;height:288px;object-fit:cover;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Joueuse_luth.jpeg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>La Joueuse de luth. 144 × 108 cm.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="sirani_timoclea" style="width:324px;height:398px;object-fit:cover;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg">
-        <div class="cartel">
-          <strong>Elisabeta Sirani</strong>
-          <p>Timoclea. Texte de cartel à finaliser.</p>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w2" style="transform:rotateY(120deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="judith_florence" style="width:324px;height:398px;object-fit:cover;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_florence.jpg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Judith décapitant Holopherne, Florence. Vers 1620. Huile sur toile, 199 × 162 cm.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <div class="duo-row">
-          <img class="artwork" data-key="honthorst_koppelaarster" style="height:160px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/honthorst_Gerrit_van__de_koppelaarster.jpg">
-          <div class="cartel-inline">
-            <strong>Gerrit van Honthorst</strong>
-            <p>La Courtisane (La Koppelaarster). Texte de cartel à finaliser.</p>
-          </div>
-          <img class="artwork" data-key="latour_jerome" style="height:160px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Georges_de_la_tour_st_jerome_lisant.png">
-          <div class="cartel-inline">
-            <strong>Georges de La Tour</strong>
-            <p>Saint Jérôme lisant. Texte de cartel à finaliser.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="wall" id="w3" style="transform:rotateY(240deg);">
-      <div class="panel-face">
-        <img class="artwork" data-key="judith_bougie" style="height:360px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_bougie.jpg">
-        <div class="cartel">
-          <strong>Artemisia Gentileschi</strong>
-          <p>Judith à la bougie. 180 cm de haut.</p>
-        </div>
-      </div>
-      <div class="panel-back">
-        <img class="artwork" data-key="joueuse_orazio" style="height:288px;width:auto;" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/joueuse_luth_orazio.jpg">
-        <div class="cartel">
-          <strong>Orazio Gentileschi</strong>
-          <p>La Joueuse de luth. Texte de cartel à finaliser.</p>
-        </div>
-      </div>
-    </div>
-    <div id="axis"></div>
-  </div>
+<div id="world">
+<div id="ceiling"></div>
+<div id="floor"></div>
+<div class="wall" id="w1" style="transform:rotateY(0deg);">
+<div class="panel-face">
+<img class="artwork" data-key="joueuse_artemisia" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Joueuse_luth.jpeg" style="width:216px;height:288px;object-fit:cover;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — La Joueuse de luth, c. 1615-1618</strong><p class="cartel-preview">La lumière tombe en biais, blanche et coupante, et referme la scène sur un noir presque total. Le principe vient de Caravage : son Joueur de l…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">La lumière tombe en biais, blanche et coupante, et referme la scène sur un noir presque total. Le principe vient de Caravage : son Joueur de luth, à l’Ermitage, arrache déjà la figure aux ténèbres par la même diagonale.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="timoclea" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg" style="width:324px;height:398px;object-fit:cover;"/>
+<div class="cartel"><strong>Elisabetta Sirani — Timoclea uccide il capitano di Alessandro Magno, 1659</strong><p class="cartel-preview">Texte provisoire pour visualiser le format du cartel dans l’exposition. Ce contenu sera remplacé par le texte définitif sans modifier la mise en page.</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Texte provisoire pour visualiser le format du cartel dans l’exposition. Ce contenu sera remplacé par le texte définitif sans modifier la mise en page.</p></details></div>
+</div>
+</div>
+<div class="wall" id="w2" style="transform:rotateY(120deg);">
+<div class="panel-face">
+<img class="artwork" data-key="judith_florence" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_florence.jpg" style="width:324px;height:398px;object-fit:cover;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Judith et Holopherne, vers 1620</strong><p class="cartel-preview">Cosme II de Médicis commande cette toile pour les appartements de son épouse, Marie-Madeleine d'Autriche. Broderies, dentelle, bracelet, coiff…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Cosme II de Médicis commande cette toile pour les appartements de son épouse, Marie-Madeleine d'Autriche. Broderies, dentelle, bracelet, coiffe à la mode florentine : le luxe s'impose ici, là où il était absent à Naples. La cour commande, le tissu obéit.
+
+Cette opulence sert deux causes. Elle inscrit l'héroïne biblique dans la haute sphère, aux côtés des duchesses qui défendent la Toscane en l'absence de leur époux. Et elle prouve, pour Artemisia, une maîtrise des matières précieuses qui lui ouvrira les portes des commandes de cour.
+
+Le sang jaillit du cou d'Holopherne en un arc précis. Des historiens ont relevé sa courbe presque parfaitement parabolique et l'ont rapprochée des recherches de Galilée sur la trajectoire des projectiles, menées alors que le savant était mathématicien de la cour de Cosme II. Galilée et Artemisia étaient amis et correspondants. Dans la version antérieure de Naples, le sang coulait simplement le long du cou. Ici, il obéit à une autre loi.
+
+À la fin du XVIIIe siècle, une descendante des Médicis juge la scène trop violente et fait reléguer la toile dans un couloir sombre du palais. Elle y reste près de deux siècles. Ce que le XXe siècle redécouvre alors, et considère comme le chef-d'œuvre d'Artemisia, avait donc d'abord été jugé indigne d'être vu.</p></details></div>
+</div>
+<div class="panel-back">
+<div class="duo-row">
+<img class="artwork" data-key="honthorst_koppelaarster" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/honthorst_Gerrit_van__de_koppelaarster.jpg" style="height:160px;width:auto;"/>
+<div class="cartel-inline"><strong>Gerrit van Honthorst — L’Entremetteuse, 1625</strong><p class="cartel-preview">Gerrit van Honthorst passe une dizaine d'années à Rome au début du XVIIe siècle, où il découvre l'œuvre de Caravage. Il en retient le clair-ob…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Gerrit van Honthorst passe une dizaine d'années à Rome au début du XVIIe siècle, où il découvre l'œuvre de Caravage. Il en retient le clair-obscur radical et la mise en scène de la lumière comme moteur dramatique, au point que les Romains le surnomment Gherardo delle Notti. Sa marque propre : une source lumineuse unique, souvent une bougie, intégrée dans la composition elle-même.</p></details></div>
+<img class="artwork" data-key="latour_jerome" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/Georges_de_la_tour_st_jerome_lisant.png" style="height:160px;width:auto;"/>
+<div class="cartel-inline"><strong>Georges de La Tour — Saint Jérôme lisant, 1627-1629</strong><p class="cartel-preview">Ici la bougie sert à faire parler un objet. La lettre devient lisible par transparence. Texte provisoire pour visualiser le format du cartel dans l’exposition. Ce contenu sera remplacé par le texte définitif sans modifier la mise en page.</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Ici la bougie sert à faire parler un objet. La lettre devient lisible par transparence. Texte provisoire pour visualiser le format du cartel dans l’exposition. Ce contenu sera remplacé par le texte définitif sans modifier la mise en page.</p></details></div>
+</div>
+</div>
+</div>
+<div class="wall" id="w3" style="transform:rotateY(240deg);">
+<div class="panel-face">
+<img class="artwork" data-key="judith_bougie" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/judith_bougie.jpg" style="height:360px;width:auto;"/>
+<div class="cartel"><strong>Artemisia Gentileschi — Judith et sa servante</strong><p class="cartel-preview">La main de Judith s'interpose entre la flamme et son propre visage. La bougie éclaire violemment sa paume, tandis que ses doigts projettent un…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">La main de Judith s'interpose entre la flamme et son propre visage. La bougie éclaire violemment sa paume, tandis que ses doigts projettent une ombre ciselée sur ses propres traits et accentue la tension du regard.
+
+Le geste devient le levier optique de toute la composition. La source lumineuse n'est plus hors champ, à la manière caravagesque. Elle est prise dans le tableau, manipulée par la main même de son personnage.
+
+C'est ce dispositif, plus que le sujet biblique, qui relie Artemisia aux peintres du Nord installés à Rome dans ces mêmes années, Honthorst en tête, puis à ceux qui l'importeront en France une décennie plus tard.</p></details></div>
+</div>
+<div class="panel-back">
+<img class="artwork" data-key="joueuse_orazio" src="https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/joueuse_luth_orazio.jpg" style="height:288px;width:auto;"/>
+<div class="cartel"><strong>Orazio Gentileschi — La Joueuse de luth, c. 1612-1620</strong><p class="cartel-preview">Orazio peint sa version dix ans plus tôt, à Rome. Sa lumière reste dorée, plus douce, moins tranchée que celle de Caravage qu'il fréquente pou…</p><details><summary>Lire la suite ▾</summary><p class="cartel-full">Orazio peint sa version dix ans plus tôt, à Rome. Sa lumière reste dorée, plus douce, moins tranchée que celle de Caravage qu'il fréquente pourtant. La robe jaune coule avec une fluidité presque soyeuse.
+
+Chez Artemisia, le noir se referme presque entièrement sur la figure. Le bleu et l'or sont plus lourd, plus denses. Le modèle d'Orazio se détourne, regard absent. Elle tourne le luth dans l'axe de son visage et regarde le spectateur droit dans les yeux. Le père compose une scène. La fille revendique une présence.</p></details></div>
+</div>
+</div>
+<div id="axis"></div>
+</div>
 </div>
 <div class="nav-bts">
-  <a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
+<a href="page_entree.html">Vue d'ensemble — Entrée expo</a>
 </div>
 <div class="center-dot"></div>
+<div id="hud">rot = 0</div>
 <div id="hint">Glisser a la souris pour tourner — cliquer un tableau pour le voir seul</div>
-
 <dialog class="lightbox" id="dlg-img">
- <button class="lb-close" id="dlg-close">&times;</button>
- <div class="lb-flex">
-  <div class="lb-img-col">
-   <img id="dlg-img-main" src="" alt="">
-  </div>
-  <div class="lb-cartel-col">
-   <p class="lb-title" id="dlg-title"></p>
-   <div class="lb-body" id="dlg-body"></div>
-  </div>
- </div>
+<button class="lb-close" id="dlg-close">×</button>
+<div class="lb-flex">
+<div class="lb-img-col">
+<img alt="" id="dlg-img-main" src=""/>
+</div>
+<div class="lb-cartel-col" id="dlg-cartel-col">
+<p class="lb-title" id="dlg-title"></p>
+<div class="lb-body" id="dlg-body"></div>
+</div>
+</div>
 </dialog>
 <script>
 const world = document.getElementById('world');
+const hud = document.getElementById('hud');
 const viewport = document.getElementById('viewport');
 let currentRot = 0;
 let currentZoom = 1;
@@ -199,6 +233,7 @@ let dragging = false, startX = 0, startRot = 0;
 
 function apply(){
   world.style.transform = `translate(-50%,-50%) scale(${currentZoom}) rotateY(${currentRot}deg)`;
+  hud.textContent = `rot = ${currentRot.toFixed(1)}   zoom = ${currentZoom.toFixed(2)}`;
 }
 apply();
 
@@ -226,31 +261,65 @@ window.setRot = function(r){ currentRot = r; apply(); };
    exactement comme dans Carrousel.html (Judith). Registre vide pour l'instant. */
 const RAW = 'https://raw.githubusercontent.com/Franckmastel/Expo-Artemisia-/main/';
 const ARTWORKS = {
-  joueuse_artemisia: { img: RAW+'Joueuse_luth.jpeg', title:'La Joueuse de luth', body:'Artemisia Gentileschi. 144 × 108 cm.' },
-  sirani_timoclea: { img: RAW+'timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg', title:'Timoclea', body:'Elisabeta Sirani. Texte de cartel à finaliser.' },
-  joueuse_orazio:    { img: RAW+'joueuse_luth_orazio.jpg', title:'La Joueuse de luth', body:'Orazio Gentileschi. Texte de cartel à finaliser.' },
-  judith_florence: { img: RAW+'judith_florence.jpg', title:'Judith décapitant Holopherne, Florence', body:'Artemisia Gentileschi. Vers 1620. Huile sur toile, 199 × 162 cm.' },
-  fede_galizia:    { img: RAW+'judith_fede_galicia.jpg', title:'Fede Galizia — Judith', body:'Texte de cartel à finaliser.' },
-  judith_bougie: { img: RAW+'judith_bougie.jpg', title:'Judith à la bougie', body:'Artemisia Gentileschi. 180 cm de haut.' },
-  honthorst_koppelaarster: { img: RAW+'honthorst_Gerrit_van__de_koppelaarster.jpg', title:'La Courtisane (La Koppelaarster)', body:'Gerrit van Honthorst. Texte de cartel à finaliser.' },
-  latour_jerome: { img: RAW+'Georges_de_la_tour_st_jerome_lisant.png', title:'Saint Jérôme lisant', body:'Georges de La Tour. Texte de cartel à finaliser.' }
+  joueuse_artemisia: { img: RAW+"Joueuse_luth.jpeg", title:"Artemisia Gentileschi — La Joueuse de luth, c. 1615-1618", body:"La lumière tombe en biais, blanche et coupante, et referme la scène sur un noir presque total. Le principe vient de Caravage : son Joueur de luth, à l’Ermitage, arrache déjà la figure aux ténèbres par la même diagonale." },
+  timoclea: { img: RAW+"timoclea_uccide_il_capitano_elisabetta_sirani_1659.jpg", title:"Elisabetta Sirani — Timoclea uccide il capitano di Alessandro Magno, 1659", body:"" },
+  judith_florence: { img: RAW+"judith_florence.jpg", title:"Artemisia Gentileschi — Judith et Holopherne, vers 1620", body:"Cosme II de Médicis commande cette toile pour les appartements de son épouse, Marie-Madeleine d'Autriche. Broderies, dentelle, bracelet, coiffe à la mode florentine : le luxe s'impose ici, là où il était absent à Naples. La cour commande, le tissu obéit.\n\nCette opulence sert deux causes. Elle inscrit l'héroïne biblique dans la haute sphère, aux côtés des duchesses qui défendent la Toscane en l'absence de leur époux. Et elle prouve, pour Artemisia, une maîtrise des matières précieuses qui lui ouvrira les portes des commandes de cour.\n\nLe sang jaillit du cou d'Holopherne en un arc précis. Des historiens ont relevé sa courbe presque parfaitement parabolique et l'ont rapprochée des recherches de Galilée sur la trajectoire des projectiles, menées alors que le savant était mathématicien de la cour de Cosme II. Galilée et Artemisia étaient amis et correspondants. Dans la version antérieure de Naples, le sang coulait simplement le long du cou. Ici, il obéit à une autre loi.\n\nÀ la fin du XVIIIe siècle, une descendante des Médicis juge la scène trop violente et fait reléguer la toile dans un couloir sombre du palais. Elle y reste près de deux siècles. Ce que le XXe siècle redécouvre alors, et considère comme le chef-d'œuvre d'Artemisia, avait donc d'abord été jugé indigne d'être vu." },
+  honthorst_koppelaarster: { img: RAW+"honthorst_Gerrit_van__de_koppelaarster.jpg", title:"Gerrit van Honthorst — L’Entremetteuse, 1625", body:"Gerrit van Honthorst passe une dizaine d'années à Rome au début du XVIIe siècle, où il découvre l'œuvre de Caravage. Il en retient le clair-obscur radical et la mise en scène de la lumière comme moteur dramatique, au point que les Romains le surnomment Gherardo delle Notti. Sa marque propre : une source lumineuse unique, souvent une bougie, intégrée dans la composition elle-même." },
+  latour_jerome: { img: RAW+"Georges_de_la_tour_st_jerome_lisant.png", title:"Georges de La Tour — Saint Jérôme lisant, 1627-1629", body:"Ici la bougie sert à faire parler un objet. La lettre devient lisible par transparence." },
+  judith_bougie: { img: RAW+"judith_bougie.jpg", title:"Artemisia Gentileschi — Judith et sa servante", body:"La main de Judith s'interpose entre la flamme et son propre visage. La bougie éclaire violemment sa paume, tandis que ses doigts projettent une ombre ciselée sur ses propres traits et accentue la tension du regard.\n\nLe geste devient le levier optique de toute la composition. La source lumineuse n'est plus hors champ, à la manière caravagesque. Elle est prise dans le tableau, manipulée par la main même de son personnage.\n\nC'est ce dispositif, plus que le sujet biblique, qui relie Artemisia aux peintres du Nord installés à Rome dans ces mêmes années, Honthorst en tête, puis à ceux qui l'importeront en France une décennie plus tard." },
+  joueuse_orazio: { img: RAW+"joueuse_luth_orazio.jpg", title:"Orazio Gentileschi — La Joueuse de luth, c. 1612-1620", body:"Orazio peint sa version dix ans plus tôt, à Rome. Sa lumière reste dorée, plus douce, moins tranchée que celle de Caravage qu'il fréquente pourtant. La robe jaune coule avec une fluidité presque soyeuse.\n\nChez Artemisia, le noir se referme presque entièrement sur la figure. Le bleu et l'or sont plus lourd, plus denses. Le modèle d'Orazio se détourne, regard absent. Elle tourne le luth dans l'axe de son visage et regarde le spectateur droit dans les yeux. Le père compose une scène. La fille revendique une présence." }
 };
 
 const dlg = document.getElementById('dlg-img');
 const dlgImg = document.getElementById('dlg-img-main');
 const dlgTitle = document.getElementById('dlg-title');
 const dlgBody = document.getElementById('dlg-body');
+const dlgCartelCol = document.getElementById('dlg-cartel-col');
+
+function updateLightboxCartel(fullText){
+  const txt = (fullText || '').trim();
+  const isLong = txt.length > 320 || (txt.match(/\n/g) || []).length >= 2;
+
+  dlgBody.textContent = txt;
+  dlgCartelCol.classList.toggle('long', isLong);
+  dlgCartelCol.classList.toggle('short', !isLong);
+
+  // À chaque ouverture, on repart naturellement du début du cartel.
+  dlgBody.scrollTop = 0;
+}
 
 function openLightbox(key){
   const a = ARTWORKS[key];
   if (!a) return;
   dlgImg.src = a.img; dlgImg.alt = a.title;
   dlgTitle.textContent = a.title;
-  dlgBody.textContent = a.body;
+  updateLightboxCartel(a.body || '');
   dlg.showModal();
+  dlgBody.scrollTop = 0;
 }
+
 document.getElementById('dlg-close').addEventListener('click', ()=> dlg.close());
 dlg.addEventListener('click', e=>{ if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('close', ()=>{ dlgBody.scrollTop = 0; });
+
+
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('.cartel-toggle');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const box = btn.closest('.cartel, .cartel-inline');
+  if (!box) return;
+  const isOpen = box.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  btn.textContent = isOpen ? 'Réduire ▴' : 'Lire la suite ▾';
+});
+
+// Les cartels restent interactifs sans déclencher la vue solo ni la rotation.
+document.querySelectorAll('.cartel, .cartel-inline').forEach(cartel=>{
+  cartel.addEventListener('pointerdown', e=>e.stopPropagation());
+  cartel.addEventListener('click', e=>e.stopPropagation());
+});
 
 document.querySelectorAll('.artwork[data-key]').forEach(el=>{
   el.addEventListener('click', e=>{
