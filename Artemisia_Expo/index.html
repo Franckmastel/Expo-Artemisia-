@@ -87,13 +87,9 @@
     .leg-num { font-size:0.7rem; color:#c9a063; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
     .leg-titre { font-size:1rem; color:#e4dfda; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-    #bottomNav {
-      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); z-index:30;
-      display:flex; align-items:center; justify-content:center; gap:14px;
-      white-space:nowrap;
-    }
     #instructions {
-      color:#5a524b; font-size:0.75rem; letter-spacing:2px;
+      position:fixed; bottom:1.5rem; left:0; right:0; z-index:20;
+      text-align:center; color:#5a524b; font-size:0.75rem; letter-spacing:2px;
       text-transform:uppercase; pointer-events:none;
     }
 
@@ -103,9 +99,6 @@
       .card img { height:225px; }
       .intro-cartel { padding:1.5rem; width: 90vw; }
       .intro-text-container { max-height: 180px; font-size: 0.9rem; }
-      #bottomNav { bottom:1rem; gap:8px; }
-      #instructions { font-size:0.62rem; letter-spacing:1px; }
-      #enterExpo { padding:10px 14px; font-size:11px; letter-spacing:.8px; }
     }
 
     /* Transition de sortie de l'index */
@@ -118,7 +111,9 @@
     }
   
     #enterExpo {
-      position:relative;
+      position:fixed;
+      right:24px;
+      bottom:24px;
       z-index:30;
       display:inline-flex;
       align-items:center;
@@ -140,9 +135,172 @@
       transform:translateY(-2px);
     }
 
-  </style>
+  
+/* ===== SAS D'ENTREE : CHOIX MOBILE / BUREAU ===== */
+#deviceGate{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    linear-gradient(rgba(5,4,3,.62), rgba(5,4,3,.82)),
+    url('Joueuse_luth.jpeg') center 32% / cover no-repeat;
+  opacity:1;
+  transition:opacity .45s ease, visibility .45s ease;
+}
+#deviceGate.device-gate-hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+#deviceGate::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.22) 58%, rgba(0,0,0,.56) 100%);
+  pointer-events:none;
+}
+.device-gate-box{
+  position:relative;
+  z-index:1;
+  width:min(660px, 92vw);
+  padding:38px 42px 34px;
+  border:1px solid #c9a063;
+  border-radius:12px;
+  background:rgba(8,10,11,.90);
+  box-shadow:0 24px 80px rgba(0,0,0,.72);
+  text-align:center;
+  color:#e4dfda;
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.device-gate-title{
+  margin:0 0 22px;
+  color:#d7b170;
+  font:400 clamp(1.45rem,3.4vw,2rem)/1.2 Georgia,serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.device-gate-rule{
+  width:128px;
+  height:1px;
+  margin:0 auto 30px;
+  background:#9d7b47;
+}
+.device-gate-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.device-choice{
+  min-height:86px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:14px 14px;
+  border:1px solid #c9a063;
+  border-radius:9px;
+  background:rgba(201,160,99,.055);
+  color:#e1bd7b;
+  text-decoration:none;
+  font:400 1rem/1.25 Georgia,serif;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.device-choice:hover,
+.device-choice:focus-visible{
+  background:rgba(201,160,99,.13);
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(0,0,0,.3);
+  outline:none;
+}
+.device-icon{
+  width:28px;
+  height:28px;
+  display:block;
+  color:#dec08b;
+}
+.device-gate-tagline{
+  margin:30px 0 0;
+  padding-top:23px;
+  border-top:1px solid rgba(201,160,99,.58);
+  color:#aaa097;
+  font:italic .98rem/1.4 Georgia,serif;
+}
+
+@media(max-width:600px){
+  #deviceGate{
+    padding:18px;
+    background-position:58% center;
+  }
+  .device-gate-box{
+    width:94vw;
+    padding:28px 18px 24px;
+    border-radius:10px;
+  }
+  .device-gate-title{
+    font-size:1.35rem;
+    letter-spacing:1.5px;
+  }
+  .device-gate-rule{
+    margin-bottom:22px;
+  }
+  .device-gate-actions{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .device-choice{
+    min-height:78px;
+    font-size:.96rem;
+  }
+  .device-gate-tagline{
+    margin-top:22px;
+    padding-top:18px;
+    font-size:.92rem;
+  }
+}
+
+</style>
 </head>
 <body>
+
+<div id="deviceGate" role="dialog" aria-modal="true" aria-label="Choix de la version du site">
+  <div class="device-gate-box">
+    <div class="device-gate-title">Artemisia Gentileschi</div>
+    <div class="device-gate-rule"></div>
+
+    <div class="device-gate-actions">
+      <a class="device-choice" href="https://expo-artemisia.fr/mobile/" aria-label="Ouvrir la version mobile">
+        <svg class="device-icon" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="9" y="3" width="14" height="26" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="13" y1="6" x2="19" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="25.5" r="1.1" fill="currentColor"/>
+        </svg>
+        <span>Version mobile</span>
+      </a>
+
+      <button class="device-choice" id="enterDesktop" type="button" aria-label="Ouvrir la version bureau">
+        <svg class="device-icon" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="4" y="5" width="24" height="16" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="16" y1="21" x2="16" y2="26" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="10" y1="27" x2="22" y2="27" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>Version bureau</span>
+      </button>
+    </div>
+
+    <div class="device-gate-tagline" aria-hidden="true"></div>
+  </div>
+</div>
+
+
 
 <div id="curtain"></div>
 
@@ -163,7 +321,7 @@ Elle part pour Florence. En 1616, elle entre à l'Accademia del Disegno.
 Pour l'érudit Michelangelo Buonarroti le Jeune, elle peint l'Allégorie de l'Inclination et est payée trois fois plus que les  peintres florentins chargés du même plafond. La même période la voit se représenter en joueuse de luth, un des nombreux visages qu'elle se prête tout au long de sa carrière.
 Sa réputation franchit vite les frontières de Florence. Rome, Venise, Naples, Londres : les commandes affluent, jusqu'à la cour d'Espagne. À Venise, où elle fréquente les cercles littéraires, on grave son portrait sous une inscription qui ne laisse pas de doute : « un miracle dans la peinture ». C'est là qu'elle peint sa Lucrèce, dans une manière plus vénitienne qui marque un tournant de son style. À Naples, elle dirige son propre atelier, elle emploie d'autres peintres pour répondre à la demande, jusqu'à des commandes pour la cathédrale de Pouzzoles et la cour d'Espagne.
 Le parcours de cette exposition suit ce déploiement. Trois Judith, à Naples, à Florence, à Détroit, montrent une même scène retravaillée sur toute une carrière. Suzanne résiste aux vieillards. Esther affronte Assuérus. Trois Marie-Madeleine se succèdent. Une Vénus, une Naissance de saint Jean-Baptiste, et pour finir un dernier autoportrait, en allégorie de la Peinture elle-même : la dernière image qu'Artemisia laisse d'elle est celle d'une femme qui peint.
-Elle meurt à Naples vers 1656. Son œuvre sombre dans l'oubli pendant deux siècles, avant d'être redécouverte et de devenir, aujourd'hui, l'une des plus célèbres peintures du baroque.
+Elle meurt à Naples vers 1656. Son œuvre sombre dans l'oubli pendant deux siècles, avant d'être redécouverte et de devenir, aujourd'hui, l'une des plus célèbres peintres du baroque.
 Douze stations, plongées dans l'obscurité,  dont les oeuvres principales sont projettées à leur échelle d'origine, sans les contraintes de prêt, de transport ou de conservation d'une toile originale. Ce que vous découvrez ici en reprend la logique : une station après l'autre, l'enchaînement complet des douze œuvres. Le parcours numérique vous permet d'en évaluer le propos et la cohérence, sans remplacer ce que vous vivrez en salle.  
 
  </div>
@@ -172,10 +330,8 @@ Douze stations, plongées dans l'obscurité,  dont les oeuvres principales sont 
   </div>
 </div>
 
-<div id="bottomNav">
-  <div id="instructions">Défilez pour avancer ou reculer</div>
-  <a id="enterExpo" href="page_entree.html">Entrez dans l’exposition</a>
-</div>
+<div id="instructions">Défilez pour avancer ou reculer</div>
+<a id="enterExpo" href="page_entree.html">Entrer dans l’exposition</a>
 
 
 <script>
@@ -407,5 +563,20 @@ window.addEventListener('pageshow', (e) => {
   }
 });
 </script>
+
+
+<script>
+(function(){
+  const gate = document.getElementById('deviceGate');
+  const desktopBtn = document.getElementById('enterDesktop');
+  if (!gate || !desktopBtn) return;
+
+  desktopBtn.addEventListener('click', function(){
+    gate.classList.add('device-gate-hidden');
+    window.setTimeout(function(){ gate.remove(); }, 500);
+  });
+})();
+</script>
+
 </body>
 </html>
