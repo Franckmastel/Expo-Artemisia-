@@ -43,7 +43,7 @@
       transition:opacity 0.8s ease;
     }
     .intro-cartel h2 { font-size:1.5rem; color:#c9a063; margin-bottom:1.2rem; font-weight:400; letter-spacing:2px; }
-    
+
     /* Zone de texte scrollable avec curseur */
     .intro-text-container {
       max-height: 220px;
@@ -57,7 +57,7 @@
       scrollbar-width: thin;
       scrollbar-color: #c9a063 #12100f;
     }
-    
+
     .intro-text-container::-webkit-scrollbar { width: 5px; }
     .intro-text-container::-webkit-scrollbar-track { background: #12100f; }
     .intro-text-container::-webkit-scrollbar-thumb { background: #c9a063; border-radius: 3px; }
@@ -78,7 +78,7 @@
       pointer-events: none;
       will-change: transform, opacity;
     }
-    
+
     .card.hovered { border-color:#c9a063; box-shadow:0 0 25px rgba(201, 160, 99, 0.4); }
     .card img { width:100%; height:285px; object-fit:cover; filter:grayscale(0.1) brightness(0.8); transition:filter 0.2s ease; }
     .card.hovered img { filter:grayscale(0) brightness(1); }
@@ -109,7 +109,7 @@
     body.fade-out {
       opacity: 0;
     }
-  
+
     #enterExpo {
       position:fixed;
       right:24px;
@@ -135,7 +135,222 @@
       transform:translateY(-2px);
     }
 
-  
+    #presentationLink {
+      position:fixed;
+      left:24px;
+      bottom:24px;
+      z-index:30;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 20px;
+      border:1px solid #c9a063;
+      border-radius:999px;
+      background:rgba(18,16,15,.88);
+      color:#e4dfda;
+      text-decoration:none;
+      font:13px/1 sans-serif;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      backdrop-filter:blur(5px);
+      transition:background .2s ease, transform .2s ease;
+    }
+    #presentationLink:hover {
+      background:rgba(201,160,99,.18);
+      transform:translateY(-2px);
+    }
+    @media(max-width:768px) {
+      #presentationLink {
+        left:14px;
+        bottom:14px;
+        padding:10px 14px;
+        font-size:11px;
+      }
+      #enterExpo {
+        right:14px;
+        bottom:14px;
+        padding:10px 14px;
+        font-size:11px;
+      }
+    }
+    @media(max-width:480px) {
+      #presentationLink { bottom:14px; }
+      #enterExpo { bottom:60px; }
+    }
+
+    /* Panneau intégré : Le projet en détail */
+    #projectPanel {
+      position:fixed;
+      inset:0;
+      z-index:20000;
+      display:none;
+      overflow-y:auto;
+      overscroll-behavior:contain;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(58,42,31,.45), transparent 52%),
+        #060504;
+      color:#d8d1ca;
+    }
+    #projectPanel.is-open { display:block; }
+    .project-shell {
+      width:min(900px, calc(100% - 40px));
+      margin:0 auto;
+      padding:70px 0 90px;
+    }
+    .project-kicker {
+      margin-bottom:14px;
+      color:#c9a063;
+      font:400 .78rem/1.4 Arial,sans-serif;
+      letter-spacing:2.2px;
+      text-transform:uppercase;
+    }
+    .project-shell h2 {
+      margin-bottom:26px;
+      color:#eee8e2;
+      font-size:clamp(2rem, 5vw, 3.6rem);
+      font-weight:400;
+      line-height:1.08;
+    }
+    .project-lead {
+      margin-bottom:42px;
+      padding:22px 24px;
+      border-left:2px solid #c9a063;
+      background:rgba(255,255,255,.035);
+      color:#c7beb6;
+      font-size:1.08rem;
+      line-height:1.75;
+    }
+    .project-lead strong { color:#dfbc83; }
+    .project-section {
+      margin-top:42px;
+      padding-top:34px;
+      border-top:1px solid #302923;
+    }
+    .project-section h3 {
+      margin-bottom:16px;
+      color:#c9a063;
+      font-size:1.45rem;
+      font-weight:400;
+      letter-spacing:.6px;
+    }
+    .project-section p {
+      color:#bcb3ab;
+      font-size:1rem;
+      line-height:1.8;
+    }
+    .project-table-wrap {
+      margin-top:22px;
+      overflow-x:auto;
+      border:1px solid #332a24;
+    }
+    .project-table {
+      width:100%;
+      min-width:690px;
+      border-collapse:collapse;
+      text-align:left;
+    }
+    .project-table th,
+    .project-table td {
+      padding:16px 18px;
+      border-bottom:1px solid #2a231e;
+      vertical-align:top;
+      line-height:1.5;
+    }
+    .project-table th {
+      background:#15110f;
+      color:#c9a063;
+      font:400 .75rem/1.4 Arial,sans-serif;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+    }
+    .project-table td { color:#bcb3ab; }
+    .project-table td:first-child { color:#e4dfda; }
+    .project-table tr:last-child td { border-bottom:0; }
+    .project-note {
+      margin-top:20px;
+      color:#91877f !important;
+      font-style:italic;
+    }
+    .project-contact a { color:#d5ad70; }
+    .project-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:48px;
+    }
+    .project-action {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:46px;
+      padding:12px 20px;
+      border:1px solid #c9a063;
+      border-radius:999px;
+      background:transparent;
+      color:#e4dfda;
+      text-decoration:none;
+      font:12px/1 Arial,sans-serif;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      cursor:pointer;
+    }
+    .project-action:hover,
+    .project-action:focus-visible {
+      background:rgba(201,160,99,.15);
+      outline:none;
+    }
+    .project-close {
+      position:fixed;
+      top:20px;
+      right:22px;
+      z-index:20001;
+      width:44px;
+      height:44px;
+      border:1px solid #6f5838;
+      border-radius:50%;
+      background:rgba(6,5,4,.88);
+      color:#d8c09a;
+      font:300 25px/1 Arial,sans-serif;
+      cursor:pointer;
+    }
+    @media(max-width:600px) {
+      .project-shell {
+        width:calc(100% - 30px);
+        padding:70px 0 72px;
+      }
+      .project-lead { padding:18px; }
+      .project-table-wrap {
+        border:0;
+        overflow:visible;
+      }
+      .project-table,
+      .project-table tbody,
+      .project-table tr,
+      .project-table td { display:block; min-width:0; }
+      .project-table thead { display:none; }
+      .project-table tr {
+        margin-bottom:16px;
+        border:1px solid #332a24;
+        background:#100d0c;
+      }
+      .project-table td {
+        padding:10px 14px 10px 42%;
+        position:relative;
+      }
+      .project-table td::before {
+        content:attr(data-label);
+        position:absolute;
+        left:14px;
+        width:34%;
+        color:#c9a063;
+        font:10px/1.35 Arial,sans-serif;
+        letter-spacing:.8px;
+        text-transform:uppercase;
+      }
+      .project-actions { flex-direction:column; }
+    }
+
+
 /* ===== SAS D'ENTREE : CHOIX MOBILE / BUREAU ===== */
 #deviceGate{
   position:fixed;
@@ -317,12 +532,12 @@
      Ce site présente le projet d'une exposition itinérante consacrée à Artemisia Gentileschi, conçue pour circuler en Occitanie.<br>
 Rome, 1610. Une jeune fille de dix-sept ans signe un tableau qui n'a rien d'une œuvre de jeunesse : une Suzanne et les vieillards d'une force déjà accomplie. Elle s'appelle Artemisia Gentileschi, fille du peintre Orazio Gentileschi, formée depuis l'enfance dans l'atelier familial.
 L'année suivante, elle est violée par Agostino Tassi, un collègue de son père. Le procès qui suit l'oblige à témoigner publiquement et sous la torture de ce qu'elle a subi.
-Elle part pour Florence. En 1616, elle entre à l'Accademia del Disegno. 
+Elle part pour Florence. En 1616, elle entre à l'Accademia del Disegno.
 Pour l'érudit Michelangelo Buonarroti le Jeune, elle peint l'Allégorie de l'Inclination et est payée trois fois plus que les  peintres florentins chargés du même plafond. La même période la voit se représenter en joueuse de luth, un des nombreux visages qu'elle se prête tout au long de sa carrière.
 Sa réputation franchit vite les frontières de Florence. Rome, Venise, Naples, Londres : les commandes affluent, jusqu'à la cour d'Espagne. À Venise, où elle fréquente les cercles littéraires, on grave son portrait sous une inscription qui ne laisse pas de doute : « un miracle dans la peinture ». C'est là qu'elle peint sa Lucrèce, dans une manière plus vénitienne qui marque un tournant de son style. À Naples, elle dirige son propre atelier, elle emploie d'autres peintres pour répondre à la demande, jusqu'à des commandes pour la cathédrale de Pouzzoles et la cour d'Espagne.
-Le parcours de cette exposition suit ce déploiement. 
+Le parcours de cette exposition suit ce déploiement.
 Elle meurt à Naples vers 1656. Son œuvre sombre dans l'oubli pendant deux siècles, avant d'être redécouverte et de devenir aujourd'hui, l'une des plus célèbres peintres du baroque.
-Des stations plongées dans l'obscurité,  dont les oeuvres principales sont projettées à leur échelle d'origine sans les contraintes de prêt, de transport ou de conservation d'une toile originale. Ce que vous découvrez ici en reprend la logique : une station après l'autre, l'enchaînement complet des œuvres. Le parcours numérique vous permet d'en évaluer le propos et la cohérence.  
+Des stations plongées dans l'obscurité,  dont les oeuvres principales sont projettées à leur échelle d'origine sans les contraintes de prêt, de transport ou de conservation d'une toile originale. Ce que vous découvrez ici en reprend la logique : une station après l'autre, l'enchaînement complet des œuvres. Le parcours numérique vous permet d'en évaluer le propos et la cohérence.
 
  </div>
       <div class="scroll-hint">Faites défiler le texte pour lire la suite ↓</div>
@@ -331,7 +546,77 @@ Des stations plongées dans l'obscurité,  dont les oeuvres principales sont pro
 </div>
 
 <div id="instructions">Défilez pour avancer ou reculer</div>
-<a id="enterExpo" href="page_entree.html">Entrer dans l’exposition</a>
+<a id="enterExpo" href="page_entree.html">Entrer dans l'exposition</a>
+<a id="presentationLink" href="#projet-detail" aria-controls="projectPanel">Le projet en détail</a>
+
+<section id="projectPanel" role="dialog" aria-modal="true" aria-labelledby="projectTitle" tabindex="-1">
+  <button class="project-close" id="closeProject" type="button" aria-label="Retour à l'index">×</button>
+  <div class="project-shell">
+    <div class="project-kicker">Une présence itinérante et numérique</div>
+    <h2 id="projectTitle">Artemisia Gentileschi</h2>
+
+    <div class="project-lead">
+      <strong>Une figure avant-gardiste, absente du format immersif.</strong><br>
+      Artemisia Gentileschi (1593-1653) s'est imposée parmi les plus grands peintres de son temps par son seul talent, dans un monde de la peinture presque exclusivement masculin — jusqu'à devenir, en 1616, la première femme admise à l'Accademia delle Arti del Disegno de Florence. Une trajectoire de rupture, dans un art d'une puissance rare, qui reste aujourd'hui sous-exploitée dans le format immersif grand public.
+    </div>
+
+    <div class="project-section">
+      <h3>Le concept</h3>
+      <p>Une exposition itinérante consacrée à Artemisia Gentileschi, peintre majeure du Baroque italien, construite autour de projections numériques grand format de ses œuvres, mises en dialogue avec celles de ses contemporains (Caravage, Tintoret). Le parcours retrace comment elle s'est imposée, par son talent seul, parmi les plus grands peintres de son temps.</p>
+    </div>
+
+    <div class="project-section">
+      <h3>Pourquoi le numérique</h3>
+      <p>Les œuvres majeures d'Artemisia sont conservées dans des collections qui ne se prêtent pas à l'itinérance (Uffizi, Capodimonte, National Gallery notamment). La projection numérique permet de les faire dialoguer entre elles et avec d'autres peintres de son temps, dans un parcours physique, là où aucun prêt ne le permettrait. Ce n'est pas un substitut à la peinture réelle, mais un moyen de faire venir ces œuvres jusqu'en région, sans les contraintes de prêt, de transport et de conservation d'une toile originale.</p>
+    </div>
+
+    <div class="project-section">
+      <h3>Trois formats, une seule matière</h3>
+      <p>Le contenu (œuvres, rapprochements picturaux, recherche) est le même dans les trois cas. Seule l'échelle change, selon l'espace et le budget disponibles.</p>
+      <div class="project-table-wrap">
+        <table class="project-table">
+          <thead>
+            <tr><th>Format</th><th>Espace requis</th><th>Durée</th><th>Public adapté</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Format">Complet</td>
+              <td data-label="Espace requis">Plusieurs murs ou stations, parcours libre</td>
+              <td data-label="Durée">45-90 min</td>
+              <td data-label="Public adapté">Musée, grande salle d'exposition temporaire</td>
+            </tr>
+            <tr>
+              <td data-label="Format">Réduit</td>
+              <td data-label="Espace requis">1-2 murs, sélection resserrée</td>
+              <td data-label="Durée">20-30 min</td>
+              <td data-label="Public adapté">Médiathèque, centre culturel, petite salle</td>
+            </tr>
+            <tr>
+              <td data-label="Format">Conférence</td>
+              <td data-label="Espace requis">Un seul projecteur, public assis</td>
+              <td data-label="Durée">30-45 min</td>
+              <td data-label="Public adapté">Soirée entreprise, lycée, université</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="project-note">Le format conférence garde l'esprit du parcours — le face-à-face entre œuvres, le zoom sur le détail, la trajectoire d'Artemisia parmi ses contemporains — mais le porte à l'oral, en direct, plutôt que par la scénographie.</p>
+    </div>
+
+    <div class="project-section project-contact">
+      <h3>Contact</h3>
+      <p>Franck Mastelinck<br>
+        <a href="https://www.artemisia-gentileschi.fr/" target="_blank" rel="noopener">artemisia-gentileschi.fr</a> ·
+        <a href="https://expo-artemisia.fr" target="_blank" rel="noopener">expo-artemisia.fr</a>
+      </p>
+    </div>
+
+    <div class="project-actions">
+      <button class="project-action" id="backToIndex" type="button">Retour à l'index</button>
+      <a class="project-action" href="page_entree.html">Entrer dans l'exposition</a>
+    </div>
+  </div>
+</section>
 
 
 <script>
@@ -414,17 +699,17 @@ function checkCollision(mx, my, executeClick) {
     const b = item.data.bounds;
     if (mx >= b.left && mx <= b.right && my >= b.top && my <= b.bottom) {
       detectedIndex = item.index;
-      break; 
+      break;
     }
   }
 
   // SAUVEGARDE : Si on clique sur une carte, on mémorise la position actuelle du carrousel
   if (executeClick && detectedIndex !== -1) {
     sessionStorage.setItem('savedCamZ', targetCamZ);
-    
+
     const destination = `./${stations[detectedIndex].html}`;
     document.body.classList.add('fade-out');
-    
+
     setTimeout(() => {
       window.location.href = destination;
     }, 800);
@@ -440,7 +725,7 @@ function tick() {
   // 1. Gestion du Cartel d'introduction
   const effIntroZ = introZ + camZ;
   introCartel.style.transform = `translate(-50%, -50%) translate3d(0px, 0px, ${effIntroZ}px)`;
-  
+
   let introOp = 1;
   if (effIntroZ > 0) {
     introOp = 1 - effIntroZ / 120;
@@ -474,7 +759,7 @@ function tick() {
     cardEls[i].style.display = (effZ > -2500 && effZ < 290) ? 'block' : 'none';
 
     if (effZ > -2000 && effZ < 280 && op > 0.1) {
-      const p = project(d.x, d.y, effZ); 
+      const p = project(d.x, d.y, effZ);
       const w = Math.min(1180, VW * 0.92) * p.scale;
       const h = (VW <= 768 ? 300 : 360) * p.scale;
       d.bounds = {
@@ -505,13 +790,14 @@ function tick() {
 }
 
 window.addEventListener('click', (e) => {
-  if (e.target.closest('#header') || e.target.closest('#introCartel')) return;
+  if (e.target.closest('#header') || e.target.closest('#introCartel') || e.target.closest('#projectPanel') || e.target.closest('#presentationLink') || e.target.closest('#enterExpo')) return;
   checkCollision(e.clientX, e.clientY, true);
 });
 
 window.addEventListener('wheel', e => {
+  if (document.getElementById('projectPanel')?.classList.contains('is-open')) return;
   e.preventDefault();
-  
+
   if (targetCamZ === 0 && e.deltaY > 0 && cartelText.scrollTop + cartelText.clientHeight < cartelText.scrollHeight - 5) {
     cartelText.scrollTop += e.deltaY * 0.6;
   }
@@ -524,13 +810,14 @@ window.addEventListener('wheel', e => {
 }, { passive:false });
 
 let ty0 = 0;
-window.addEventListener('touchstart', e => { 
-  ty0 = e.touches[0].clientY; 
+window.addEventListener('touchstart', e => {
+  ty0 = e.touches[0].clientY;
   mouseX = e.touches[0].clientX;
   mouseY = e.touches[0].clientY;
 }, { passive:true });
 
 window.addEventListener('touchmove',  e => {
+  if (document.getElementById('projectPanel')?.classList.contains('is-open')) return;
   const deltaY = ty0 - e.touches[0].clientY;
   ty0 = e.touches[0].clientY;
   mouseX = e.touches[0].clientX;
@@ -575,6 +862,38 @@ window.addEventListener('pageshow', (e) => {
     gate.classList.add('device-gate-hidden');
     window.setTimeout(function(){ gate.remove(); }, 500);
   });
+})();
+</script>
+
+<script>
+(function(){
+  const link = document.getElementById('presentationLink');
+  const panel = document.getElementById('projectPanel');
+  const closeButton = document.getElementById('closeProject');
+  const backButton = document.getElementById('backToIndex');
+  if (!link || !panel || !closeButton || !backButton) return;
+
+  function openProject(event) {
+    if (event) event.preventDefault();
+    panel.classList.add('is-open');
+    panel.scrollTop = 0;
+    panel.focus();
+    history.replaceState(null, '', '#projet-detail');
+  }
+
+  function closeProject() {
+    panel.classList.remove('is-open');
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    link.focus();
+  }
+
+  link.addEventListener('click', openProject);
+  closeButton.addEventListener('click', closeProject);
+  backButton.addEventListener('click', closeProject);
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && panel.classList.contains('is-open')) closeProject();
+  });
+  if (window.location.hash === '#projet-detail') openProject();
 })();
 </script>
 
